@@ -1,0 +1,303 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String           @id @default(cuid())
+  email               String?          @unique
+  emailVerified       DateTime?
+  passwordDigest      String?
+  phoneNumber         String           @unique
+  phoneNumberVerified DateTime?
+  role                UserRole         @default(USER)
+  inviteToken         String?          @unique
+  isTokenUsed         DateTime?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  invitedBy           String?
+  pin                 String?
+  pinCreatedAt        DateTime?
+  pinType             String?
+  pinVerifiedAt       DateTime?
+  hospitalId          String?
+  accounts            Account[]
+  profile             Profile?
+  hospital            Hospital[]
+  ProductPayment      ProductPayment[]
+  QPayInvoice         QPayInvoice[]
+  UserPromoCode       UserPromoCode[]
+}
+
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  tokenType         String?
+  expiresAt         Int?
+  scope             String?
+  idToken           String?
+  sessionState      String?
+  oauthTokenSecret  String?
+  oauthToken        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Profile {
+  id                 String    @id @default(cuid())
+  userId             String    @unique
+  firstName          String    @default("")
+  lastName           String    @default("")
+  latinName          String    @default("")
+  sex                String?
+  dob                String?
+  height             Int?
+  weight             Int?
+  picture            String?
+  priceMin           Int?
+  priceMax           Int?
+  notifyEmail        Boolean   @default(true)
+  notifyPush         Boolean   @default(true)
+  notifyBadge        Boolean   @default(true)
+  historyId          String?   @unique
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  specialistDesc     String?
+  patientCode        String?   @unique
+  allowPatientAssign DateTime?
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+}
+
+model SmsRequestAttempt {
+  id          String   @id @default(cuid())
+  phoneNumber String
+  ipAddress   String
+  createdAt   DateTime @default(now())
+}
+
+model FileUpload {
+  id             String    @id @default(cuid())
+  fileGroup      String?
+  fileLink       String
+  fileSource     String
+  removedAt      DateTime?
+  createdBy      String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  fileCategory   String?
+  fileSourceDate String?
+  fileMIMEType   String
+}
+
+enum UserRole {
+  ADMIN
+  TECHNICAL_SUPPORT
+  HOSPITAL_OWNER
+  HOSPITAL_USER
+  USER
+}
+
+model FirebaseToken {
+  id        String   @id @default(cuid())
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WaitListPhoneNumber {
+  id          String   @id @default(cuid())
+  phoneNumber String
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Hospital {
+  id                 String               @id @default(cuid())
+  hospitalLogo       String?
+  subDomain          String?              @unique
+  phoneNumber        String
+  name               String
+  userId             String
+  User               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  HospitalUsers      HospitalUsers[]
+  subscription       Subscription[]
+  databaseConnection DatabaseConnection[]
+  Message            Message[]
+}
+
+model Subscription {
+  id         Int       @id @default(autoincrement())
+  startDate  DateTime?
+  endDate    DateTime?
+  machines   Machine[]
+  totalDays  Int       @default(0)
+  isStart    Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Hospital   Hospital? @relation(fields: [hospitalId], references: [id])
+  hospitalId String?
+}
+
+model Machine {
+  id              Int          @id @default(autoincrement())
+  subscriptionId  Int
+  subscription    Subscription @relation(fields: [subscriptionId], references: [id])
+  machineName     String
+  machineUniqueId String       @unique
+  registeredAt    DateTime     @default(now())
+}
+
+model HospitalUsers {
+  id          Int      @id @default(autoincrement())
+  hospital    Hospital @relation(fields: [hospitalId], references: [id])
+  hospitalId  String
+  phoneNumber String?
+  userName    String
+  role        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DatabaseConnection {
+  id             String    @id @default(cuid())
+  connectionName String
+  connectionType String
+  host           String
+  port           Int
+  databaseName   String
+  username       String
+  password       String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  Hospital       Hospital? @relation(fields: [hospitalId], references: [id])
+  hospitalId     String?
+}
+
+model Product {
+  id                 String           @id @default(cuid())
+  name               String
+  productDescription Json?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  ProductVariant     ProductVariant[]
+  ProductPayment     ProductPayment[]
+  QPayInvoice        QPayInvoice[]
+}
+
+model ProductVariant {
+  id             String           @id @default(cuid())
+  productId      String
+  name           String
+  price          Int
+  unit           Int
+  duration       Int //30 honogoor 1 sariig avna
+  discount       Int
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Product        Product          @relation(fields: [productId], references: [id])
+  sits           Int[]
+  ProductPayment ProductPayment[]
+  QPayInvoice    QPayInvoice[]
+}
+
+model ProductPayment {
+  id               String         @id @default(cuid())
+  paidSource       String?
+  paidAmount       Decimal?
+  paidDate         DateTime?
+  additionalNote   String         @default("")
+  productId        String
+  Product          Product        @relation(fields: [productId], references: [id])
+  productVariantId String
+  ProductVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
+  userId           String
+  User             User           @relation(fields: [userId], references: [id])
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  paymentStatus    String
+}
+
+model QPayInvoice {
+  id               String         @id @default(cuid())
+  productId        String
+  Product          Product        @relation(fields: [productId], references: [id])
+  productVariantId String
+  ProductVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
+  invoiceData      Json?
+  user             User?          @relation(fields: [userId], references: [id])
+  userId           String?
+  payedDate        DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model Message {
+  id          String   @id @default(cuid())
+  phoneNumber String
+  message     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  hospitalId  String
+  hospital    Hospital @relation(fields: [hospitalId], references: [id])
+}
+
+// Hyadmraliin kod end uusgenee
+model PromoCode {
+  id               String          @id @default(cuid())
+  code             String
+  promoImageUrl    String          @default("")
+  description      String
+  expiryDate       DateTime?
+  isActive         Boolean         @default(true)
+  fixedAmount      Decimal         @db.Decimal(18, 2)
+  percentageAmount Decimal         @db.Decimal(18, 2)
+  maxUses          Int             @default(0)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  userPromoCode    UserPromoCode[]
+}
+
+model UserPromoCode {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  promoCode       PromoCode @relation(fields: [promoCodeId], references: [id])
+  promoCodeId     String
+  promoCodeUsedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+//free trial tatsan user
+model FreeTrial {
+  id                 String   @id @default(cuid())
+  hospitalName       String
+  phoneNumber        String
+  hospitalChair      String
+  registrationNumber String
+  directorInfo       String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}

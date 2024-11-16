@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  postgres:
+    container_name: tsahim_dental_public_dev_container
+    image: postgres:latest
+    ports:
+      - 5669:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: edental_db
+      POSTGRES_HOST_AUTH_METHOD: trust
