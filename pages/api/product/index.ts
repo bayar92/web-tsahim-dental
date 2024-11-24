@@ -1,14 +1,14 @@
 import { createHandler } from "@api/handler";
+import { getProducts } from "@lib/product/api/service";
 import { AppError } from "@util/errors";
-import { prisma } from "@api/prisma";
 
 const handler = createHandler();
 
 handler.get(async (req, res) => {
   try {
-    const productVariant = await prisma.productVariant.findMany();
-    if (!productVariant) throw AppError.NotFound();
-    res.sendSuccess(productVariant);
+    console.log('getProducts');
+    const products = await getProducts();
+    res.sendSuccess(products);
   } catch (error) {
     res.sendError(error);
   }

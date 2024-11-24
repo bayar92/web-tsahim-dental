@@ -1,9 +1,16 @@
 import { useProductVariantList } from "@lib/admin/data/productHooks";
 import { useQueryParam } from "@ui/hooks/query-param";
-import { Badge, Box, Pill, Select, TableContent, Text } from "@ui/index";
-import TimeAgo from "react-timeago";
+import { Badge, TableContent, Text } from "@ui/index";
 
 export const columns = [
+  {
+    Header: "id",
+    Cell: (data: any) => (
+      <Text fontSize="xs" color="gray.800" mt="1">
+        {data.id}
+      </Text>
+    ),
+  },
   {
     Header: "Name",
     Cell: (data: any) => (
