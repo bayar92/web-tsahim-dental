@@ -1,15 +1,12 @@
 import {
+  Heading,
   Modal,
-  Box,
-  ModalOverlay,
-  ModalContent,
-  useColorModeValue,
-  ModalHeader,
-  ModalCloseButton,
-  Text,
   ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
 } from "@chakra-ui/react";
-import { FreeTrialScreen } from "./FreeTrialScreen";
+import { HospitalRegistrationForm } from "../../../hospital/ui/HospitalRegistrationForm";
 
 export const FreeTrialModal = ({
   isOpen,
@@ -26,7 +23,8 @@ export const FreeTrialModal = ({
       <ModalContent>
         <ModalCloseButton />
         <ModalBody>
-          <FreeTrialScreen onClose={onClose} />
+          <Heading w="full">Туршилтын хувилбар татах</Heading>
+          <HospitalRegistrationForm onClose={onClose} isTrial={true} />
         </ModalBody>
       </ModalContent>
     </Modal>

@@ -1,5 +1,5 @@
 import { createHandler } from "@api/handler";
-import { User } from "@sentry/react";
+import { User } from "@prisma/client";
 import { AppError } from "@util/errors";
 import * as passport from "passport";
 

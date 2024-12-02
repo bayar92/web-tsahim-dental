@@ -86,46 +86,6 @@ const MenuPopup = ({
       w={{ base: "100vw", lg: 20 }}
       zIndex={10}
     >
-      <MenuItem>
-        <Box lineHeight="1" py={1}>
-          <Text
-            fontSize="xs"
-            fontWeight="medium"
-            color={{
-              base: useColorModeValue("gray.400", "gray.600"),
-              lg: useColorModeValue("gray.600", "gray.600"),
-            }}
-            textTransform={"uppercase"}
-          >
-            ХАНДАХ ЭРХ - {role}
-          </Text>
-
-          <Text
-            mt="1"
-            fontSize="sm"
-            fontWeight={"normal"}
-            color={{
-              base: useColorModeValue("gray.600", "gray.300"),
-              lg: useColorModeValue("gray.800", "gray.300"),
-            }}
-          >
-            {name}
-          </Text>
-        </Box>
-      </MenuItem>
-      {/* <NextLink href={rootUrl}>
-        <MenuItem
-          fontWeight="bold"
-          py={2.5}
-          borderTop="1px"
-          borderColor={{
-            base: useColorModeValue("gray.200", "gray.850"),
-            lg: useColorModeValue("gray.50", "gray.850"),
-          }}
-        >
-          {t(`home`)}
-        </MenuItem>
-      </NextLink> */}
       <NextLink href="/account/profile">
         <MenuItem
           fontWeight="bold"

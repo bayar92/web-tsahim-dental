@@ -5,7 +5,6 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
-  HStack,
   Icon,
   Input,
   InputGroup,
@@ -17,24 +16,12 @@ import { toaster } from "@ui/index";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import {
-  BsEnvelope,
-  BsEnvelopeFill,
-  BsFillEnvelopeXFill,
-  BsMailbox,
-} from "react-icons/bs";
-import { FaEnvelope, FaEnvelopeSquare, FaRegEnvelope } from "react-icons/fa";
-import {
-  HiLockClosed,
-  HiOutlineLockClosed,
-  HiOutlineMail,
-} from "react-icons/hi";
-import { IoMail, IoMailOpenOutline, IoMailOutline } from "react-icons/io5";
+import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
 import { useLogin } from "../data/authHooks";
 
 //login model type
 type LoginModel = {
-  email: string;
+  phoneNumber: string;
   password: string;
 };
 
@@ -47,7 +34,7 @@ export const LoginScreen = ({ onClose }: { onClose?: () => void }) => {
   //Login action
   const onSubmit = (data: LoginModel) => {
     mutation.mutate(
-      { username: data.email.toLowerCase(), password: data.password },
+      { username: data.phoneNumber.toLowerCase(), password: data.password },
       {
         onError: (e: any) => {
           toaster.error(e.message);
@@ -75,8 +62,8 @@ export const LoginScreen = ({ onClose }: { onClose?: () => void }) => {
       <Heading w="full">Өөрийн эрхээр нэвтрэх</Heading>
       <Text>Нэвтрэх нэр, нууц үгээ оруулна уу.</Text>
       <chakra.form w="full" onSubmit={handleSubmit(onSubmit)}>
-        <FormControl id="email" isInvalid={!!errors.email}>
-          <FormLabel variant={"normal"}>{t("email")}</FormLabel>
+        <FormControl id="phoneNumber" isInvalid={!!errors.phoneNumber}>
+          <FormLabel variant={"normal"}>Утасны дугаар</FormLabel>
           <InputGroup>
             <InputLeftElement pointerEvents="none" fontSize={"24px"}>
               <Icon color="gray.300" as={HiOutlineMail} />
@@ -84,16 +71,16 @@ export const LoginScreen = ({ onClose }: { onClose?: () => void }) => {
             <Input
               pl="10"
               pb={1}
-              placeholder="name@example.com"
+              placeholder="Утасны дугаар"
               type="text"
-              {...register("email", {
-                required: t("validation.email.required"),
+              {...register("phoneNumber", {
+                required: t("validation.phoneNumber.required"),
               })}
             />
           </InputGroup>
 
           <FormErrorMessage>
-            {errors.email && errors.email.message}
+            {errors.phoneNumber && errors.phoneNumber.message}
           </FormErrorMessage>
         </FormControl>
         <FormControl id="password" isInvalid={!!errors.password}>

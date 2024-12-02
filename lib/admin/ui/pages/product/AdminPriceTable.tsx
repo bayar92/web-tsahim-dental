@@ -1,56 +1,89 @@
 import { useProductVariantList } from "@lib/admin/data/productHooks";
+import { Pagination } from "@ui/components/Pagination";
 import { useQueryParam } from "@ui/hooks/query-param";
-import { Badge, TableContent, Text } from "@ui/index";
+import { Badge, Box, TableContent, Text } from "@ui/index";
+import { currencyDisplayHandler } from "@util/converters";
+import useTranslation from "next-translate/useTranslation";
+import TimeAgo from "react-timeago";
+import { GeneralTableActions } from "../GeneralTableAction";
 
-export const columns = [
+const columns = [
   {
-    Header: "id",
+    Header: "Нэр",
     Cell: (data: any) => (
-      <Text fontSize="xs" color="gray.800" mt="1">
-        {data.id}
-      </Text>
+      <Box>
+        <Text fontWeight="bold">{data.name}</Text>
+      </Box>
     ),
   },
   {
-    Header: "Name",
+    Header: "Үнэ",
     Cell: (data: any) => (
-      <Text fontSize="xs" color="gray.800" mt="1">
-        {data.name}
-      </Text>
+      <Box textAlign="right">
+        <Text fontWeight="semibold">
+          {currencyDisplayHandler(data.price, "mn")}
+        </Text>
+      </Box>
     ),
   },
   {
     Header: "Duration",
     Cell: (data: any) => (
-      <Text fontSize="xs" color="gray.800" mt="1">
-        {data.duration} хоног
-      </Text>
+      <Badge fontSize="11px">
+        {data.duration} {data.duration === 1 ? "month" : "months"}
+      </Badge>
     ),
   },
   {
-    Header: "Discount",
+    Header: "Кресл",
+    Cell: (data: any) => <Text>{data.sits}</Text>,
+  },
+  {
+    Header: "Хямдрал",
     Cell: (data: any) => (
-      <Badge fontSize="xs">-{stringPrice(data.discount)}</Badge>
+      <Box textAlign="right">
+        <Text
+          fontWeight="semibold"
+          color={data.discount > 0 ? "green.500" : "gray.500"}
+        >
+          {currencyDisplayHandler(data.discount, "mn")}
+        </Text>
+      </Box>
     ),
   },
   {
-    Header: "Price",
-    Cell: (data: any) => <Badge>{stringPrice(data.price)}</Badge>,
+    Header: "Үүсгэсэн",
+    Cell: (data: any) => (
+      <Box fontSize="xs">
+        <TimeAgo date={data.createdAt} />
+      </Box>
+    ),
   },
 ];
-const stringPrice = (price: number) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'") + "₮";
-};
+
 export const AdminPriceTable = () => {
+  const { t } = useTranslation("common");
   const { params, setParam } = useQueryParam({
-    size: "10",
+    size: "30",
     page: "1",
-    product: "",
+    text: "",
   });
+
   const { data: variantList } = useProductVariantList(params);
+
   return (
     <>
-      <TableContent columns={columns} data={variantList || []} />
+      <GeneralTableActions params={params} setParam={setParam} />
+      <TableContent columns={columns} data={variantList?.data || []} mt="4" />
+      <Pagination
+        name={t("common:items.variants")}
+        size={Number(params.size)}
+        page={Number(params.page)}
+        total={variantList?.total}
+        pages={variantList?.pages}
+        filtered={!!params.text}
+        onChange={(page) => setParam("page", page.toString())}
+      />
     </>
   );
 };

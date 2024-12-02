@@ -414,6 +414,32 @@ export const HeroSection = () => {
           </VStack>
         </Box>
       </VStack>
+      <VStack id="pricing" textAlign="center" mx="auto" gap={4}>
+        <Box
+          textAlign="center"
+          borderRadius={"30px"}
+          p={2}
+          px={4}
+          bg="gray.100"
+          w="200px"
+        >
+          <Text
+            color="gray.800"
+            fontSize={"14px"}
+            lineHeight="20px"
+            fontWeight={500}
+          >
+            Үнэ
+          </Text>
+        </Box>
+        <Heading fontSize={"36px"} lineHeight={"44px"} fontWeight="700">
+          Танай үйл ажиллагаанд яг тохирсон үнэ
+        </Heading>
+        <Text color="gray.600" maxW={"600px"} fontWeight={400} fontSize={"md"}>
+          Хамгийн сайн боломжуудыг агуулсан боломжийн үнийн төлөвлөгөөг сонгоно
+          уу.
+        </Text>
+      </VStack>
       <WaitModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
       <FreeTrialModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
     </>

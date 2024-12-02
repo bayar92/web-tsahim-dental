@@ -1,6 +1,6 @@
 import { prisma } from "@api/prisma";
+import { User } from "@prisma/client";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
-import { User } from "@sentry/react";
 import signature from "cookie-signature";
 import { NextApiRequest, NextApiResponse } from "next";
 import nextSession from "next-session";
@@ -16,7 +16,7 @@ const getSession = nextSession({
   touchAfter: 1 * 60 * 30000, // 30 minute
   store: promisifyStore(
     new PrismaSessionStore(prisma, {
-      checkPeriod: 1 * 60 * 1000, // 1 minute
+      checkPeriod: 1 * 60 * 10000, // 10 minute
       ttl: 24 * 60 * 60 * 1000, // 24 hours
     })
   ),
@@ -31,7 +31,7 @@ const getSession = nextSession({
 });
 
 export const sessionMiddleware = async (
-  req: NextApiRequest & { user: User },
+  req: NextApiRequest,
   res: NextApiResponse,
   next: () => void
 ) => {

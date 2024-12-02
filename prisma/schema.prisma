@@ -136,15 +136,18 @@ model Hospital {
   hospitalLogo       String?
   subDomain          String?              @unique
   phoneNumber        String
+  register           String               @unique @default("")
   name               String
+  totalSit           Int                  @default(0)
   userId             String
   User               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  HospitalUsers      HospitalUsers[]
+  directorInfo       String?
+  hospitalUsers      HospitalUsers[]
   subscription       Subscription[]
   databaseConnection DatabaseConnection[]
-  Message            Message[]
+  message            Message[]
 }
 
 model Subscription {
@@ -153,10 +156,10 @@ model Subscription {
   endDate    DateTime?
   machines   Machine[]
   totalDays  Int       @default(0)
-  isStart    Boolean   @default(false)
+  isStarted  Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  Hospital   Hospital? @relation(fields: [hospitalId], references: [id])
+  hospital   Hospital? @relation(fields: [hospitalId], references: [id])
   hospitalId String?
 }
 
@@ -165,7 +168,7 @@ model Machine {
   subscriptionId  Int
   subscription    Subscription @relation(fields: [subscriptionId], references: [id])
   machineName     String
-  machineUniqueId String       @unique
+  machineUniqueId String       @unique //this must be mac address of the PC
   registeredAt    DateTime     @default(now())
 }
 
@@ -217,7 +220,7 @@ model ProductVariant {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   Product        Product          @relation(fields: [productId], references: [id])
-  sits           Int[]
+  sits           Int              @default(0)
   ProductPayment ProductPayment[]
   QPayInvoice    QPayInvoice[]
 }
@@ -254,13 +257,13 @@ model QPayInvoice {
 }
 
 model Message {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   phoneNumber String
   message     String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  hospitalId  String
-  hospital    Hospital @relation(fields: [hospitalId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  hospitalId  String?
+  hospital    Hospital? @relation(fields: [hospitalId], references: [id])
 }
 
 // Hyadmraliin kod end uusgenee

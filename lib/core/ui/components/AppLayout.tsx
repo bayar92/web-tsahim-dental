@@ -1,6 +1,7 @@
 import { getRootUrl } from "@lib/auth/data/types";
 import {
   Box,
+  Button,
   Flex,
   Footer,
   Heading,
@@ -9,6 +10,7 @@ import {
   LinkBox,
   Text,
   useColorModeValue,
+  VStack,
 } from "@ui/index";
 import { ReactNode, useEffect, useState } from "react";
 import { useAuth } from "@lib/auth/ui";
@@ -21,20 +23,36 @@ export const AppLayout = ({
   contentWidth = "container.xl",
   hasNavBar = false,
   children,
+  canChangeLogo = true,
 }: {
   bg?: string;
   title?: string;
   contentWidth?: string;
   hasNavBar?: boolean;
   children?: ReactNode;
+  canChangeLogo?: boolean;
 }) => {
-  // const { isMenuOpen, toggle } = useMobileMenuState();
   const { user, isLoggedIn } = useAuth();
   const [rootUrl, setRootUrl] = useState("/");
+  const [currentLogo, setCurrentLogo] = useState("/images/dental-logo.svg");
+  const [currentLogoText, setCurrentLogoText] = useState(
+    "/images/dental-text.svg"
+  );
 
   useEffect(() => {
     setRootUrl(getRootUrl(user));
   }, [user]);
+
+  const handleLogoChange = () => {
+    // Toggle between two sets of logos
+    if (currentLogo === "/images/dental-logo.svg") {
+      setCurrentLogo("/images/alternate-logo.svg");
+      setCurrentLogoText("/images/alternate-text.svg");
+    } else {
+      setCurrentLogo("/images/dental-logo.svg");
+      setCurrentLogoText("/images/dental-text.svg");
+    }
+  };
 
   return (
     <>
@@ -56,19 +74,19 @@ export const AppLayout = ({
           maxW="container.xl"
           mx="auto"
         >
-          {/* <MobileHamburgerMenu onClick={toggle} isOpen={isMenuOpen} /> */}
-          {/* <NavMenu.Mobile isOpen={isMenuOpen} rootUrl={rootUrl} isLoggedIn={isLoggedIn} /> */}
-          {/* <Logo
-            h={6}
-            color={useColorModeValue("blue.700", "gray.400")}
-            display={{ lg: "none" }}
-          /> */}
-          <LinkBox href={`${rootUrl}`} box={true} flexShrink={0}>
-            <HStack>
-              <Image src="/images/dental-logo.svg" alt="" h={12} />
-              <Image src="/images/dental-text.svg" alt="" h={12} />
-            </HStack>
-          </LinkBox>
+          <VStack align="center">
+            <LinkBox href={`${rootUrl}`} box={true} flexShrink={0}>
+              <HStack>
+                <Image src={currentLogo} alt="" h={12} />
+                <Image src={currentLogoText} alt="" h={12} />
+              </HStack>
+            </LinkBox>
+            {canChangeLogo && (
+              <Text ml={4} w="128px" onClick={handleLogoChange}>
+                Change Logo
+              </Text>
+            )}
+          </VStack>
           <Flex
             display={{ base: "none", lg: "flex" }}
             w="full"

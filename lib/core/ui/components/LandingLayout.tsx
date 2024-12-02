@@ -1,4 +1,4 @@
-import NextLink from "next/link";
+import { useLogout } from "@lib/auth/data/authHooks";
 import { useAuth } from "@lib/auth/ui";
 import { LoginModal } from "@lib/auth/ui/LoginModal";
 import {
@@ -20,18 +20,20 @@ import {
   VStack,
 } from "@ui/index";
 import useTranslation from "next-translate/useTranslation";
+import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { ReactNode, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
 import {
+  MdCalendarMonth,
+  MdCalendarToday,
   MdLocalHospital,
   MdLogout,
   MdOutlineHealthAndSafety,
   MdShieldMoon,
 } from "react-icons/md";
-import { useMobileMenuState } from "./navigation/useMobileMenuState";
-import { useRouter } from "next/router";
 import { LandingSignUpButton } from "./LandingSignUpButton";
-import { useLogout } from "@lib/auth/data/authHooks";
+import { useMobileMenuState } from "./navigation/useMobileMenuState";
 
 export const LandingLayout = ({ children }: { children?: ReactNode }) => {
   const { t } = useTranslation("app");
@@ -56,6 +58,7 @@ export const LandingLayout = ({ children }: { children?: ReactNode }) => {
     router.push("/");
     onClose();
   };
+  console.log(user);
   return (
     <Box px={4}>
       <VStack
@@ -118,27 +121,49 @@ export const LandingLayout = ({ children }: { children?: ReactNode }) => {
                   {user ? (
                     <Menu>
                       <MenuButton borderBottom={"1px solid gray"}>
-                        <Text fontWeight={"bolder"}>{user.email}</Text>
+                        <Text fontWeight={"bolder"}>{user.phoneNumber}</Text>
                       </MenuButton>
                       <MenuList>
-                        <NextLink href="/admin">
-                          <MenuItem>
-                            <Icon as={MdShieldMoon} mr="2" />
-                            Админ{" "}
-                          </MenuItem>
-                        </NextLink>
-                        <NextLink href="/hospital">
-                          <MenuItem>
-                            <Icon as={MdLocalHospital} mr="2" />
-                            Эмнэлэг
-                          </MenuItem>
-                        </NextLink>
-                        <NextLink href="/doctor">
-                          <MenuItem>
-                            <Icon as={MdOutlineHealthAndSafety} mr="2" />
-                            Эмч
-                          </MenuItem>
-                        </NextLink>
+                        {user.role == "ADMIN" && (
+                          <NextLink href="/admin">
+                            <MenuItem>
+                              <Icon as={MdShieldMoon} mr="2" />
+                              Админ{" "}
+                            </MenuItem>
+                          </NextLink>
+                        )}
+                        {user.role == "HOSPITAL_OWNER" && (
+                          <NextLink href="/hospital">
+                            <MenuItem>
+                              <Icon as={MdLocalHospital} mr="2" />
+                              Эмнэлэг
+                            </MenuItem>
+                          </NextLink>
+                        )}
+                        {user.role == "ADMIN" && (
+                          <NextLink href="/doctor">
+                            <MenuItem>
+                              <Icon as={MdOutlineHealthAndSafety} mr="2" />
+                              Эмч
+                            </MenuItem>
+                          </NextLink>
+                        )}
+                        {user.role == "USER" && (
+                          <>
+                            <NextLink href="/appointment">
+                              <MenuItem>
+                                <Icon as={MdCalendarMonth} mr="2" />
+                                Миний Эмнэлэг
+                              </MenuItem>
+                            </NextLink>
+                            {/* <NextLink href="/appointment">
+                              <MenuItem>
+                                <Icon as={MdCalendarMonth} mr="2" />
+                                Цаг захиалах
+                              </MenuItem>
+                            </NextLink> */}
+                          </>
+                        )}
                         <MenuDivider />
                         <MenuItem
                           onClick={() =>

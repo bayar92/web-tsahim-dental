@@ -4,44 +4,64 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
   HStack,
   Icon,
   Input,
   InputGroup,
   InputLeftElement,
-  Text,
   Textarea,
   VStack,
 } from "@chakra-ui/react";
 import { useFreeTrialDownloaderList } from "@lib/landingpage/data/hooks";
 import { toaster } from "@ui/index";
-import { FaHospital } from "react-icons/fa";
-import { GiOfficeChair } from "react-icons/gi";
-import { MdAppRegistration } from "react-icons/md";
 import { useForm } from "react-hook-form";
-import { FaFileDownload } from "react-icons/fa";
-import { HiOutlinePhone, HiUser, HiPlus } from "react-icons/hi";
+import { FaFileDownload, FaHospital } from "react-icons/fa";
+import { GiOfficeChair } from "react-icons/gi";
+import { HiOutlinePhone, HiUser } from "react-icons/hi";
+import { MdAdd, MdAppRegistration } from "react-icons/md";
+import { useCreateHospital } from "../data/hooks";
 
-type FreeTrialModel = {
-  hospitalName: string;
+export type HospitalRegistrationFormType = {
+  id?: string;
+  name: string;
   phoneNumber: string;
-  hospitalChair: string;
-  registrationNumber: string;
+  totalSit: number;
+  register: string;
   directorInfo: string;
 };
 
-export const FreeTrialScreen = ({ onClose }: { onClose: () => void }) => {
+export const HospitalRegistrationForm = ({
+  data,
+  onClose,
+  isTrial = false,
+  refetch,
+}: {
+  data?: HospitalRegistrationFormType;
+  onClose?: () => void;
+  isTrial?: boolean;
+  refetch?: () => void;
+}) => {
+  console.log(data);
   const mutation = useFreeTrialDownloaderList();
-  const onSubmit = (data: FreeTrialModel) => {
-    mutation.mutate(data, {
-      onError: (e: any) => {},
-      onSuccess: () => {
-        onClose();
-        window.open("http://nomadicsoft.net/content/install/dentalsetup.msi");
-        toaster.success("Баярлалаа.");
-      },
-    });
+  const createMutation = useCreateHospital();
+  const onSubmit = (data: HospitalRegistrationFormType) => {
+    if (isTrial) {
+      mutation.mutate(data, {
+        onError: (e: any) => {},
+        onSuccess: () => {
+          if (onClose) onClose();
+          window.open("http://nomadicsoft.net/content/install/dentalsetup.msi");
+          toaster.success("Баярлалаа.");
+        },
+      });
+    } else {
+      createMutation.mutate(data, {
+        onError: (e: any) => {},
+        onSuccess: () => {
+          toaster.success("Амжилттай бүртгэгдлээ.");
+        },
+      });
+    }
   };
   //Login form
   const {
@@ -51,15 +71,13 @@ export const FreeTrialScreen = ({ onClose }: { onClose: () => void }) => {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<FreeTrialModel>({});
+  } = useForm<HospitalRegistrationFormType>({
+    defaultValues: data,
+  });
   return (
-    <VStack my={4} flex="1" w="full" alignItems={"flex-start"}>
-      <Heading w="full">Туршилтын хувилбар татах</Heading>
-      {/* <Text>
-                Та доорх мэдээллийг бөглөнө үү. Бид програм бэлэн болмогц танд утсаар мэдэгдэнэ.
-            </Text> */}
+    <VStack flex="1" w="full" alignItems={"flex-start"}>
       <chakra.form w="full" onSubmit={handleSubmit(onSubmit)}>
-        <FormControl id="hospitalName" isInvalid={!!errors.hospitalName}>
+        <FormControl id="hospitalName" isInvalid={!!errors.name}>
           <FormLabel variant={"normal"}>Эмнэлгийн нэр</FormLabel>
           <InputGroup>
             <InputLeftElement pointerEvents="none" fontSize={"24px"}>
@@ -70,19 +88,16 @@ export const FreeTrialScreen = ({ onClose }: { onClose: () => void }) => {
               pb={1}
               fontSize="16px"
               placeholder="Эмнэлгийн нэр"
-              {...register("hospitalName", {
+              {...register("name", {
                 required: "Эмнэлгийн нэр оруулах шаардлагатай",
               })}
             />
           </InputGroup>
           <FormErrorMessage>
-            {errors.hospitalName && errors.hospitalName.message}
+            {errors.name && errors.name.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl
-          id="registrationNumber"
-          isInvalid={!!errors.registrationNumber}
-        >
+        <FormControl id="registrationNumber" isInvalid={!!errors.register}>
           <FormLabel variant={"normal"}>
             {"Эмнэлгийн регистрийн дугаар"}
           </FormLabel>
@@ -98,17 +113,17 @@ export const FreeTrialScreen = ({ onClose }: { onClose: () => void }) => {
               pattern="[0-9]*"
               maxLength={12}
               type="tel"
-              {...register("registrationNumber", {
+              {...register("register", {
                 required: "Эмнэлгийн регистрийн дугаар оруулна уу",
               })}
             />
           </InputGroup>
 
           <FormErrorMessage>
-            {errors.registrationNumber && errors.registrationNumber.message}
+            {errors.register && errors.register.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl id="hospitalChair" isInvalid={!!errors.hospitalChair}>
+        <FormControl id="hospitalChair" isInvalid={!!errors.totalSit}>
           <FormLabel variant={"normal"}>{"Креслийн тоо"}</FormLabel>
           <InputGroup>
             <InputLeftElement pointerEvents="none" fontSize={"24px"}>
@@ -122,14 +137,14 @@ export const FreeTrialScreen = ({ onClose }: { onClose: () => void }) => {
               pattern="[0-9]{1,2}"
               maxLength={2}
               type="tel"
-              {...register("hospitalChair", {
+              {...register("totalSit", {
                 required: "Креслийн тоо оруулна уу",
               })}
             />
           </InputGroup>
 
           <FormErrorMessage>
-            {errors.hospitalChair && errors.hospitalChair.message}
+            {errors.totalSit && errors.totalSit.message}
           </FormErrorMessage>
         </FormControl>
         <FormControl id="phoneNumber" isInvalid={!!errors.phoneNumber}>
@@ -179,10 +194,16 @@ export const FreeTrialScreen = ({ onClose }: { onClose: () => void }) => {
         <FormErrorMessage>
           {errors.root && errors.root.message}
         </FormErrorMessage>
-        <HStack gap={2} mt={8}>
-          <Button type="submit" size="md" w="full">
-            <Icon as={FaFileDownload} mr={2} /> Татах
-          </Button>
+        <HStack gap={2} mt={4}>
+          {isTrial ? (
+            <Button type="submit" size="md">
+              <Icon as={FaFileDownload} mr={2} /> Татах
+            </Button>
+          ) : (
+            <Button type="submit" size="md">
+              <Icon as={MdAdd} mr={2} /> {"Эмнэлэгийн мэдээлэл хадгалах"}
+            </Button>
+          )}
         </HStack>
       </chakra.form>
     </VStack>

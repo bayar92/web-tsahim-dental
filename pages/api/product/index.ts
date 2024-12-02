@@ -6,7 +6,6 @@ const handler = createHandler();
 
 handler.get(async (req, res) => {
   try {
-    console.log('getProducts');
     const products = await getProducts();
     res.sendSuccess(products);
   } catch (error) {

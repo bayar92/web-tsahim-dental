@@ -1,8 +1,4 @@
-import {
-  getUserPasswordDigest,
-  getUserPasswordDigestByEmail,
-  getUserPasswordDigestByPhone,
-} from "@lib/user/api/service";
+import { getUserPasswordDigestByPhone } from "@lib/user/api/service";
 import { compare } from "bcryptjs";
 import { Strategy } from "passport-local";
 
@@ -12,22 +8,18 @@ export const localStrategy = new Strategy(
   async (phoneOrEmail, password, callback) => {
     phoneOrEmail = phoneOrEmail?.toLowerCase();
     //validating user via phone number
-    if (phoneOrEmail.indexOf("@") > -1) {
-      // email is phone number
-      const { user, passwordDigest } = await getUserPasswordDigestByEmail(
-        phoneOrEmail
-      );
+    // email is phone number
+    const { user, passwordDigest } = await getUserPasswordDigestByPhone(
+      phoneOrEmail
+    );
 
-      const finalUser =
-        passwordDigest && (await compare(password, passwordDigest))
-          ? user
-          : null;
+    const finalUser =
+      passwordDigest && (await compare(password, passwordDigest)) ? user : null;
 
-      if (!finalUser) {
-        return callback({ message: "invalid-credentials" }, false);
-      }
-
-      return callback(null, finalUser);
+    if (!finalUser) {
+      return callback({ message: "invalid-credentials" }, false);
     }
+
+    return callback(null, finalUser);
   }
 );

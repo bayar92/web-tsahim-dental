@@ -11,6 +11,7 @@ export const createMessage = async (
   message: string,
   hospitalId: string
 ) => {
+  // in order to calculate the cost of the message
   const newMessage = await prisma.message.create({
     data: {
       phoneNumber,

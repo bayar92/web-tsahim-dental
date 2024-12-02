@@ -31,11 +31,6 @@ const defaultSelect = {
       height: true,
       weight: true,
       picture: true,
-      patientCode: true,
-      notifyEmail: true,
-      notifyPush: true,
-      notifyBadge: true,
-      allowPatientAssign: true,
     },
   },
 };
@@ -224,9 +219,9 @@ export const getUserById = async (id: string) => {
     select: defaultSelect,
   });
 };
-export const getUserByPhoneNumber = async (phoneNumber: string) => {
-  return prisma.user.findUnique({
-    where: { phoneNumber },
+export const getVerifiedUserByPhoneNumber = async (phoneNumber: string) => {
+  return prisma.user.findFirst({
+    where: { phoneNumber, phoneNumberVerified: { not: null } },
     select: {
       id: true,
       phoneNumber: true,
@@ -238,6 +233,7 @@ export const getUserByPhoneNumber = async (phoneNumber: string) => {
     },
   });
 };
+
 export const getUserByEmail = async (email: string) => {
   return prisma.user.findUnique({
     where: { email },
@@ -537,7 +533,21 @@ export const createUserWithPhoneNumber = async (
     select: defaultSelect,
   }))!;
 };
-
+export const getNotVerifiedUserByPhoneNumber = async (
+  phoneNumber: string,
+  verifyToken: string
+) => {
+  const user = await prisma.user.findFirst({
+    where: { phoneNumber, phoneNumberVerified: null },
+  });
+  if (user) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { pin: verifyToken, pinCreatedAt: getCurrentDate() },
+    });
+  }
+  return user;
+};
 export const createUserWithPhoneNumberValidate = async (
   userId: string,
   pin: string
@@ -581,4 +591,23 @@ export const createUserWithPassword = async (
     },
     select: defaultSelect,
   }))!;
+};
+export const verifyUserByPhoneNumber = async (
+  phoneNumber: string,
+  pin: string
+) => {
+  const user = await prisma.user.findFirst({
+    where: { phoneNumber, pin },
+  });
+  //clear pin
+  if (user)
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        pin: null,
+        pinCreatedAt: null,
+        phoneNumberVerified: getCurrentDate(),
+      },
+    });
+  return user;
 };

@@ -3,11 +3,11 @@ import { appRoot } from "@util/config";
 import { AppError } from "@util/errors";
 import fetch from "cross-fetch";
 
-export const createInvoiceOnEDENTAL = async (
+export const createInvoiceOnEdental = async (
   userId: string,
   productVariantId: string
 ) => {
-  let productVariant: any = await prisma.productVariant.findUnique({
+  let productVariant = await prisma.productVariant.findUnique({
     where: {
       id: productVariantId,
     },
@@ -42,13 +42,13 @@ export const createInvoiceOnEDENTAL = async (
     sender_invoice_no: invoice.id,
     invoice_receiver_code: "83",
     sender_branch_code: "EDENTAL_APP",
-    invoice_description: productVariant.description,
+    invoice_description: productVariant.name,
     enable_expiry: "false",
     allow_partial: false,
     minimum_amount: null,
     allow_exceed: false,
     maximum_amount: null,
-    amount: productVariant.amount,
+    amount: productVariant.price,
     callback_url: `${appRoot}/api/payments/qpay/callback?payment_id=${invoice.id}`,
     sender_staff_code: "online",
     note: null,
@@ -64,10 +64,10 @@ export const createInvoiceOnEDENTAL = async (
     lines: [
       {
         tax_product_code: "6401",
-        line_description: productVariant.description,
+        line_description: productVariant.name,
         line_quantity: "1.00",
-        line_unit_price: productVariant.amount,
-        note: productVariant.description,
+        line_unit_price: productVariant.price,
+        note: productVariant.name,
         discounts: [
           {
             discount_code: "NONE",
@@ -104,7 +104,9 @@ export const createInvoiceOnEDENTAL = async (
       invoiceData: newInvoce,
     },
   });
-  return await createInvoiceOnQPay(newInvoce);
+  const qpayInvoice = await createInvoiceOnQPay(newInvoce);
+  console.log(qpayInvoice);
+  return qpayInvoice;
 };
 export const createInvoiceOnQPay = async (invoice: any) => {
   const access_token = await getQPayToken();
@@ -152,7 +154,6 @@ export const getQPayToken = async () => {
     .catch((error) => error);
   return qpayResult;
 };
-
 //qpayInvoice table id
 export const callPaymentCompletion = async (paymentId: string) => {
   const invoice = await prisma.qPayInvoice.findUnique({

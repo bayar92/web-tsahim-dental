@@ -29,7 +29,7 @@ async function AddProduct() {
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [1, 2, 3],
+          sits: 3,
         },
         {
           name: "Дотоод сүлжээнд, 1 сар, 4-5 кресл",
@@ -37,7 +37,7 @@ async function AddProduct() {
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [4, 5],
+          sits: 5,
         },
         {
           name: "Дотоод сүлжээнд, 1 сар, 6-10 кресл",
@@ -45,7 +45,7 @@ async function AddProduct() {
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [6, 7, 8, 9, 10],
+          sits: 10,
         },
         {
           name: "Дотоод сүлжээнд, 6 сар, 1-3 кресл",
@@ -53,7 +53,7 @@ async function AddProduct() {
           discount: 114000,
           duration: 180,
           unit: 6,
-          sits: [1, 2, 3],
+          sits: 3,
         },
         {
           name: "Дотоод сүлжээнд, 6 сар, 4-5 кресл",
@@ -61,7 +61,7 @@ async function AddProduct() {
           discount: 144000,
           duration: 180,
           unit: 6,
-          sits: [4, 5],
+          sits: 5,
         },
         {
           name: "Дотоод сүлжээнд, 6 сар, 6-10 кресл",
@@ -69,12 +69,12 @@ async function AddProduct() {
           discount: 174000,
           duration: 180,
           unit: 6,
-          sits: [6, 7, 8, 9, 10],
+          sits: 10,
         },
       ],
     },
     {
-      name: "Интернэт Орчинд",
+      name: "Интернэт сүлжээнд",
       productDescription: {
         items: [
           "Үйлчлүүлэгчийн бүртгэл",
@@ -102,7 +102,7 @@ async function AddProduct() {
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [1, 2, 3],
+          sits: 3,
         },
         {
           name: "Интернэт Орчинд, 1 сар, 4-5 кресл",
@@ -110,7 +110,7 @@ async function AddProduct() {
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [4, 5],
+          sits: 5,
         },
         {
           name: "Интернэт Орчинд, 1 сар, 6-10 кресл",
@@ -118,7 +118,7 @@ async function AddProduct() {
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [6, 7, 8, 9, 10],
+          sits: 10,
         },
         {
           name: "Интернэт Орчинд, 6 сар, 1-3 кресл",
@@ -126,7 +126,7 @@ async function AddProduct() {
           discount: 174000,
           duration: 180,
           unit: 6,
-          sits: [1, 2, 3],
+          sits: 3,
         },
         {
           name: "Интернэт Орчинд, 6 сар, 4-5 кресл",
@@ -134,7 +134,7 @@ async function AddProduct() {
           discount: 234000,
           duration: 180,
           unit: 6,
-          sits: [4, 5],
+          sits: 5,
         },
         {
           name: "Интернэт Орчинд, 6 сар, 6-10 кресл",
@@ -142,7 +142,7 @@ async function AddProduct() {
           discount: 294000,
           duration: 180,
           unit: 6,
-          sits: [6, 7, 8, 9, 10],
+          sits: 10,
         },
       ],
     },
@@ -153,77 +153,35 @@ async function AddProduct() {
       },
       productVariant: [
         {
-          name: "Өдөр болгоны дата Cloud-руу хадгалах, 1 сар, 1-3 кресл",
-          price: 210000,
+          name: "Өдөр болгоны дата Cloud-руу хадгалах, 1 сар",
+          price: 20000,
           discount: 0,
           duration: 30,
           unit: 1,
-          sits: [1, 2, 3],
-        },
-        {
-          name: "Өдөр болгоны дата Cloud-руу хадгалах, 1 сар, 4-5 кресл",
-          price: 260000,
-          discount: 0,
-          duration: 30,
-          unit: 1,
-          sits: [4, 5],
-        },
-        {
-          name: "Өдөр болгоны дата Cloud-руу хадгалах, 1 сар, 6-10 кресл",
-          price: 310000,
-          discount: 0,
-          duration: 30,
-          unit: 1,
-          sits: [6, 7, 8, 9, 10],
-        },
-        {
-          name: "Өдөр болгоны дата Cloud-руу хадгалах, 6 сар, 1-3 кресл",
-          price: 1134000,
-          discount: 126000,
-          duration: 180,
-          unit: 6,
-          sits: [1, 2, 3],
-        },
-        {
-          name: "Өдөр болгоны дата Cloud-руу хадгалах, 6 сар, 4-5 кресл",
-          price: 1404000,
-          discount: 156000,
-          duration: 180,
-          unit: 6,
-          sits: [4, 5],
-        },
-        {
-          name: "Өдөр болгоны дата Cloud-руу хадгалах, 6 сар, 6-10 кресл",
-          price: 1674000,
-          discount: 186000,
-          duration: 180,
-          unit: 6,
-          sits: [6, 7, 8, 9, 10],
+          sits: 3,
         },
       ],
     },
   ];
   for (const product of products) {
-    await prisma.product.create({
+    var newProduct = await prisma.product.create({
       data: {
         name: product.name,
         productDescription: product.productDescription,
-        ProductVariant: {
-          create: product.productVariant.map((variant) => ({
-            name: variant.name,
-            price: variant.price,
-            discount: variant.discount,
-            duration: variant.duration,
-            unit: variant.unit,
-            sits: variant.sits,
-          })),
-        },
       },
     });
+    for (const variant of product.productVariant) {
+      await prisma.productVariant.create({
+        data: {
+          ...variant,
+          productId: newProduct.id,
+        },
+      });
+    }
   }
 }
 //add products in database
-AddProduct()
+addUsers()
   .catch((e) => {
     console.error(e);
     process.exit(1);
@@ -233,7 +191,6 @@ AddProduct()
     await prisma.$disconnect();
   });
 async function addUsers() {
-  // const users = await CSVToJSON().fromFile("prisma/seed-data/users.csv");
   const users = [
     {
       email: "head@edental.mn",
@@ -254,46 +211,29 @@ async function addUsers() {
     },
   ];
   for (const user of users) {
-    await addUser(
-      user.email,
-      user.phoneNumber,
-      user.password,
-      user.role as any,
-      user.hospital
-    );
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: {},
+      create: {
+        email: user.email,
+        passwordDigest: await bcrypt.hash(user.password, 10),
+        role: user.role,
+        phoneNumber: user.phoneNumber,
+        ...(user.hospital && {
+          hospital: {
+            connectOrCreate: {
+              where: { subDomain: user.hospital.subDomain },
+              create: {
+                name: user.hospital.name,
+                phoneNumber: user.hospital.phoneNumber,
+              },
+            },
+          },
+        }),
+      },
+    });
   }
 }
-const addUser = async (
-  email: string,
-  phoneNumber: string,
-  password: string,
-  role: any,
-  hospital?: {
-    name: string;
-    phoneNumber: string;
-    subDomain: string;
-  }
-) =>
-  prisma.user.upsert({
-    where: { email },
-    update: {},
-    create: {
-      email,
-      passwordDigest: await bcrypt.hash(password, 10),
-      role: role,
-      phoneNumber,
-      ...(hospital && {
-        hospital: {
-          connectOrCreate: {
-            where: { subDomain: hospital.subDomain },
-            create: { name: hospital.name, phoneNumber: hospital.phoneNumber },
-          },
-        },
-      }),
-    },
-  });
-
-
 
 // async function addHospitals() {
 //   const hospitals = [

@@ -96,7 +96,7 @@ export const SignUpScreen = ({ onClose }: { onClose?: () => void }) => {
   const onPasswordSubmit: SubmitHandler<FormValues> = () => {
     signUpMutation.mutate(getValues(), {
       onSuccess: (message: any) => {
-        toaster.success(t(`${translationPart}.account-created`));
+        toaster.success("Таны бүртгэл амжилттай үүслээ.");
         router.push("/");
         onClose && onClose();
       },

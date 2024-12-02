@@ -1,8 +1,10 @@
 import { createHandler } from "@api/handler";
+import { getHospitalByName } from "@lib/hospital/api/service";
 import { createMessage } from "@lib/message/api/service";
 import {
   createUserWithPhoneNumber,
-  getUserByPhoneNumber,
+  getNotVerifiedUserByPhoneNumber,
+  getVerifiedUserByPhoneNumber,
 } from "@lib/user/api/service";
 import { validatePhoneNumber } from "@lib/user/data/validators";
 import { AppError } from "@util/errors";
@@ -14,20 +16,26 @@ handler.post(async (req, res) => {
     const isValid = await validatePhoneNumber(req.body.phoneNumber, "+976");
     if (!isValid.isValid) throw AppError.BadRequest("Буруу утасны дугаар");
     //check is valid
-    let user = await getUserByPhoneNumber(req.body.phoneNumber);
+    let user = await getVerifiedUserByPhoneNumber(req.body.phoneNumber);
 
     if (user) throw AppError.BadRequest("Утасны дугаар бүртгэлтэй байна.");
 
     const verifyToken = await Math.floor(
       100000 + Math.random() * 9000
     ).toString();
-
-    await createUserWithPhoneNumber(req.body.phoneNumber, verifyToken);
-    await createMessage(
+    const hospital = await getHospitalByName("edental");
+    if (!hospital)
+      throw AppError.BadRequest(
+        "edental Эмгэлэг олдсонгүй. Бүртгэл үүсгэх түр боломжгүй."
+      );
+    const notVerifiedUser = await getNotVerifiedUserByPhoneNumber(
       req.body.phoneNumber,
-      verifyToken,
-      "cm1k7qbdt0001lu6rv13b7b9t"
+      verifyToken
     );
+    if (!notVerifiedUser) {
+      await createUserWithPhoneNumber(req.body.phoneNumber, verifyToken);
+    }
+    await createMessage(req.body.phoneNumber, verifyToken, hospital.id);
     res.sendSuccess({ success: true });
   } catch (e) {
     res.sendError(e);

@@ -67,7 +67,7 @@ const menuItems: (MenuItemType & { items?: MenuItemType[] })[] = [
       {
         label: "Үнийн хүснэгт",
         icon: <MdPriceChange />,
-        href: "/admin/priceTable",
+        href: "/admin/pricetable",
       },
       {
         label: "Орлого",

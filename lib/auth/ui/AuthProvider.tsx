@@ -1,9 +1,9 @@
 import { useCurrentUser } from "@lib/auth/data/authHooks";
 import { createContext, ReactNode, useContext, useEffect } from "react";
 
-const AuthContext = createContext<
-  Partial<ReturnType<typeof useCurrentUser>> 
->({});
+const AuthContext = createContext<Partial<ReturnType<typeof useCurrentUser>>>(
+  {}
+);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const currentUser = useCurrentUser();

@@ -9,10 +9,11 @@ import { HospitalSidebar } from "./HospitalSideBar";
 export const HospitalLayout = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
 
-  return user?.role !== UserRole.ADMIN ? (
+  return user?.role !== UserRole.HOSPITAL_OWNER &&
+    user?.role !== UserRole.ADMIN ? (
     <NotFoundPage />
   ) : (
-    <AppLayout>
+    <AppLayout canChangeLogo={true}>
       <Flex
         h="full"
         mt={4}

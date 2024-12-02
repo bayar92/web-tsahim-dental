@@ -1,6 +1,5 @@
 import { AppError } from "@util/errors";
 import { AppRequest, AppResponse } from "../types";
-import * as Sentry from "@sentry/nextjs";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -25,9 +24,6 @@ export const responseMiddleware = (
     if (isDev) console.error(error);
 
     if (assertAppError(error)) {
-      if (!isDev && (!error.statusCode || error.statusCode === 500))
-        Sentry.captureException(error);
-
       res.status(error.statusCode || 500).json({
         status: error.status,
         message: error.message,

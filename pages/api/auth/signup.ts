@@ -1,7 +1,7 @@
 import { createHandler } from "@api/handler";
 import {
   createUserWithPassword,
-  getUserByPhoneNumber,
+  getVerifiedUserByPhoneNumber,
 } from "@lib/user/api/service";
 import { AppError } from "@util/errors";
 
@@ -9,7 +9,7 @@ const handler = createHandler();
 
 handler.post(async (req: any, res) => {
   try {
-    const user = await getUserByPhoneNumber(req.body.phoneNumber);
+    const user = await getVerifiedUserByPhoneNumber(req.body.phoneNumber);
     if (!user) throw AppError.NotFound("user.not-found");
 
     await createUserWithPassword(user.id, req.body.password);
