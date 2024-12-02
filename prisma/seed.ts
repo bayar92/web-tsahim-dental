@@ -181,7 +181,7 @@ async function AddProduct() {
   }
 }
 //add products in database
-addUsers()
+AddProduct()
   .catch((e) => {
     console.error(e);
     process.exit(1);
