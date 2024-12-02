@@ -42,9 +42,9 @@ export const Contact = () => {
           <Icon as={GrMapLocation} boxSize={6} />
           <Link href="https://maps.app.goo.gl/Ckf8ct3o2J41kfdZA">
             <Heading fontSize="">Хаяг</Heading>
-            <Text _hover={{ textDecoration: "underline" }}>
+            {/* <Text _hover={{ textDecoration: "underline" }}>
               Улаанбаатар, Энхтайвны өргөн чөлөө
-            </Text>
+            </Text> */}
           </Link>
         </Box>
       </Stack>
