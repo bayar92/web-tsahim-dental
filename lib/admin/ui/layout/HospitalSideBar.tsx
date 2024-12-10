@@ -104,10 +104,11 @@ type MenuItemType = {
 };
 
 const menuItems: (MenuItemType & { items?: MenuItemType[] })[] = [
-  { label: "Нүүр", icon: <FaHome />, href: "/hospital" },
+  { label: "Нүүр", icon: <FaHome />, href: "/" },
   {
     label: "Эмнэлэг",
     items: [
+      { label: "Эмнэлгийн мэдээлэл", icon: <FaHospital />, href: "/hospital" },
       {
         label: "Худалдан авалт",
         icon: <MdAttachMoney />,

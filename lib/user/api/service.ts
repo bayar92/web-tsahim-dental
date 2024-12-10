@@ -85,8 +85,8 @@ export const getUserList = async (filter: QueryParamType) => {
     filters.length === 0
       ? {}
       : filters.length === 1
-      ? filters[0]
-      : { AND: filters };
+        ? filters[0]
+        : { AND: filters };
   const total = await prisma.user.count({ where });
 
   return {
@@ -140,25 +140,25 @@ export const manageExternalUser = async (
   if (account) {
     return account.user;
   } else {
-    const user = await prisma.user.create({
-      data: {
-        email: email ? email.toLowerCase() : "",
-        phoneNumber: "00000000",
-      },
-      select: defaultSelect,
-    });
+    // const user = await prisma.user.create({
+    //   data: {
+    //     email: email ? email.toLowerCase() : "",
+    //     phoneNumber: "00000000",
+    //   },
+    //   select: defaultSelect,
+    // });
 
-    await prisma.account.create({
-      data: {
-        userId: user.id,
-        type: "external",
-        provider,
-        providerAccountId,
-        accessToken,
-        refreshToken,
-      },
-    });
-    return user;
+    // await prisma.account.create({
+    //   data: {
+    //     userId: user.id,
+    //     type: "external",
+    //     provider,
+    //     providerAccountId,
+    //     accessToken,
+    //     refreshToken,
+    //   },
+    // });
+    return null;
   }
 };
 
@@ -263,102 +263,6 @@ export const deleteInvitedUser = async (userId: string) => {
     });
     return { result: "already-registered-cant-delete" };
   } else return { result: "success" };
-};
-
-export const createUser = async (email: string, password: string) => {
-  //default role = Patient, no need to mention
-  const passwordDigest = await hash(password, saltRounds);
-  return prisma.user.create({
-    data: { email, passwordDigest, phoneNumber: "00000000" },
-    select: defaultSelect,
-  });
-};
-
-export const createUserWithPhone = async (
-  phoneNumber: string,
-  pin: string,
-  password?: string,
-  email?: string,
-  role?: UserRole,
-  inviteToken?: string,
-  invitedBy?: string,
-  hospitalId?: string
-) => {
-  //default role = Patient, no need to mention
-  // const passwordDigest = await hash(password, saltRounds);
-
-  const newUser = await prisma.user.create({
-    data: {
-      phoneNumber,
-      email: email?.toLowerCase(),
-      passwordDigest: null,
-      phoneNumberVerified: null,
-      role,
-      pin,
-      pinCreatedAt: getCurrentDate(),
-      inviteToken,
-      isTokenUsed: null,
-      invitedBy,
-      hospitalId,
-    },
-    select: { id: true },
-  });
-
-  return (await prisma.user.findUnique({
-    where: {
-      id: newUser.id,
-    },
-    select: defaultSelect,
-  }))!;
-};
-
-export const createUserProfileWithPhone = async (
-  phoneNumber: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  dob: string,
-  email?: string,
-  role?: UserRole,
-  sex?: any,
-  inviteToken?: string,
-  invitedBy?: string
-) => {
-  //default role = Patient, no need to mention
-  const passwordDigest = await hash(password, saltRounds);
-  return prisma.user.create({
-    data: {
-      phoneNumber,
-      email: email?.toLowerCase(),
-      passwordDigest,
-      phoneNumberVerified: getCurrentDate(),
-      role,
-      inviteToken,
-      isTokenUsed: getCurrentDate(),
-      invitedBy,
-      profile: {
-        create: {
-          dob,
-          sex,
-          firstName,
-          lastName,
-          latinName:
-            convertCyrillic2Latin(firstName) +
-            " " +
-            convertCyrillic2Latin(lastName),
-        },
-      },
-    },
-    select: defaultSelect,
-  });
-};
-
-export const createExternalUser = async (email: string) => {
-  //default role = Patient, no need to mention
-  return prisma.user.create({
-    data: { email, phoneNumber: "00000000", passwordDigest: "" },
-    select: defaultSelect,
-  });
 };
 
 export const compareUserPassword = async (userId: string, password: string) => {
@@ -522,6 +426,7 @@ export const createUserWithPhoneNumber = async (
       phoneNumber,
       pin,
       pinCreatedAt: getCurrentDate(),
+      role: "HOSPITAL_OWNER",
     },
     select: { id: true },
   });

@@ -121,7 +121,11 @@ export const LandingLayout = ({ children }: { children?: ReactNode }) => {
                   {user ? (
                     <Menu>
                       <MenuButton borderBottom={"1px solid gray"}>
-                        <Text fontWeight={"bolder"}>{user.phoneNumber}</Text>
+                        <Text fontWeight={"bolder"}>
+                          {user.role == "HOSPITAL_OWNER"
+                            ? "Эмнэлэг"
+                            : user.phoneNumber}
+                        </Text>
                       </MenuButton>
                       <MenuList>
                         {user.role == "ADMIN" && (

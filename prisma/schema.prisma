@@ -148,6 +148,7 @@ model Hospital {
   subscription       Subscription[]
   databaseConnection DatabaseConnection[]
   message            Message[]
+  ProductPayment     ProductPayment[]
 }
 
 model Subscription {
@@ -169,7 +170,9 @@ model Machine {
   subscription    Subscription @relation(fields: [subscriptionId], references: [id])
   machineName     String
   machineUniqueId String       @unique //this must be mac address of the PC
-  registeredAt    DateTime     @default(now())
+  ipAddress       String
+
+  registeredAt DateTime @default(now())
 }
 
 model HospitalUsers {
@@ -236,7 +239,9 @@ model ProductPayment {
   productVariantId String
   ProductVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
   userId           String
-  User             User           @relation(fields: [userId], references: [id])
+  user             User           @relation(fields: [userId], references: [id])
+  hospital         Hospital       @relation(fields: [hospitalId], references: [id])
+  hospitalId       String
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   paymentStatus    String

@@ -35,6 +35,7 @@ export const toaster = {
   },
 
   info(message: ReactNode, title = "") {
+    toast.closeAll();
     toast({
       title,
       description: message,
@@ -45,6 +46,7 @@ export const toaster = {
     });
   },
   warning(message: string, title = "") {
+    toast.closeAll();
     toast({
       title,
       description: message,
@@ -55,6 +57,7 @@ export const toaster = {
     });
   },
   error(message: string, title = "") {
+    toast.closeAll();
     toast({
       title,
       description: message,

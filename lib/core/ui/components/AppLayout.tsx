@@ -74,7 +74,7 @@ export const AppLayout = ({
           maxW="container.xl"
           mx="auto"
         >
-          <VStack align="center">
+          <VStack align="left">
             <LinkBox href={`${rootUrl}`} box={true} flexShrink={0}>
               <HStack>
                 <Image src={currentLogo} alt="" h={12} />
@@ -82,8 +82,8 @@ export const AppLayout = ({
               </HStack>
             </LinkBox>
             {canChangeLogo && (
-              <Text ml={4} w="128px" onClick={handleLogoChange}>
-                Change Logo
+              <Text ml={4} w="256px" onClick={handleLogoChange}>
+                Өөрийн эмнэлэгийн лого оруулах
               </Text>
             )}
           </VStack>

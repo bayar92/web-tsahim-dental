@@ -8,18 +8,15 @@ import {
   FormErrorMessage,
   FormLabel,
   HStack,
-  Input,
-  Select,
-  Text,
-  toaster,
-  useColorModeValue,
+  Input, toaster,
+  useColorModeValue
 } from "@ui/index";
 
 import { Select as ReactSelect } from "chakra-react-select";
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IoArrowDown, IoCallSharp } from "react-icons/io5";
+import { IoCallSharp } from "react-icons/io5";
 
 type selectInput = {
   value: any;

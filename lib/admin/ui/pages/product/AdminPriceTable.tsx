@@ -12,7 +12,7 @@ const columns = [
     Header: "Нэр",
     Cell: (data: any) => (
       <Box>
-        <Text fontWeight="bold">{data.name}</Text>
+        <Text>{data.name}</Text>
       </Box>
     ),
   },
@@ -27,10 +27,10 @@ const columns = [
     ),
   },
   {
-    Header: "Duration",
+    Header: "Хугацаа",
     Cell: (data: any) => (
       <Badge fontSize="11px">
-        {data.duration} {data.duration === 1 ? "month" : "months"}
+        {data.duration} {"өдөр"}
       </Badge>
     ),
   },

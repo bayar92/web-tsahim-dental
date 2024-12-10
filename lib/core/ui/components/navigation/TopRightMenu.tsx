@@ -86,7 +86,7 @@ const MenuPopup = ({
       w={{ base: "100vw", lg: 20 }}
       zIndex={10}
     >
-      <NextLink href="/account/profile">
+      {/* <NextLink href="/account/profile">
         <MenuItem
           fontWeight="bold"
           py={2.5}
@@ -96,9 +96,9 @@ const MenuPopup = ({
             lg: useColorModeValue("gray.50", "gray.850"),
           }}
         >
-          Миний тохиргоо
+          Миний эмнэлэг
         </MenuItem>
-      </NextLink>
+      </NextLink> */}
       {/* <NextLink href="/support">
         <MenuItem
           fontWeight="bold"
