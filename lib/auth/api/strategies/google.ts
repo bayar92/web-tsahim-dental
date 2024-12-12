@@ -18,6 +18,6 @@ export const googleStrategy = new Strategy(
       accessToken,
       refreshToken
     );
-    return cb(null, user);
+    return cb(null);
   }
 );

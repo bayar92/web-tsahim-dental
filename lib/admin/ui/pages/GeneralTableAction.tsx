@@ -35,7 +35,7 @@ export const GeneralTableActions = ({
     >
       <FormControl w="64">
         <InputGroup size="sm">
-          <FormLabel srOnly>Хай</FormLabel>
+          <FormLabel srOnly>Хайх</FormLabel>
           <InputRightElement pointerEvents="none" color="gray.400">
             <BsSearch />
           </InputRightElement>
