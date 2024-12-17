@@ -55,7 +55,6 @@
     "date-fns": "^2.29.3",
     "dayzed": "^3.2.3",
     "dotenv-cli": "^7.1.0",
-    "framer-motion": "^10.2.4",
     "generate-colors": "^1.4.2",
     "http": "^0.0.1-security",
     "human-readable-numbers": "^0.9.5",

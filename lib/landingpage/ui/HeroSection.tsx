@@ -22,17 +22,21 @@ import { WaitModal } from "./Waitlist/WaitModal";
 
 export const HeroSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [tabIndex, setTabIndex] = useState(1);
-  const [selectEnv, setSelectedEnv] = useState("local");
+  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [childTabIndex, setChildTabIndex] = useState<number>(0);
+  const [selectEnv, setSelectedEnv] = useState<"local" | "online">("local");
 
   useEffect(() => {}, [selectEnv]);
 
-  const handleSliderChange = (event: any) => {
+  const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTabIndex(parseInt(event.target.value, 10));
   };
 
-  const handleTabsChange = (index: any) => {
+  const handleTabsChange = (index: number) => {
     setTabIndex(index);
+  };
+  const handleChildTabsChange = (index: number) => {
+    setChildTabIndex(index);
   };
 
   const content =
@@ -47,12 +51,25 @@ export const HeroSection = () => {
         Програм дээр оруулж буй өгөгдлүүд интернет орчинд хадгалагдах бөгөөд та
         эмнэлгээс гадна орчинд буюу хүссэн газраасаа цаг захиалгын мэдээллийг
         харах боломжтой. Мөн вебээр дамжуулан бусад нэмэлт үйлчилгээг ( таблет
-        дээр таниулах зөвшөөрлийн гарын үсгийг зуруулан авах, асуумж бөглүүлэх
+        дээр таниулах зөвшөөрлийн гарын үсгийг зуруулан авах, асуумж бөгөөлэх
         гэх мэт) авах боломжтой байна. Дата өгөгдлүүд нь Монгол доторх серверт
         олон улсын стандарын (ISO) дагуу хадгалагдах болно.
       </>
     );
+    const tabStyle = {
+      _hover: { bg: "#a5e1f9" },
+      _selected: { bg: "#58cbf9" , color: "white" },
+      borderRadius: "24px",
+      fontSize: "sm",
+    };
 
+    const parentTabStyle = {
+      _hover: { color: "#069cdf" },
+      color: "#58cbf9",
+      fontWeight: "800",
+      fontSize: "md"
+    };
+   
   return (
     <>
       <VStack>
@@ -79,7 +96,6 @@ export const HeroSection = () => {
             >
               Шүдний эмнэлэгийнхээ үйл ажиллагааг бүрэн автоматжуул
             </Heading>
-
             <VStack mx="auto" textAlign="center" bg="white">
               <Text
                 color="gray.800"
@@ -133,27 +149,7 @@ export const HeroSection = () => {
                 <Icon as={BsDownload} mr="2" />
                 Туршилтын хувилбар татах
               </Button>
-              {/* <InputGroup size="xl">
-                <Input
-                  variant={"landingInput"}
-                  type={"number"}
-                  placeholder="Утасны дугаар"
-                />
-                <InputRightElement>
-                  <Button
-                    mt={1}
-                    fontSize={"16px"}
-                    lineHeight={"24px"}
-                    mr={1}
-                    h={12}
-                    boxShadow="0px 1px 2px rgba(13, 16, 23, 0.06)"
-                  >
-                    Бүртгүүлэх
-                  </Button>
-                </InputRightElement>
-              </InputGroup> */}
             </Box>
-
             <Box id="features" position="relative">
               <Tabs
                 marginTop={10}
@@ -163,250 +159,186 @@ export const HeroSection = () => {
                 onChange={handleTabsChange}
               >
                 <TabList
-                  position="absolute"
-                  top={0}
-                  left={10}
-                  right={0}
-                  overflowX="scroll"
+                  position="relative"
+                  display="flex"
+                  justifyContent="center"
+                  width="100%"
+                  overflowX="auto"
                   whiteSpace="nowrap"
                   css={{
                     "&::-webkit-scrollbar": { display: "none" },
                   }}
                 >
-                  <Tab>Нэвтрэх</Tab>
-                  <Tab>Ресепшин</Tab>
-                  <Tab>Цаг захиалга</Tab>
-                  <Tab>Цахим карт</Tab>
-                  <Tab>Зөвлөгөө</Tab>
-                  <Tab>X-ray</Tab>
-                  <Tab>Үйлчлүүлэгч</Tab>
-                  <Tab>Төлбөр</Tab>
-                  <Tab>Касс</Tab>
-                  <Tab>Статистик</Tab>
-                  <Tab>Тохиргоо</Tab>
+                  <Tab {...parentTabStyle}>Ресепшин</Tab>
+                  <Tab {...parentTabStyle}>Цаг захиалга</Tab>
+                  <Tab {...parentTabStyle}>Цахим карт</Tab>
+                  <Tab {...parentTabStyle}>Зөвлөгөө</Tab>
+                  <Tab {...parentTabStyle}>X-ray</Tab>
+                  <Tab {...parentTabStyle}>Үйлчлүүлэгч</Tab>
+                  <Tab {...parentTabStyle}>Төлбөр</Tab>
+                  <Tab {...parentTabStyle}>Касс</Tab>
+                  <Tab {...parentTabStyle}>Статистик</Tab>
+                  <Tab {...parentTabStyle}>Тохиргоо</Tab>
                 </TabList>
-                <TabPanels mt="8">
+                <TabPanels mt="1">
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/login.png"
-                      alt=""
-                    />
+                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
+                      <TabList display="flex" justifyContent="center" alignItems="center">
+                        <Tab
+                          {...tabStyle}
+                        >
+                          Ресепшин1
+                        </Tab>
+                        <Tab
+                          {...tabStyle}
+                        >
+                          Ресепшин2
+                        </Tab>
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Дэл��эрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүэгчийн бүхий л мэдээллийг харах боломжтой.
+                          </Text>
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/reception_1.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л
-                      мэдээллийг (хамт үйлчлүүлдэг гэр бүлийн хүмүүс, эмнэлэгт
-                      ирсэн өдрүүд , эмчилгээнүүдийн хураангуй зэрэг) нэг
-                      цонхноос харах боломжтой.
-                    </Text>
-                  </TabPanel>
-                  <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/tsag_zahialga2.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Цаг захиалгын хураангуйг (ирц, гүйцэтгэл зэрэг) эмч тус
-                      бүрээр нь нэг цонхноос харах боломжтой.
-                    </Text>
-                    <Text
-                      marginTop={2}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Цаг захиалгыг сануулах автомат мессежийн үйлчилгээ.
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/tsag_zahialga2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Цаг захиалгын хураангуйг эмч тус бүрээр нь харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/card_2.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Эмчилгээний төлөвлөгөө харуулах боломжтой.
-                    </Text>
-                    <Text
-                      marginTop={2}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Анхан үзлэгийн төлөв, эмчилгээний дараах төлөвийг зурган
-                      хэлбэрээр харьцуулан харах боломжтой.
-                    </Text>
-                    <Text
-                      marginTop={2}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Эмчилгээний бүртгэл хийх үед ажилбарын сонголтууд нэг
-                      бүрчлэн гарч ирнэ.{" "}
-                    </Text>
-                    <Text
-                      marginTop={2}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Сонгосон эмчилгээний дагуу эмчилгээний үнэ автоматаар
-                      тооцогдож гарна.
+                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
+                      <TabList display="flex" justifyContent="center" alignItems="center">
+                        <Tab
+                          {...tabStyle}
+                        >
+                          Цахим карт1
+                        </Tab>
+                        <Tab
+                          {...tabStyle}
+                        >
+                          Цахим карт2
+                        </Tab>
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/card_2.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Эмчилгээний төлөвлөгөө харуулах боломжтой.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Text>Цахим карт 2 контент</Text>
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
+                  </TabPanel>
+                  <TabPanel>
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/zuwulguu_2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Бэлэн шүд��ий зурган дээр скеч зуран зөвөлгөө өгөх боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/zuwulguu_2.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Бэлэн шүдний зурган дээр скеч зуран зөвөлгөө өгөх
-                      боломжтой.
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/xray_2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Өөрийн эмнэлэгт хэргэлдэг x-ray програм руу хандан зураг харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/xray_2.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Өөрийн эмнэлэгт хэргэлдэг x-ray програм руу хандан зураг
-                      харах боломжтой.
+                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
+                      <TabList display="flex" justifyContent="center" alignItems="center">
+                        <Tab
+                          {...tabStyle}
+                        >
+                          Үйлчлүүлэгч1
+                        </Tab>
+                        <Tab
+                          {...tabStyle}
+                        >
+                          Үйлчлүүлэгч2
+                        </Tab>
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/uilchluulegch_2.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Үйлчлүүлэгчдээ ухаалгаар хянаж, эмнэлгийн үйл ажиллагаанд доголдол гаргах эрсдэлийг багасгана.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Text>Үйлчлүүлэгч2 контент</Text>
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
+                  </TabPanel>
+                  <TabPanel>
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/payment.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Төлбөрийн мэдээллийг хялбараар удирдах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/uilchluulegch_2.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Үйлчлүүлэгчдээ ухаалгаар хянаж, эмнэлгийн үйл ажиллагаанд
-                      доголдол гаргах эрсдэлийг багасгана.
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/cash.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Кассын гүйлгээг хянах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/payment.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Тухайн үйлчлүүлэгчин төлбөрийн түүх үлдэгдэл зэргийг нэг
-                      цонхноосо харах болмжтой.
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/statistics.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Эмнэлгийн үйл ажиллагааны статистик мэдээллийг харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/payment.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Хүссэн өдрийн орлогыг харах боломжтой. Эмч тус бүрээр,
-                      эмчилгээний төрөл бүрээр орлогыг ангилж харах боломжтой.
-                    </Text>
-                  </TabPanel>
-                  <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/statistics-by-day.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Үйлчлүүлэгчдийг шинэ болон давтан үзлэгээр нь, нас болон
-                      хүйсээр нь ангилж харах боломжтой.
-                    </Text>
-                  </TabPanel>
-                  <TabPanel>
-                    <Image
-                      borderRadius={"24px"}
-                      border={"12px solid black"}
-                      src="/images/screenshot/settings_2.png"
-                      alt=""
-                    />
-                    <Text
-                      marginTop={6}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Эмчилгээний төрлийг нэмэх, үнийг өөрчлөх боломжтой.
-                    </Text>
-                    <Text
-                      marginTop={2}
-                      fontWeight={400}
-                      fontSize={"md"}
-                      color="blackAlpha.900"
-                    >
-                      Мөн эмчийн үзлэгийн цаг, амралт зэргийг урьдчилан
-                      тохируулснаар цаг захиалгыг илүү хялбар хийх боломжтой.
-                    </Text>
+                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
+                      <TabList display="flex" justifyContent="center" alignItems="center">
+                        <Tab {...tabStyle}>Тохиргоо</Tab>
+                        <Tab {...tabStyle}>Тохиргоо</Tab>
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/settings_2.png" alt="" />
+                          <Text
+                            marginTop={6}
+                            fontWeight={400}
+                            fontSize={"md"}
+                            color="blackAlpha.900"
+                          >
+                            Эмчилгээний төрлийг нэмэх, үнийг өөрчлөх боломжтой.
+                          </Text>
+                          <Text
+                            marginTop={2}
+                            fontWeight={400}
+                            fontSize={"md"}
+                            color="blackAlpha.900"
+                          >
+                            Мөн эмчийн үзлэгийн цаг, амралт зэргийг урьдчилан
+                            тохируулснаар ��аг захиалгы илүү хялбар хийх боломжтой.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Text >Тохиргоо</Text>
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
