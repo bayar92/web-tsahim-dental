@@ -323,7 +323,7 @@ export const Pricing = () => {
                   <Flex justifyContent="end" gap={2}>
                     <Text color="gray.900">Суурьлуулалтын хураамж:</Text>
                     <Text color="orange.600" fontSize={16} fontWeight="bold">
-                      100,000₮
+                      299,000₮
                     </Text>
                   </Flex>
                 </Box>
