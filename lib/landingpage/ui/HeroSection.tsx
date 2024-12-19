@@ -187,13 +187,13 @@ export const HeroSection = () => {
                         <Tab
                           {...tabStyle}
                         >
-                          Ресепшин1
+                          Ресепшин
                         </Tab>
-                        <Tab
+                        {/* <Tab
                           {...tabStyle}
                         >
                           Ресепшин2
-                        </Tab>
+                        </Tab> */}
                       </TabList>
                       <TabPanels>
                         <TabPanel>
@@ -202,7 +202,7 @@ export const HeroSection = () => {
                             Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
                           </Text>
                         </TabPanel>
-                        <TabPanel>
+                        {/* <TabPanel>
                           <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
                           <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                             Дэл��эрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
@@ -213,7 +213,7 @@ export const HeroSection = () => {
                           <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                             Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүэгчийн бүхий л мэдээллийг харах боломжтой.
                           </Text>
-                        </TabPanel>
+                        </TabPanel> */}
                       </TabPanels>
                     </Tabs>
                   </TabPanel>
@@ -229,13 +229,13 @@ export const HeroSection = () => {
                         <Tab
                           {...tabStyle}
                         >
-                          Цахим карт1
+                          Цахим карт
                         </Tab>
-                        <Tab
+                        {/* <Tab
                           {...tabStyle}
                         >
                           Цахим карт2
-                        </Tab>
+                        </Tab> */}
                       </TabList>
                       <TabPanels>
                         <TabPanel>
@@ -244,9 +244,9 @@ export const HeroSection = () => {
                             Эмчилгээний төлөвлөгөө харуулах боломжтой.
                           </Text>
                         </TabPanel>
-                        <TabPanel>
+                        {/* <TabPanel>
                           <Text>Цахим карт 2 контент</Text>
-                        </TabPanel>
+                        </TabPanel> */}
                       </TabPanels>
                     </Tabs>
                   </TabPanel>
@@ -268,13 +268,13 @@ export const HeroSection = () => {
                         <Tab
                           {...tabStyle}
                         >
-                          Үйлчлүүлэгч1
+                          Үйлчлүүлэгч
                         </Tab>
-                        <Tab
+                        {/* <Tab
                           {...tabStyle}
                         >
                           Үйлчлүүлэгч2
-                        </Tab>
+                        </Tab> */}
                       </TabList>
                       <TabPanels>
                         <TabPanel>
@@ -283,9 +283,9 @@ export const HeroSection = () => {
                             Үйлчлүүлэгчдээ ухаалгаар хянаж, эмнэлгийн үйл ажиллагаанд доголдол гаргах эрсдэлийг багасгана.
                           </Text>
                         </TabPanel>
-                        <TabPanel>
+                        {/* <TabPanel>
                           <Text>Үйлчлүүлэгч2 контент</Text>
-                        </TabPanel>
+                        </TabPanel> */}
                       </TabPanels>
                     </Tabs>
                   </TabPanel>
@@ -296,13 +296,13 @@ export const HeroSection = () => {
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/cash.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/payment.png" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Кассын гүйлгээг хянах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/statistics.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/statistics-by-day.png" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Эмнэлгийн үйл ажиллагааны статистик мэдээллийг харах боломжтой.
                     </Text>
@@ -311,7 +311,7 @@ export const HeroSection = () => {
                     <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
                       <TabList display="flex" justifyContent="center" alignItems="center">
                         <Tab {...tabStyle}>Тохиргоо</Tab>
-                        <Tab {...tabStyle}>Тохиргоо</Tab>
+                        {/* <Tab {...tabStyle}>Тохиргоо</Tab> */}
                       </TabList>
                       <TabPanels>
                         <TabPanel>
@@ -324,7 +324,7 @@ export const HeroSection = () => {
                           >
                             Эмчилгээний төрлийг нэмэх, үнийг өөрчлөх боломжтой.
                           </Text>
-                          <Text
+                          {/* <Text
                             marginTop={2}
                             fontWeight={400}
                             fontSize={"md"}
@@ -332,7 +332,7 @@ export const HeroSection = () => {
                           >
                             Мөн эмчийн үзлэгийн цаг, амралт зэргийг урьдчилан
                             тохируулснаар ��аг захиалгы илүү хялбар хийх боломжтой.
-                          </Text>
+                          </Text> */}
                         </TabPanel>
                         <TabPanel>
                           <Text >Тохиргоо</Text>
