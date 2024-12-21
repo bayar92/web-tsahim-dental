@@ -1,10 +1,11 @@
-import { User } from "@prisma/client";
+import { Hospital, User } from "@prisma/client";
 import { AppError } from "@util/errors";
 import { API, Method } from "@util/query";
 import { useMutation, useQuery } from "react-query";
 
 export type AuthUser = Pick<User, "id" | "email" | "phoneNumber" | "role"> & {
   profile: any;
+  hospital: Hospital[] | null;
 };
 
 export const useCurrentUser = () => {

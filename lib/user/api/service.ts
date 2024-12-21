@@ -20,6 +20,14 @@ const defaultSelect = {
   inviteToken: true,
   isTokenUsed: true,
   invitedBy: true,
+  hospital: {
+    select: {
+      id: true,
+      name: true,
+      hospitalLogo: true,
+      subDomain: true,
+    },
+  },
   profile: {
     select: {
       id: true,

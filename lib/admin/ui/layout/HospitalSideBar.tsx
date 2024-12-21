@@ -2,12 +2,7 @@ import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { ReactNode } from "react";
 import { FaHome, FaHospital, FaPencilAlt } from "react-icons/fa";
-import {
-  MdAccessTimeFilled,
-  MdAttachMoney,
-  MdComputer,
-  MdNoteAdd,
-} from "react-icons/md";
+import { MdAccessTimeFilled, MdAttachMoney, MdComputer } from "react-icons/md";
 
 export const HospitalSidebar = () => {
   return (

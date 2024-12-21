@@ -17,6 +17,7 @@ import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { HiOutlineLockClosed, HiOutlineMail } from "react-icons/hi";
+import { MdPhone, MdPhoneIphone } from "react-icons/md";
 import { useLogin } from "../data/authHooks";
 
 //login model type
@@ -66,7 +67,7 @@ export const LoginScreen = ({ onClose }: { onClose?: () => void }) => {
           <FormLabel variant={"normal"}>Утасны дугаар</FormLabel>
           <InputGroup>
             <InputLeftElement pointerEvents="none" fontSize={"24px"}>
-              <Icon color="gray.300" as={HiOutlineMail} />
+              <Icon color="gray.300" as={MdPhoneIphone} />
             </InputLeftElement>
             <Input
               pl="10"

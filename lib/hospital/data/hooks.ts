@@ -12,3 +12,6 @@ export const useGetMyHospital = () =>
 
 export const useCreateHospital = () =>
   useMutation(API._mutate(Method.POST, `hospital/create`));
+
+export const useUpdateHospitalLogo = () =>
+  useMutation(API._mutate(Method.POST, `hospital/update-logo`));

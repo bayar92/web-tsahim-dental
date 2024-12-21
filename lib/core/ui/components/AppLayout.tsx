@@ -8,7 +8,9 @@ import {
   HStack,
   Image,
   LinkBox,
+  LogoUploader,
   Text,
+  useBreakpointValue,
   useColorModeValue,
   VStack,
 } from "@ui/index";
@@ -34,32 +36,21 @@ export const AppLayout = ({
 }) => {
   const { user, isLoggedIn } = useAuth();
   const [rootUrl, setRootUrl] = useState("/");
-  const [currentLogo, setCurrentLogo] = useState("/images/dental-logo.svg");
-  const [currentLogoText, setCurrentLogoText] = useState(
-    "/images/dental-text.svg"
+  const [currentLogo, setCurrentLogo] = useState(
+    user?.hospital?.[0]?.hospitalLogo || "/images/dental-logo.svg"
   );
 
   useEffect(() => {
     setRootUrl(getRootUrl(user));
   }, [user]);
 
-  const handleLogoChange = () => {
-    // Toggle between two sets of logos
-    if (currentLogo === "/images/dental-logo.svg") {
-      setCurrentLogo("/images/alternate-logo.svg");
-      setCurrentLogoText("/images/alternate-text.svg");
-    } else {
-      setCurrentLogo("/images/dental-logo.svg");
-      setCurrentLogoText("/images/dental-text.svg");
-    }
-  };
-
+  const px = useBreakpointValue({ base: 2, md: 6 });
   return (
     <>
       <Flex
         as="header"
         align="center"
-        px={6}
+        px={px}
         mt={2}
         borderBottomColor={{
           base: useColorModeValue("gray.200", "gray.700"),
@@ -78,14 +69,9 @@ export const AppLayout = ({
             <LinkBox href={`${rootUrl}`} box={true} flexShrink={0}>
               <HStack>
                 <Image src={currentLogo} alt="" h={12} />
-                <Image src={currentLogoText} alt="" h={12} />
               </HStack>
             </LinkBox>
-            {canChangeLogo && (
-              <Text ml={4} w="256px" onClick={handleLogoChange}>
-                Өөрийн эмнэлэгийн лого оруулах
-              </Text>
-            )}
+            <LogoUploader setLogoUrl={setCurrentLogo} />
           </VStack>
           <Flex
             display={{ base: "none", lg: "flex" }}
@@ -120,7 +106,7 @@ export const AppLayout = ({
       <Box
         as="main"
         display="flex"
-        px="6"
+        px={px}
         backgroundColor={bg}
         flexDirection="column"
       >

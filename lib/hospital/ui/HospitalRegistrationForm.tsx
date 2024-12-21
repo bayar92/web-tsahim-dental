@@ -23,11 +23,11 @@ import { useCreateHospital } from "../data/hooks";
 
 export type HospitalRegistrationFormType = {
   id?: string;
-  name: string;
-  phoneNumber: string;
-  totalSit: number;
-  register: string;
-  directorInfo: string;
+  name?: string;
+  phoneNumber?: string;
+  totalSit?: number;
+  register?: string;
+  directorInfo?: string;
 };
 
 export const HospitalRegistrationForm = ({

@@ -24,7 +24,6 @@ model User {
   pinCreatedAt        DateTime?
   pinType             String?
   pinVerifiedAt       DateTime?
-  hospitalId          String?
   accounts            Account[]
   profile             Profile?
   hospital            Hospital[]
@@ -135,9 +134,9 @@ model Hospital {
   id                 String               @id @default(cuid())
   hospitalLogo       String?
   subDomain          String?              @unique
-  phoneNumber        String
-  register           String               @unique @default("")
-  name               String
+  phoneNumber        String?
+  register           String?              @unique
+  name               String?
   totalSit           Int                  @default(0)
   userId             String
   User               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)

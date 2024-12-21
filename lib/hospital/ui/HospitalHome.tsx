@@ -1,6 +1,10 @@
-import { Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Button, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { Hospital } from "@prisma/client";
 import { useState } from "react";
+import { FaHospital } from "react-icons/fa";
+import { GiOfficeChair } from "react-icons/gi";
+import { HiOutlinePhone, HiUser } from "react-icons/hi";
+import { MdAppRegistration, MdPhone } from "react-icons/md";
 import { useGetMyHospital } from "../data/hooks";
 import {
   HospitalRegistrationForm,
@@ -14,7 +18,7 @@ export const HospitalHome = () => {
     <VStack>
       {isLoading ? (
         <></>
-      ) : data ? (
+      ) : data && data.register ? (
         <HospitalInfo data={data} />
       ) : (
         <HospitalRegistrationForm refetch={refetch} />
@@ -53,29 +57,44 @@ export const HospitalInfo = ({
       </HStack>
 
       <VStack alignItems="flex-start">
-        <Heading size="md">Эмнэлэгийн нэр</Heading>
-        <Text>{data.name}</Text>
+        <Heading size="sm">Эмнэлгийн нэр</Heading>
+        <HStack>
+          <Icon color="gray.300" as={FaHospital} />
+          <Text>{data.name}</Text>
+        </HStack>
       </VStack>
 
       <VStack alignItems="flex-start">
-        <Heading size="md">Утасны дугаар</Heading>
-        <Text>{data.phoneNumber}</Text>
+        <Heading size="sm">Утасны дугаар</Heading>
+        <HStack>
+          <Icon color="gray.300" as={HiOutlinePhone} />
+          <Text>{data.phoneNumber}</Text>
+        </HStack>
       </VStack>
 
       <VStack alignItems="flex-start">
         <Heading size="md">Регистрийн дугаар</Heading>
-        <Text>{data.register}</Text>
+        <HStack>
+          <Icon color="gray.300" as={MdAppRegistration} />
+          <Text>{data.register}</Text>
+        </HStack>
       </VStack>
 
       <VStack alignItems="flex-start">
         <Heading size="md">Креслийн тоо</Heading>
-        <Text>{data.totalSit}</Text>
+        <HStack>
+          <Icon color="gray.300" as={GiOfficeChair} />
+          <Text>{data.totalSit}</Text>
+        </HStack>
       </VStack>
 
       {data.directorInfo && (
         <VStack alignItems="flex-start">
-          <Heading size="md">Эмнэлгийн директор</Heading>
-          <Text>{data.directorInfo}</Text>
+          <Heading size="md">Эмнэлгийн захирал</Heading>
+          <HStack>
+            <Icon color="gray.300" as={HiUser} />
+            <Text>{data.directorInfo}</Text>
+          </HStack>
         </VStack>
       )}
     </VStack>

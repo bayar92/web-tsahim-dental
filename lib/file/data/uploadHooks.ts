@@ -12,14 +12,6 @@ const getSignedUrl = async (file: File) => {
   return result;
 };
 
-const uploadFile = async (file: File, signedRequest: string) => {
-  const options = {
-    method: "PUT",
-    body: file,
-  };
-  return fetch(signedRequest, options);
-};
-
 export const uploadToS3 = async ({
   file,
   setProgress,
@@ -30,7 +22,16 @@ export const uploadToS3 = async ({
   cancel?: CancelTokenSource;
 }) => {
   const { signedRequest, url } = await getSignedUrl(file);
-  let returnUrl = url;
+  
+  const cloudFrontCDN =
+    process.env.AWS_CLOUDFRONT_URL ||
+    "https://d1z29unbn96003.cloudfront.net";
+
+  let returnUrl = url.replace(
+    "https://s3.amazonaws.com/edental-bucket",
+    cloudFrontCDN
+  );
+ 
   await axios
     .put(signedRequest, file, {
       headers: {

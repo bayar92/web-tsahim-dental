@@ -1,5 +1,6 @@
 import { prisma } from "@api/prisma";
 import { Hospital } from "@prisma/client";
+import { AppError } from "@util/errors";
 import { HospitalRegistrationFormType } from "../ui/HospitalRegistrationForm";
 
 export const getHospitalPublicInfo = async (hospitalDomain: string) => {
@@ -42,16 +43,28 @@ export const createHospital = async (
   const newHospital = await prisma.hospital.create({
     data: {
       userId,
-      name: hospital.name,
+      name: hospital.name || undefined,
       phoneNumber: hospital.phoneNumber,
-      totalSit: Number.parseInt(hospital.totalSit.toString()),
+      totalSit: hospital.totalSit ? Number.parseInt(hospital.totalSit.toString()) : undefined,
       register: hospital.register,
       directorInfo: hospital.directorInfo,
     },
   });
   return newHospital;
 };
-
+export const updateHospitalLogo = async (logoUrl: string, userId: string) => {
+  const myHospital = await getMyHospital(userId);
+  if (!myHospital) throw AppError.NotFound("Hospital not found");
+  const newHospital = await prisma.hospital.update({
+    where: {
+      id: myHospital.id,
+    },
+    data: {
+      hospitalLogo: logoUrl,
+    },
+  });
+  return newHospital;
+};
 export const updateHospital = async (
   hospital: HospitalRegistrationFormType,
   userId: string
@@ -64,7 +77,7 @@ export const updateHospital = async (
       userId,
       name: hospital.name,
       phoneNumber: hospital.phoneNumber,
-      totalSit: Number.parseInt(hospital.totalSit.toString()),
+      totalSit: hospital.totalSit ? Number.parseInt(hospital.totalSit.toString()) : undefined,
       register: hospital.register,
       directorInfo: hospital.directorInfo,
     },

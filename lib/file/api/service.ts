@@ -6,13 +6,9 @@ import { AppError } from "@util/errors";
 import { getCurrentDate } from "@api/currentDate";
 
 const s3 = new S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID
-    ? process.env.AWS_ACCESS_KEY_ID
-    : "",
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-    ? process.env.AWS_SECRET_ACCESS_KEY
-    : "",
-  region: "us-east-1",
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: "ap-northeast-2",
 });
 
 const bucket = process.env.AWS_BUCKET ? process.env.AWS_BUCKET : "";

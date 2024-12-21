@@ -31,5 +31,5 @@ export { DataEntryModal } from "./components/DataEntryModal";
 export { Pill } from "./components/Pill";
 export { CountryFlag } from "./components/CountryFlag";
 export { TimeAgoLang } from "./components/TimeAgoLang";
-export { HealthIcon } from "./components/HealthIcon";
 export { validateFiles } from "./helpers/validatefiles";
+export { LogoUploader } from "./components/LogoUploader";
