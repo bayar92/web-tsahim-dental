@@ -239,7 +239,7 @@ export const Pricing = () => {
                       products
                         .filter((p) => p.name == selectEnv)[0]
                         .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 30
+                          (r) => r.sits == packageSits && r.duration == 1
                         )[0].price,
                       "mn"
                     )}
@@ -251,7 +251,7 @@ export const Pricing = () => {
                       products
                         .filter((p) => p.name == selectEnv)[0]
                         .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 30
+                          (r) => r.sits == packageSits && r.duration == 1
                         )[0].id
                     )
                   }
@@ -266,7 +266,7 @@ export const Pricing = () => {
                           products
                             .filter((p) => p.name == selectEnv)[0]
                             .ProductVariant.filter(
-                              (r) => r.sits == packageSits && r.duration == 30
+                              (r) => r.sits == packageSits && r.duration == 1
                             )[0].price * 6,
                           "mn"
                         )}
@@ -283,7 +283,7 @@ export const Pricing = () => {
                       products
                         .filter((p) => p.name == selectEnv)[0]
                         .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 180
+                          (r) => r.sits == packageSits && r.duration == 6
                         )[0].price,
                       "mn"
                     )}
@@ -295,7 +295,7 @@ export const Pricing = () => {
                           products
                             .filter((p) => p.name == selectEnv)[0]
                             .ProductVariant.filter(
-                              (r) => r.sits == packageSits && r.duration == 30
+                              (r) => r.sits == packageSits && r.duration == 1
                             )[0].price *
                             0.6 * // Cloud price is 60% of base price
                             1,
@@ -312,7 +312,7 @@ export const Pricing = () => {
                       products
                         .filter((p) => p.name == selectEnv)[0]
                         .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 180
+                          (r) => r.sits == packageSits && r.duration == 6
                         )[0].id
                     )
                   }

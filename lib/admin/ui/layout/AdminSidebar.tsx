@@ -92,9 +92,6 @@ export const AdminSidebar = () => {
       h="full"
       minW={48}
       w={48}
-      direction="column"
-      borderRight="1px"
-      borderColor="gray.200"
     >
       <Stack spacing="4" flex="1" overflow="auto" py="3" pr="2">
         {menuItems.map((item, i) =>

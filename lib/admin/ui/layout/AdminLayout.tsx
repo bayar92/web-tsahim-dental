@@ -22,7 +22,14 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
       >
         <Flex flex="1" fontSize="sm">
           <AdminSidebar />
-          <Flex p="4" width="full" direction="column" overflowY="auto">
+          <Flex
+            p="4"
+            width="full"
+            direction="column"
+            overflowY="auto"
+            borderLeft="1px"
+            borderColor="gray.200"
+          >
             {children}
           </Flex>
         </Flex>

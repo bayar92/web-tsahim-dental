@@ -11,8 +11,7 @@ export const HospitalSidebar = () => {
       minW={56}
       w={56}
       direction="column"
-      borderRight="1px"
-      borderColor="gray.200"
+   
     >
       <Stack spacing="4" flex="1" overflow="auto" py="2" pr="2">
         {menuItems.map((item, i) =>

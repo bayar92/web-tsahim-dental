@@ -17,7 +17,6 @@ import {
 import { ReactNode, useEffect, useState } from "react";
 import { useAuth } from "@lib/auth/ui";
 import { TopRightMenu } from "./navigation/TopRightMenu";
-import { AdminTopBar } from "@lib/admin/ui/layout/AdminTopBar";
 
 export const AppLayout = ({
   title = "",

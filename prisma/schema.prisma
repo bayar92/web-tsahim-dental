@@ -216,8 +216,8 @@ model ProductVariant {
   productId      String
   name           String
   price          Int
-  unit           Int
-  duration       Int //30 honogoor 1 sariig avna
+  unit           String
+  duration       Int //1 sariig 1 gsn toogoor avna
   discount       Int
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt

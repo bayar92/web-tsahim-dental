@@ -23,7 +23,14 @@ export const HospitalLayout = ({ children }: { children: ReactNode }) => {
       >
         <Flex flex="1" fontSize="sm">
           <HospitalSidebar />
-          <Flex p="4" width="full" direction="column" overflowY="auto">
+          <Flex
+            p="4"
+            borderLeft="1px"
+            borderColor="gray.200"
+            width="full"
+            direction="column"
+            overflowY="auto"
+          >
             {children}
           </Flex>
         </Flex>

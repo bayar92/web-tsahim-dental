@@ -1,7 +1,9 @@
 import { prisma } from "@api/prisma";
+import { getMyHospital } from "@lib/hospital/api/service";
 import { appRoot } from "@util/config";
 import { AppError } from "@util/errors";
 import fetch from "cross-fetch";
+import { createProductPaymentAfterQpay } from "./productPaymentService";
 
 export const createInvoiceOnEdental = async (
   userId: string,
@@ -156,14 +158,15 @@ export const getQPayToken = async () => {
 };
 //qpayInvoice table id
 export const callPaymentCompletion = async (paymentId: string) => {
-  const invoice = await prisma.qPayInvoice.findUnique({
+  const invoice = await prisma.qPayInvoice.findFirst({
     where: {
       id: paymentId,
+      payedDate: null,
     },
   });
   if (!invoice || !invoice.userId) return {};
 
-  const EDENTALQPayInvoice = await prisma.qPayInvoice.update({
+  const updatedInvoice = await prisma.qPayInvoice.update({
     where: {
       id: invoice.id,
     },
@@ -172,8 +175,33 @@ export const callPaymentCompletion = async (paymentId: string) => {
     },
     select: {
       invoiceData: true,
+      productId: true,
+      productVariantId: true,
+      userId: true,
     },
   });
-
+  //get hospital id from user
+  try {
+    const hospital = await getMyHospital(invoice.userId);
+    if (hospital) {
+      const amount = (updatedInvoice.invoiceData as any).amount as number;
+      await createProductPaymentAfterQpay({
+        paidSource: "qpay",
+        paidAmount: amount,
+        paidDate: new Date(),
+        additionalNote: "QPay",
+        hospitalId: hospital?.id,
+        productId: updatedInvoice.productId,
+        productVariantId: updatedInvoice.productVariantId,
+        userId: updatedInvoice.userId,
+        paymentStatus: "paid",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+  } catch (e) {
+    console.log("error", e);
+    console.log(paymentId);
+  }
   return {};
 };
