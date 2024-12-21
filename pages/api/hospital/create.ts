@@ -15,7 +15,7 @@ handler.post(async (req, res) => {
   if (!myHospital) {
     res.sendSuccess(await createHospital(req.body, req.user.id));
   } else {
-    res.sendSuccess(await updateHospital(req.body, req.user.id));
+    res.sendSuccess(await updateHospital({ ...req.body, id: myHospital.id }, req.user.id));
   }
 });
 

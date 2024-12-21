@@ -45,3 +45,10 @@ const calculateEndDate = (baseDate: Date, durationMonths: number) => {
     // Subtract one day to get end of previous month
     return new Date(extendedMonth.getTime());
 };
+
+export const getSubscription = async (hospitalId: string) => {
+    const subscription = await prisma.subscription.findFirst({
+        where: { hospitalId },
+    });
+    return subscription;
+};

@@ -7,3 +7,13 @@ export const createProductPaymentAfterQpay = async (productPayment: any) => {
     });
     await updateSubscription(productPayment.hospitalId, productPayment.productVariantId);
 };
+
+export const getHospitalPaymentHistory = async (hospitalId: string) => {
+    const productPayments = await prisma.productPayment.findMany({
+        where: { hospitalId },
+        include: {
+            ProductVariant: true,
+        },
+    });
+    return productPayments;
+};

@@ -47,7 +47,7 @@ const variants = {
       bg: "gray.50",
     },
     size: "md",
-    fontSize: "16px",
+    fontSize: "14px",
     fontWeight: "500",
     border: "1px solid",
     borderColor: "gray.300",

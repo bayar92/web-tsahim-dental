@@ -104,8 +104,8 @@ export const Pricing = () => {
     } else createQPayInvoice(productVariantId);
   };
   return (
-    <>
-      <VStack id="pricing" textAlign="center" mx="auto" gap={4}>
+    <Box w="full">
+      <VStack id="pricing" w="full" textAlign="center" mx="auto" gap={4}>
         {isLoadingProducts ? (
           <Box w="full" textAlign="center">
             <Spinner />
@@ -113,7 +113,7 @@ export const Pricing = () => {
         ) : (
           products &&
           products.length > 0 && (
-            <VStack mx="auto" textAlign="center" bg="white">
+            <VStack mx="auto" textAlign="center" bg="white" w="full">
               <VStack
                 w="full"
                 border="1px solid"
@@ -361,7 +361,7 @@ export const Pricing = () => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </>
+    </Box>
   );
 };
 

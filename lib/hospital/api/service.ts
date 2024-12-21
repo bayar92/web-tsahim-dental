@@ -40,9 +40,11 @@ export const createHospital = async (
   hospital: HospitalRegistrationFormType,
   userId: string
 ) => {
+  console.log("hospital", hospital);
   const newHospital = await prisma.hospital.create({
     data: {
       userId,
+      subDomain: undefined,
       name: hospital.name || undefined,
       phoneNumber: hospital.phoneNumber,
       totalSit: hospital.totalSit ? Number.parseInt(hospital.totalSit.toString()) : undefined,
@@ -76,6 +78,7 @@ export const updateHospital = async (
     data: {
       userId,
       name: hospital.name,
+      subDomain: hospital.subDomain || undefined,
       phoneNumber: hospital.phoneNumber,
       totalSit: hospital.totalSit ? Number.parseInt(hospital.totalSit.toString()) : undefined,
       register: hospital.register,

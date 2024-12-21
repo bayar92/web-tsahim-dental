@@ -1,4 +1,12 @@
-import { Button, Heading, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Heading,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Hospital } from "@prisma/client";
 import { useState } from "react";
 import { FaHospital } from "react-icons/fa";
@@ -50,53 +58,61 @@ export const HospitalInfo = ({
   }
 
   return (
-    <VStack w="full" spacing={2} alignItems="flex-start">
-      <HStack w="full" justify="space-between">
-        <Heading size="lg">Эмнэлгийн мэдээлэл</Heading>
-        <Button onClick={() => setIsEditing(true)}>Засах</Button>
+    <Stack spacing={6} w="full">
+      <HStack>
+        <Icon color="gray.400" as={FaHospital} fontSize="24px" />
+        <Text fontSize={24} mb={8}>
+          Эмнэлгийн мэдээлэл
+        </Text>
       </HStack>
-
-      <VStack alignItems="flex-start">
-        <Heading size="sm">Эмнэлгийн нэр</Heading>
-        <HStack>
-          <Icon color="gray.300" as={FaHospital} />
-          <Text>{data.name}</Text>
+      <VStack w="full" spacing={2} alignItems="flex-start">
+        <HStack w="full" justify="space-between">
+          <Heading size="lg">Эмнэлгийн мэдээлэл</Heading>
+          <Button onClick={() => setIsEditing(true)}>Засах</Button>
         </HStack>
-      </VStack>
 
-      <VStack alignItems="flex-start">
-        <Heading size="sm">Утасны дугаар</Heading>
-        <HStack>
-          <Icon color="gray.300" as={HiOutlinePhone} />
-          <Text>{data.phoneNumber}</Text>
-        </HStack>
-      </VStack>
-
-      <VStack alignItems="flex-start">
-        <Heading size="md">Регистрийн дугаар</Heading>
-        <HStack>
-          <Icon color="gray.300" as={MdAppRegistration} />
-          <Text>{data.register}</Text>
-        </HStack>
-      </VStack>
-
-      <VStack alignItems="flex-start">
-        <Heading size="md">Креслийн тоо</Heading>
-        <HStack>
-          <Icon color="gray.300" as={GiOfficeChair} />
-          <Text>{data.totalSit}</Text>
-        </HStack>
-      </VStack>
-
-      {data.directorInfo && (
         <VStack alignItems="flex-start">
-          <Heading size="md">Эмнэлгийн захирал</Heading>
+          <Heading size="sm">Эмнэлгийн нэр</Heading>
           <HStack>
-            <Icon color="gray.300" as={HiUser} />
-            <Text>{data.directorInfo}</Text>
+            <Icon color="gray.300" as={FaHospital} />
+            <Text>{data.name}</Text>
           </HStack>
         </VStack>
-      )}
-    </VStack>
+
+        <VStack alignItems="flex-start">
+          <Heading size="sm">Утасны дугаар</Heading>
+          <HStack>
+            <Icon color="gray.300" as={HiOutlinePhone} />
+            <Text>{data.phoneNumber}</Text>
+          </HStack>
+        </VStack>
+
+        <VStack alignItems="flex-start">
+          <Heading size="md">Регистрийн дугаар</Heading>
+          <HStack>
+            <Icon color="gray.300" as={MdAppRegistration} />
+            <Text>{data.register}</Text>
+          </HStack>
+        </VStack>
+
+        <VStack alignItems="flex-start">
+          <Heading size="md">Креслийн тоо</Heading>
+          <HStack>
+            <Icon color="gray.300" as={GiOfficeChair} />
+            <Text>{data.totalSit}</Text>
+          </HStack>
+        </VStack>
+
+        {data.directorInfo && (
+          <VStack alignItems="flex-start">
+            <Heading size="md">Эмнэлгийн захирал</Heading>
+            <HStack>
+              <Icon color="gray.300" as={HiUser} />
+              <Text>{data.directorInfo}</Text>
+            </HStack>
+          </VStack>
+        )}
+      </VStack>
+    </Stack>
   );
 };

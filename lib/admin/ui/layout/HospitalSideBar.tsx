@@ -111,7 +111,7 @@ const menuItems: (MenuItemType & { items?: MenuItemType[] })[] = [
       {
         label: "Суулгасан компьютер",
         icon: <MdComputer />,
-        href: "/hospital/computers",
+        href: "/hospital/machines",
       },
       {
         label: "Цаг захиалга",

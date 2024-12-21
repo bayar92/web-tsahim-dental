@@ -28,6 +28,7 @@ export type HospitalRegistrationFormType = {
   totalSit?: number;
   register?: string;
   directorInfo?: string;
+  subDomain?: string;
 };
 
 export const HospitalRegistrationForm = ({

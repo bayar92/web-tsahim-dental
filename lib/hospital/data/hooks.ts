@@ -15,3 +15,15 @@ export const useCreateHospital = () =>
 
 export const useUpdateHospitalLogo = () =>
   useMutation(API._mutate(Method.POST, `hospital/update-logo`));
+
+export const useGetHospitalPaymentHistory = () =>
+  useQuery(
+    [`hospital-payment-history`],
+    API._query(Method.GET, `hospital/get-payment-history`)
+  );
+
+export const useGetHospitalMachines = () =>
+  useQuery(
+    [`hospital-machines`],
+    API._query(Method.GET, `hospital/get-installed-machine`)
+  );

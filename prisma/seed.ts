@@ -180,8 +180,101 @@ async function AddProduct() {
     }
   }
 }
+async function addMachine() {
+  const hospitalId = "cm4y81jyk0001bo7pryd67txj";
+
+  const machines = [
+    {
+      machineName: "Computer 1",
+      machineUniqueId: "00:1A:2B:3C:4D:5E",
+      machineIps: ["192.168.1.100"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.100",
+      hospitalId
+    },
+    {
+      machineName: "Computer 2",
+      machineUniqueId: "00:1A:2B:3C:4D:5F",
+      machineIps: ["192.168.1.101"],
+      os: { name: "Windows 11", version: "11.0.22000" },
+      ipAddress: "192.168.1.101",
+      hospitalId
+    },
+    {
+      machineName: "Computer 3",
+      machineUniqueId: "00:1A:2B:3C:4D:60",
+      machineIps: ["192.168.1.102"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.102",
+      hospitalId
+    },
+    {
+      machineName: "Computer 4",
+      machineUniqueId: "00:1A:2B:3C:4D:61",
+      machineIps: ["192.168.1.103"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.103",
+      hospitalId
+    },
+    {
+      machineName: "Computer 5",
+      machineUniqueId: "00:1A:2B:3C:4D:62",
+      machineIps: ["192.168.1.104"],
+      os: { name: "Windows 11", version: "11.0.22000" },
+      ipAddress: "192.168.1.104",
+      hospitalId
+    },
+    {
+      machineName: "Computer 6",
+      machineUniqueId: "00:1A:2B:3C:4D:63",
+      machineIps: ["192.168.1.105"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.105",
+      hospitalId
+    },
+    {
+      machineName: "Computer 7",
+      machineUniqueId: "00:1A:2B:3C:4D:64",
+      machineIps: ["192.168.1.106"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.106",
+      hospitalId
+    },
+    {
+      machineName: "Computer 8",
+      machineUniqueId: "00:1A:2B:3C:4D:65",
+      machineIps: ["192.168.1.107"],
+      os: { name: "Windows 11", version: "11.0.22000" },
+      ipAddress: "192.168.1.107",
+      hospitalId
+    },
+    {
+      machineName: "Computer 9",
+      machineUniqueId: "00:1A:2B:3C:4D:66",
+      machineIps: ["192.168.1.108"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.108",
+      hospitalId
+    },
+    {
+      machineName: "Computer 10",
+      machineUniqueId: "00:1A:2B:3C:4D:67",
+      machineIps: ["192.168.1.109"],
+      os: { name: "Windows 10", version: "10.0.19044" },
+      ipAddress: "192.168.1.109",
+      hospitalId
+    }
+  ];
+
+  for (const machine of machines) {
+    await prisma.machine.create({
+      data: machine
+    });
+  }
+}
+
 //add products in database
-AddProduct()
+addMachine()
   .catch((e) => {
     console.error(e);
     process.exit(1);
