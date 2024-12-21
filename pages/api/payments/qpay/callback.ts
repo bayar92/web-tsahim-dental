@@ -12,7 +12,6 @@ handler.get(async (req, res) => {
     const { payment_id } = req.query;
 
     return res.sendSuccess(await callPaymentCompletion(payment_id as string));
-    //comment
   } catch (e) {
     res.sendError(e);
   }
