@@ -11,11 +11,7 @@ const handler = createHandler();
 
 handler.post(async (req, res) => {
   try {
-    const isValid = await validatePhoneNumber(req.body.phoneNumber, "+976");
-    if (!isValid.isValid) throw AppError.BadRequest("Буруу утасны дугаар");
-    //check is valid
-    let user = await getVerifiedUserByPhoneNumber(req.body.phoneNumber);
-    if (!user) throw AppError.BadRequest("Утасны дугаар бүртгэлгүй байна.");
+
     const verifyToken = "123456"
     // await Math.floor(
     //   100000 + Math.random() * 9000

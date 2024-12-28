@@ -3,7 +3,7 @@ import { createMachine, getMachineById } from "@lib/hospital/api/machineService"
 import {
   verifyUserByPhoneNumber
 } from "@lib/user/api/service";
-import { AppError } from "@util/errors";
+
 
 const handler = createHandler();
 
