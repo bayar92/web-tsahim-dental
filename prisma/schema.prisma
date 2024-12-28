@@ -175,6 +175,7 @@ model Machine {
   registeredAt        DateTime      @default(now())
   subscriptionEndDate DateTime?
   machinePing         MachinePing[]
+  encryptionKey       Json?
 }
 
 model MachinePing {

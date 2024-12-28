@@ -3,6 +3,15 @@ import { Hospital } from "@prisma/client";
 import { AppError } from "@util/errors";
 import { HospitalRegistrationFormType } from "../ui/HospitalRegistrationForm";
 
+export const getHospitalById = async (hospitalId: string) => {
+  const hospital = await prisma.hospital.findUnique({
+    where: {
+      id: hospitalId,
+    },
+  });
+  return hospital;
+};
+
 export const getHospitalPublicInfo = async (hospitalDomain: string) => {
   // const hospital = await prisma.hospital.findFirst({
   //   where: {

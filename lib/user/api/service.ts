@@ -446,12 +446,12 @@ export const createUserWithPhoneNumber = async (
     select: defaultSelect,
   }))!;
 };
-export const getNotVerifiedUserByPhoneNumber = async (
+export const updateUserVerifyTokenByPhonenumber = async (
   phoneNumber: string,
   verifyToken: string
 ) => {
   const user = await prisma.user.findFirst({
-    where: { phoneNumber, phoneNumberVerified: null },
+    where: { phoneNumber },
   });
   if (user) {
     await prisma.user.update({

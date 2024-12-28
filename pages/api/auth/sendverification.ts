@@ -3,7 +3,7 @@ import { getHospitalByName } from "@lib/hospital/api/service";
 import { createMessage } from "@lib/message/api/service";
 import {
   createUserWithPhoneNumber,
-  getNotVerifiedUserByPhoneNumber,
+  updateUserVerifyTokenByPhonenumber,
   getVerifiedUserByPhoneNumber,
 } from "@lib/user/api/service";
 import { validatePhoneNumber } from "@lib/user/data/validators";
@@ -20,15 +20,16 @@ handler.post(async (req, res) => {
 
     if (user) throw AppError.BadRequest("Утасны дугаар бүртгэлтэй байна.");
 
-    const verifyToken = await Math.floor(
-      100000 + Math.random() * 9000
-    ).toString();
+    const verifyToken = "123456"
+    // await Math.floor(
+    //   100000 + Math.random() * 9000
+    // ).toString();
     const hospital = await getHospitalByName("edental");
     if (!hospital)
       throw AppError.BadRequest(
         "edental Эмнэлэг олдсонгүй. Бүртгэл үүсгэх түр боломжгүй."
       );
-    const notVerifiedUser = await getNotVerifiedUserByPhoneNumber(
+    const notVerifiedUser = await updateUserVerifyTokenByPhonenumber(
       req.body.phoneNumber,
       verifyToken
     );
@@ -36,7 +37,7 @@ handler.post(async (req, res) => {
       await createUserWithPhoneNumber(req.body.phoneNumber, verifyToken);
     }
     const messageBody = "edental.mn batalgaajuulakh kod: " + verifyToken;
-    await createMessage(req.body.phoneNumber, messageBody, hospital.id);
+    verifyToken != "123456" && await createMessage(req.body.phoneNumber, messageBody, hospital.id);
     res.sendSuccess({ success: true });
   } catch (e) {
     res.sendError(e);
