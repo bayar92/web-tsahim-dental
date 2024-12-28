@@ -9,32 +9,52 @@ const handler = createHandler();
 
 handler.post(async (req, res) => {
   try {
-    if (!req.body.phoneNumber)
-      throw AppError.BadRequest("validation.phoneNumber");
-    if (!req.body.confirmationCode) throw AppError.BadRequest("validation.pin");
-    if (!req.body.machineId || !req.body.machineName) throw AppError.BadRequest("validation.machine-id");
-    if (!req.body.os) throw AppError.BadRequest("validation.os");
+    if (!req.body.phoneNumber) {
+      return res.sendSuccess({
+        success: false,
+        message: "validation.phoneNumber"
+      });
+    }
+
+    if (!req.body.confirmationCode)
+      return res.sendSuccess({
+        success: false,
+        message: "confirmationCode not found"
+      });
+    if (!req.body.machineId || !req.body.machineName)
+      return res.sendSuccess({
+        success: false,
+        message: "validation.machine-id"
+      });
+    if (!req.body.os)
+      return res.sendSuccess({
+        success: false,
+        message: "validation.os"
+      });
 
     const user = await verifyUserByPhoneNumber(
       req.body.phoneNumber,
       req.body.confirmationCode
     );
+
+    if (!user)
+      return res.sendSuccess({
+        success: false,
+        message: "user.not-found"
+      });
+
     let ipAddress = req.headers["x-real-ip"] || req.connection.remoteAddress;
     if (ipAddress === undefined) ipAddress = "::";
 
-    if (!user) throw AppError.NotFound("user.not-found");
-
-    if (user) {
-      const machine = await getMachineById(req.body.machineId, user.id);
-      console.log(req.body);
-      if (!machine) {
-        const machineFingerprint = await createMachine(req.body.machineId,
-          req.body.machineName,
-          user.id,
-          ipAddress as string,
-          req.body.os
-        );
-      }
+    const machine = await getMachineById(req.body.machineId, user.id);
+    console.log(req.body);
+    if (!machine) {
+      const machineFingerprint = await createMachine(req.body.machineId,
+        req.body.machineName,
+        user.id,
+        ipAddress as string,
+        req.body.os
+      );
     }
     res.sendSuccess({ success: true });
   } catch (e) {
