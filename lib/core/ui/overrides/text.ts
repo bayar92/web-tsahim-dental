@@ -6,7 +6,7 @@ const sizes: Record<string, SystemStyleObject> = {};
 
 const variants = {
   normal: {
-    color: "primary.900",
+    color: "gray.600",
     fontSize: "14px",
     fontWeight: "400",
     lineHeight: "20px",
