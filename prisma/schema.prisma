@@ -149,6 +149,7 @@ model Hospital {
   message            Message[]
   ProductPayment     ProductPayment[]
   Machine            Machine[]
+  Notification       Notification[]
 }
 
 model Subscription {
@@ -321,4 +322,41 @@ model FreeTrial {
   directorInfo       String
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model Notification {
+  id               String           @id @default(cuid())
+  title            String
+  body             String
+  web              Boolean          @default(false)
+  ios              Boolean          @default(false)
+  android          Boolean          @default(false)
+  topics           String           @default("")
+  jobLink          String           @default("")
+  users            Json[]           @default([])
+  isScheduled      Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  createdBy        String?
+  targetType       String           @default("") // { value: "topics" },{ value: "users"},{ value: "groups" },
+  updatedAt        DateTime         @updatedAt
+  updatedBy        String?
+  //recipient time zone
+  recipientTz      Int              @default(0)
+  scheduledTime    DateTime         @default(now())
+  //schedule end date
+  scheduleEndDt    DateTime?
+  // scheduled days of week
+  lastExecutedDate DateTime? // most recent notification sent date
+  repeatFrequency  RepeatFrequency?
+  repeatInterval   Int?
+  buildData        Json?
+  publishedDate    DateTime?
+  hospitalId       String?
+  hospital         Hospital?        @relation(fields: [hospitalId], references: [id])
+}
+
+enum RepeatFrequency {
+  ONE_TIME
+  DAILY
+  WEEKLY
 }
