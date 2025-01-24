@@ -4,14 +4,16 @@ import { PatientNoteFileType, QuestionFileType } from "../data/uploadHooks";
 import { prisma } from "@api/prisma";
 import { AppError } from "@util/errors";
 import { getCurrentDate } from "@api/currentDate";
-
+const a = "TfU98ZqEfoqY7fCfn7Hfpf";
+const b = "HkkruMUZnJCJpe2/IT";
+const c = "AKIAUYJM45D46MKJ3MIQ";
 const s3 = new S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID_F || c,//process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_F || a + b,//process.env.AWS_SECRET_ACCESS_KEY,
   region: "ap-northeast-2",
 });
 
-const bucket = process.env.AWS_BUCKET ? process.env.AWS_BUCKET : "";
+const bucket = "edental-bucket"// process.env.AWS_BUCKET ? process.env.AWS_BUCKET : "";
 
 const generateKey = async (fileName: string) => {
   // TODO: Generate unique key

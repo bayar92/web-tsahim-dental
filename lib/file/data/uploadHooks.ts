@@ -22,16 +22,16 @@ export const uploadToS3 = async ({
   cancel?: CancelTokenSource;
 }) => {
   const { signedRequest, url } = await getSignedUrl(file);
-  
+
   const cloudFrontCDN =
-    process.env.AWS_CLOUDFRONT_URL ||
     "https://d1z29unbn96003.cloudfront.net";
+  //  process.env.AWS_CLOUDFRONT_URL ||
 
   let returnUrl = url.replace(
     "https://s3.amazonaws.com/edental-bucket",
     cloudFrontCDN
   );
- 
+
   await axios
     .put(signedRequest, file, {
       headers: {
