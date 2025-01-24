@@ -5,7 +5,8 @@ const handler = createHandler();
 
 handler.post(async (req, res) => {
     const { hospitalId, hospitalUserId } = req.body;
-    res.sendSuccess(await checkPatientPhoto(hospitalId, hospitalUserId));
+    const message = JSON.stringify(await checkPatientPhoto(hospitalId, hospitalUserId))
+    return res.sendSuccess({ success: true, message: message });
 });
 
 export default handler;
