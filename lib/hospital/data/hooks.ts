@@ -16,6 +16,9 @@ export const useCreateHospital = () =>
 export const useUpdateHospitalLogo = () =>
   useMutation(API._mutate(Method.POST, `hospital/update-logo`));
 
+export const useUploadHospitalPatientPhoto = () =>
+  useMutation(API._mutate(Method.POST, `win/patient-photo/save-link`));
+
 export const useGetHospitalPaymentHistory = () =>
   useQuery(
     [`hospital-payment-history`],

@@ -150,6 +150,7 @@ model Hospital {
   ProductPayment     ProductPayment[]
   Machine            Machine[]
   Notification       Notification[]
+  PhotoUploadToken   PhotoUploadToken[]
 }
 
 model Subscription {
@@ -359,4 +360,27 @@ enum RepeatFrequency {
   ONE_TIME
   DAILY
   WEEKLY
+}
+
+model PhotoUploadToken {
+  id              String        @id @default(cuid())
+  expiresAt       DateTime
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  hospitalUserKey String
+  hospitalId      String
+  hospital        Hospital      @relation(fields: [hospitalId], references: [id])
+  createdBy       String
+  photoUpload     PhotoUpload[]
+}
+
+model PhotoUpload {
+  id           String           @id @default(cuid())
+  photoUrl     String
+  photoTokenId String
+  photoToken   PhotoUploadToken @relation(fields: [photoTokenId], references: [id])
+  isSynced     Boolean          @default(false)
+  syncedAt     DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
 }
