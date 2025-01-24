@@ -20,10 +20,10 @@ export const createPhotoUploadToken = async (hospitalId: string, hospitalUserKey
 };
 export const checkPhotoUploadToken = async (hospitalId: string, hospitalUserKey: string) => {
   const token = await prisma.photoUploadToken.findFirst({
-    where: { hospitalId, hospitalUserKey },
+    where: { hospitalId, hospitalUserKey, expiresAt: { gt: new Date() } },
   });
 
-  if (!token || token.expiresAt < new Date()) {
+  if (!token) {
     return "";
   }
   return token;
