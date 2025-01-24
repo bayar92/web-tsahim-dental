@@ -34,3 +34,15 @@ export const savePhotoLink = async (photoUrl: string, tokenId: string) => {
   });
   return {}
 };
+export const checkPatientPhoto = async (hospitalId: string, hospitalUserId: string) => {
+  const photos = await prisma.photoUpload.findMany({
+    where: {
+      isSynced: false,
+      photoToken: {
+        hospitalId,
+        hospitalUserKey: hospitalUserId,
+      },
+    },
+  });
+  return photos;
+};
