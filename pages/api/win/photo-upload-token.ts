@@ -1,8 +1,5 @@
 import { createHandler } from "@api/handler";
-import { getWaitList } from "@lib/waitlist/api/service";
 import { createPhotoUploadToken } from "@lib/win/api/service";
-import { UserRole } from "@prisma/client";
-import { AppError } from "@util/errors";
 
 const handler = createHandler();
 
