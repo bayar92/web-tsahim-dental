@@ -197,7 +197,7 @@ export const HeroSection = () => {
                       </TabList>
                       <TabPanels>
                         <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception1.png" alt="" />
                           <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                             Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
                           </Text>
@@ -218,40 +218,19 @@ export const HeroSection = () => {
                     </Tabs>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/tsag_zahialga2.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/tsag_zahialga.png" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Цаг захиалгын хураангуйг эмч тус бүрээр нь харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
-                      <TabList display="flex" justifyContent="center" alignItems="center">
-                        <Tab
-                          {...tabStyle}
-                        >
-                          Цахим карт
-                        </Tab>
-                        {/* <Tab
-                          {...tabStyle}
-                        >
-                          Цахим карт2
-                        </Tab> */}
-                      </TabList>
-                      <TabPanels>
-                        <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/card_2.png" alt="" />
-                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
-                            Эмчилгээний төлөвлөгөө харуулах боломжтой.
-                          </Text>
-                        </TabPanel>
-                        {/* <TabPanel>
-                          <Text>Цахим карт 2 контент</Text>
-                        </TabPanel> */}
-                      </TabPanels>
-                    </Tabs>
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/card_2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Эмчилгээний төлөвлөгөө харуулах боломжтой.
+                    </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/zuwulguu_2.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/zuvluguu.png" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Бэлэн шүд��ий зурган дээр скеч зуран зөвөлгөө өгөх боломжтой.
                     </Text>
@@ -263,31 +242,10 @@ export const HeroSection = () => {
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
-                      <TabList display="flex" justifyContent="center" alignItems="center">
-                        <Tab
-                          {...tabStyle}
-                        >
-                          Үйлчлүүлэгч
-                        </Tab>
-                        {/* <Tab
-                          {...tabStyle}
-                        >
-                          Үйлчлүүлэгч2
-                        </Tab> */}
-                      </TabList>
-                      <TabPanels>
-                        <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/uilchluulegch_2.png" alt="" />
-                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
-                            Үйлчлүүлэгчдээ ухаалгаар хянаж, эмнэлгийн үйл ажиллагаанд доголдол гаргах эрсдэлийг багасгана.
-                          </Text>
-                        </TabPanel>
-                        {/* <TabPanel>
-                          <Text>Үйлчлүүлэгч2 контент</Text>
-                        </TabPanel> */}
-                      </TabPanels>
-                    </Tabs>
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/uilchuulegch_2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Үйлчлүүлэгчдээ ухаалгаар хянаж, эмнэлгийн үйл ажиллагаанд доголдол гаргах эрсдэлийг багасгана.
+                    </Text>
                   </TabPanel>
                   <TabPanel>
                     <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/payment.png" alt="" />
@@ -295,11 +253,41 @@ export const HeroSection = () => {
                       Төлбөрийн мэдээллийг хялбараар удирдах боломжтой.
                     </Text>
                   </TabPanel>
+                  
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/payment.png" alt="" />
-                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
-                      Кассын гүйлгээг хянах боломжтой.
-                    </Text>
+                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
+                      <TabList display="flex" justifyContent="center" alignItems="center">
+                        <Tab {...tabStyle} >
+                          Касс сараар 
+                        </Tab>
+                        <Tab {...tabStyle} >
+                          Касс Эмч тус бүрээр
+                        </Tab>
+                        <Tab {...tabStyle} >
+                          Касс Эмчилгээ тус бүрээр
+                        </Tab>
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/cashier.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Кассын гүйлгээг хянах боломжтой.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/cashier_doctor.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Кассын гүйлгээг хянах боломжтой.
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/cashier_treatment.png" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Кассын гүйлгээг хянах боломжтой.
+                          </Text>
+                        </TabPanel>
+                      </TabPanels>
+                    </Tabs>
                   </TabPanel>
                   <TabPanel>
                     <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/statistics-by-day.png" alt="" />
@@ -308,37 +296,10 @@ export const HeroSection = () => {
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
-                      <TabList display="flex" justifyContent="center" alignItems="center">
-                        <Tab {...tabStyle}>Тохиргоо</Tab>
-                        {/* <Tab {...tabStyle}>Тохиргоо</Tab> */}
-                      </TabList>
-                      <TabPanels>
-                        <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/settings_2.png" alt="" />
-                          <Text
-                            marginTop={6}
-                            fontWeight={400}
-                            fontSize={"md"}
-                            color="blackAlpha.900"
-                          >
-                            Эмчилгээний төрлийг нэмэх, үнийг өөрчлөх боломжтой.
-                          </Text>
-                          {/* <Text
-                            marginTop={2}
-                            fontWeight={400}
-                            fontSize={"md"}
-                            color="blackAlpha.900"
-                          >
-                            Мөн эмчийн үзлэгийн цаг, амралт зэргийг урьдчилан
-                            тохируулснаар ��аг захиалгы илүү хялбар хийх боломжтой.
-                          </Text> */}
-                        </TabPanel>
-                        <TabPanel>
-                          <Text >Тохиргоо</Text>
-                        </TabPanel>
-                      </TabPanels>
-                    </Tabs>
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/settings_2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                    Эмчилгээний төрлийг нэмэх, үнийг өөрчлөх боломжтой.
+                    </Text>
                   </TabPanel>
                 </TabPanels>
               </Tabs>
