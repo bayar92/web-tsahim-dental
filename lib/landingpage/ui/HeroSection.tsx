@@ -174,6 +174,7 @@ export const HeroSection = () => {
                   <Tab {...parentTabStyle}>Цахим карт</Tab>
                   <Tab {...parentTabStyle}>Зөвлөгөө</Tab>
                   <Tab {...parentTabStyle}>X-ray</Tab>
+                  <Tab {...parentTabStyle}>Зураг дарах</Tab>
                   <Tab {...parentTabStyle}>Үйлчлүүлэгч</Tab>
                   <Tab {...parentTabStyle}>Төлбөр</Tab>
                   <Tab {...parentTabStyle}>Касс</Tab>
@@ -236,9 +237,15 @@ export const HeroSection = () => {
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/xray_2.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/xray.png" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Өөрийн эмнэлэгт хэргэлдэг x-ray програм руу хандан зураг харах боломжтой.
+                    </Text>
+                  </TabPanel>
+                  <TabPanel>
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/xray_2.png" alt="" />
+                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                      Гар утсаараа зураг дарж дарсан зургаа программ дээрээс харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
