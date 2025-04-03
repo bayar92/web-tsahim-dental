@@ -196,39 +196,49 @@ export const HeroSection = () => {
                           Ресепшин2
                         </Tab> */}
                       </TabList>
-                      <TabPanels>
-                        <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception1.png" alt="" />
+                      <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception.jpg" alt="" />
                           <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                             Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
                           </Text>
                         </TabPanel>
-                        {/* <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
-                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
-                            Дэл��эрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л мэдээллийг харах боломжтой.
-                          </Text>
-                        </TabPanel>
-                        <TabPanel>
-                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/reception_1.png" alt="" />
-                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
-                            Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүэгчийн бүхий л мэдээллийг харах боломжтой.
-                          </Text>
-                        </TabPanel> */}
-                      </TabPanels>
                     </Tabs>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/tsag_zahialga.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/booking.jpg" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Цаг захиалгын хураангуйг эмч тус бүрээр нь харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/card_2.png" alt="" />
-                    <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
-                      Эмчилгээний төлөвлөгөө харуулах боломжтой.
-                    </Text>
+                    <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
+                      <TabList display="flex" justifyContent="center" alignItems="center">
+                        <Tab {...tabStyle} >
+                         Анхан үзлэг
+                        </Tab>
+                        <Tab {...tabStyle} >
+                        Эмчилгээ цонх
+                        </Tab>
+                        {/* <Tab {...tabStyle} >
+                          Касс Эмчилгээ тус бүрээр
+                        </Tab> */}
+                      </TabList>
+                      <TabPanels>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/card_anhan.jpg" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Карт Анхан үзлэг цонх
+                          </Text>
+                        </TabPanel>
+                        <TabPanel>
+                          <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/card_emchilgee.jpg" alt="" />
+                          <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
+                            Карт Эмчилгээ цонх
+                          </Text>
+                        </TabPanel>
+                        
+                      </TabPanels>
+                    </Tabs>
                   </TabPanel>
                   <TabPanel>
                     <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/zuvluguu.png" alt="" />
@@ -243,19 +253,19 @@ export const HeroSection = () => {
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/xray_2.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/picture_pic.jpg" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Гар утсаараа зураг дарж дарсан зургаа программ дээрээс харах боломжтой.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/uilchuulegch_2.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/patient.jpg" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Үйлчлүүлэгчдээ ухаалгаар хянаж, эмнэлгийн үйл ажиллагаанд доголдол гаргах эрсдэлийг багасгана.
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/payment.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/payment.jpg" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                       Төлбөрийн мэдээллийг хялбараар удирдах боломжтой.
                     </Text>
@@ -303,7 +313,7 @@ export const HeroSection = () => {
                     </Text>
                   </TabPanel>
                   <TabPanel>
-                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/settings_2.png" alt="" />
+                    <Image borderRadius="24px" border="12px solid black" src="/images/screenshot/settings.jpg" alt="" />
                     <Text marginTop={6} fontWeight={400} fontSize="md" color="blackAlpha.900">
                     Эмчилгээний төрлийг нэмэх, үнийг өөрчлөх боломжтой.
                     </Text>
