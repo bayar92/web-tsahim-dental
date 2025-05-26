@@ -24,7 +24,7 @@ export const HeroSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [childTabIndex, setChildTabIndex] = useState<number>(0);
-  const [selectEnv, setSelectedEnv] = useState<"local" | "online">("local");
+  const [selectEnv, setSelectedEnv] = useState<"local" | "online">("online");
 
   useEffect(() => {}, [selectEnv]);
 
@@ -107,7 +107,7 @@ export const HeroSection = () => {
                 нэгийг сонгон ашиглах боломжтой.
               </Text>
               <HStack w="700px" bg="gray.100" p={1} borderRadius={"24px"}>
-                <Button
+                {/* <Button
                   w="full"
                   onClick={() => {
                     setSelectedEnv("local");
@@ -117,7 +117,7 @@ export const HeroSection = () => {
                   }
                 >
                   Дотоот (локал) сүлжээ:
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() => {
                     setSelectedEnv("online");

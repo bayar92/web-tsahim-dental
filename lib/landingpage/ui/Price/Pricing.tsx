@@ -4,6 +4,7 @@ import { useGetProducts } from "@lib/product/data/productHooks";
 import {
   Box,
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -82,7 +83,7 @@ export const Pricing = () => {
   };
   const localKey = "Дотоод сүлжээнд";
   const onlineKey = "Интернэт сүлжээнд";
-  const [selectEnv, setSelectedEnv] = useState(localKey); //local, cloud
+  const [selectEnv, setSelectedEnv] = useState(onlineKey); //local, cloud
   const purchaseSelectedVariant = async (productVariantId: string) => {
     if (!user) {
       toaster.info(
@@ -104,7 +105,7 @@ export const Pricing = () => {
     } else createQPayInvoice(productVariantId);
   };
   return (
-    <Box w="full">
+    <Box w="full" mx="auto" justifyContent="center"  mt="4">
       <VStack id="pricing" w="full" textAlign="center" mx="auto" gap={4}>
         {isLoadingProducts ? (
           <Box w="full" textAlign="center">
@@ -113,221 +114,195 @@ export const Pricing = () => {
         ) : (
           products &&
           products.length > 0 && (
-            <VStack mx="auto" textAlign="center" bg="white" w="full">
-              <VStack
+            <VStack mx="auto" textAlign="center" bg="white" maxW={{ base: "100%", md: "1000px" }} w="full">
+              <Box
                 w="full"
                 border="1px solid"
-                borderColor={"gray.200"}
+                borderColor="gray.200"
                 borderRadius={16}
-                gap={3}
                 p={6}
               >
                 <Stack
                   direction={{ base: "column", md: "row" }}
+                  spacing={8}
                   w="full"
-                  flex="1"
-                  alignContent={"flex-start"}
+                  align="flex-start"
+                  justify="center"
                 >
-                  {products
-                    .filter((r) => r.name == localKey || r.name == onlineKey)
-                    .map((product) => (
-                      <PricingContent
-                        key={product.name}
-                        title={product.name}
-                        list={product.productDescription?.items}
-                        // bottomComponent={
-                        //   product.name === localKey ? (
-                        //     <Checkbox
-                        //       sx={{
-                        //         "& > span:first-of-type": {
-                        //           borderRadius: "8px",
-                        //         },
-                        //       }}
-                        //       borderColor="primary.200"
-                        //       isChecked={isBackup}
-                        //       colorScheme="primary"
-                        //       onChange={(e) => {
-                        //         setIsBackup(e.target.checked);
-                        //       }}
-                        //     >
-                        //       {" "}
-                        //       <Text color="gray.700" mt={1}>
-                        //         Өдөр болгоны дата Cloud-руу хадгалах
-                        //         <br />
-                        //         Сарын {currencyDisplayHandler(20000, "mn")}
-                        //       </Text>
-                        //     </Checkbox>
-                        //   ) : null
-                        // }
-                        isEnterprise={product.name === onlineKey}
-                        icon={
-                          <Icon
-                            as={
-                              product.name === localKey
-                                ? MdHomeWork
-                                : MdCloudDone
-                            }
-                          />
+                  <Box w={{ base: "100%", md: "50%" }}>
+                    {products
+                      .filter((r) => r.name === onlineKey)
+                      .map((product) => (
+                        <PricingContent
+                          key={product.name}
+                          title={product.name}
+                          list={product.productDescription?.items}
+                          isEnterprise={product.name === onlineKey}
+                          icon={
+                            <Icon
+                              as={
+                                product.name === localKey
+                                  ? MdHomeWork
+                                  : MdCloudDone
+                              }
+                            />
+                          }
+                        />
+                      ))}
+                  </Box>
+                  <Box w={{ base: "100%", md: "60%" }}>
+                    <RadioGroup
+                      onChange={(value) => setPackageSits(parseInt(value))}
+                      value={packageSits.toString()}
+                    >
+                      <HStack spacing={10} justify="center">
+                        <Radio size="lg" colorScheme="primary" value="3">
+                          <Text>1-3 кресл</Text>
+                          <Text>(5 компьютер)</Text>
+                        </Radio>
+                        <Radio size="lg" colorScheme="primary" value="5">
+                          <Text>4-5 кресл</Text>
+                          <Text>(8 компьютер)</Text>
+                        </Radio>
+                        <Radio size="lg" colorScheme="primary" value="10">
+                          <Text>6-10 кресл</Text>
+                          <Text>(14 компьютер)</Text>
+                        </Radio>
+                      </HStack>
+                    </RadioGroup>
+
+                    <HStack
+                      w="full"
+                      mt={6}
+                      bg="gray.100"
+                      h="48px"
+                      p={1}
+                      borderRadius="24px"
+                    >
+                      <Button
+                        onClick={() => {
+                          setSelectedEnv(onlineKey);
+                        }}
+                        w="full"
+                        variant={
+                          selectEnv === onlineKey
+                            ? "secondary_rounded"
+                            : "ghost_rounded"
                         }
-                      />
-                    ))}
-                </Stack>
-                <Box w="full">
-                  {" "}
-                  <RadioGroup
-                    defaultValue="2"
-                    onChange={(value) => {
-                      setPackageSits(parseInt(value));
-                    }}
-                    value={packageSits.toString()}
-                  >
-                    <Radio size="lg" colorScheme="primary" value="3" mr="8">
-                      <Text>1-3 кресл(5 компьютер)</Text>
-                    </Radio>
-                    <Radio size="lg" colorScheme="primary" value="5" mr={8}>
-                      <Text>4-5 кресл(8 компьютер)</Text>
-                    </Radio>
-                    <Radio size="lg" colorScheme="primary" value="10">
-                      <Text>6-10 кресл(14 компьютер)</Text>
-                    </Radio>
-                  </RadioGroup>
-                </Box>
-                <HStack
-                  w="full"
-                  mt={4}
-                  bg="gray.100"
-                  h="48px"
-                  p={1}
-                  borderRadius={"24px"}
-                >
-                  <Button
-                    w="full"
-                    onClick={() => {
-                      setSelectedEnv(localKey);
-                    }}
-                    variant={
-                      selectEnv == localKey
-                        ? "secondary_rounded"
-                        : "ghost_rounded"
-                    }
-                  >
-                    {localKey}
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setSelectedEnv(onlineKey);
-                    }}
-                    w="full"
-                    variant={
-                      selectEnv == onlineKey
-                        ? "secondary_rounded"
-                        : "ghost_rounded"
-                    }
-                  >
-                    {onlineKey}
-                  </Button>
-                </HStack>
-                <Box>
-                  <Text
-                    color="gray.900"
-                    fontSize={"64px"}
-                    lineHeight="60px"
-                    minW={"270px"}
-                    fontWeight={"700"}
-                  >
-                    {currencyDisplayHandler(
-                      products
-                        .filter((p) => p.name == selectEnv)[0]
-                        .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 1
-                        )[0].price,
-                      "mn"
-                    )}
-                  </Text>
-                </Box>
-                <Button
-                  onClick={() =>
-                    purchaseSelectedVariant(
-                      products
-                        .filter((p) => p.name == selectEnv)[0]
-                        .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 1
-                        )[0].id
-                    )
-                  }
-                >
-                  <Icon as={MdShoppingCart} mr={2} />1 сараар худалдан авах
-                </Button>{" "}
-                <Box borderTop={"1px "} color="gray.100" pt={4}>
-                  <Flex justifyContent="center" gap={2}>
-                    <Text color={"gray.600"}>
-                      {"  Үндсэн үнэ " +
-                        currencyDisplayHandler(
+                      >
+                        {onlineKey}
+                      </Button>
+                    </HStack>
+
+                    {/* 1 сараар үнэ */}
+                    <Box mt={6}>
+                      <Text
+                        color="gray.900"
+                        fontSize="64px"
+                        lineHeight="60px"
+                        fontWeight="700"
+                      >
+                        {currencyDisplayHandler(
                           products
-                            .filter((p) => p.name == selectEnv)[0]
+                            .filter((p) => p.name === selectEnv)[0]
                             .ProductVariant.filter(
-                              (r) => r.sits == packageSits && r.duration == 1
-                            )[0].price * 6,
+                              (r) => r.sits === packageSits && r.duration === 1
+                            )[0].price,
                           "mn"
                         )}
-                    </Text>
-                  </Flex>
-                  <Text
-                    color="gray.900"
-                    fontSize={"64px"}
-                    lineHeight="60px"
-                    minW={"270px"}
-                    fontWeight={"700"}
-                  >
-                    {currencyDisplayHandler(
-                      products
-                        .filter((p) => p.name == selectEnv)[0]
-                        .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 6
-                        )[0].price,
-                      "mn"
-                    )}
-                  </Text>
-                  <Flex justifyContent="center" gap={2}>
-                    <Text color={"gray.600"}>
-                      {"  -" +
-                        currencyDisplayHandler(
+                      </Text>
+                    </Box>
+
+                    <Button
+                      mt={6}
+                      onClick={() =>
+                        purchaseSelectedVariant(
                           products
-                            .filter((p) => p.name == selectEnv)[0]
+                            .filter((p) => p.name === selectEnv)[0]
                             .ProductVariant.filter(
-                              (r) => r.sits == packageSits && r.duration == 1
-                            )[0].price *
-                            0.6 * // Cloud price is 60% of base price
-                            1,
+                              (r) => r.sits === packageSits && r.duration === 1
+                            )[0].id
+                        )
+                      }
+                    >
+                      <Icon as={MdShoppingCart} mr={2} />1 сараар худалдан авах
+                    </Button>
+                    {/* 6 сараар үнэ */}
+                    <Box borderTop="1px solid #eee" pt={6} mt={6}>
+                      <Flex justifyContent="center" gap={6}>
+                        <Text color="gray.600">
+                          Үндсэн үнэ{" "}
+                          {currencyDisplayHandler(
+                            products
+                              .filter((p) => p.name === selectEnv)[0]
+                              .ProductVariant.filter(
+                                (r) => r.sits === packageSits && r.duration === 1
+                              )[0].price * 6,
+                            "mn"
+                          )}
+                        </Text>
+                      </Flex>
+
+                      <Text
+                        color="gray.900"
+                        fontSize="64px"
+                        lineHeight="60px"
+                        fontWeight="700"
+                      >
+                        {currencyDisplayHandler(
+                          products
+                            .filter((p) => p.name === selectEnv)[0]
+                            .ProductVariant.filter(
+                              (r) => r.sits === packageSits && r.duration === 6
+                            )[0].price,
                           "mn"
-                        ) +
-                        " хэмнэлт"}
-                    </Text>
-                    <Text color={"red.600"}> -10%</Text>
-                  </Flex>
-                </Box>
-                <Button
-                  onClick={() =>
-                    purchaseSelectedVariant(
-                      products
-                        .filter((p) => p.name == selectEnv)[0]
-                        .ProductVariant.filter(
-                          (r) => r.sits == packageSits && r.duration == 6
-                        )[0].id
-                    )
-                  }
-                >
-                  <Icon as={MdShoppingCart} mr={2} />6 сараар худалдан авах
-                </Button>
-                <Box w="full" mt={4}>
-                  <Flex justifyContent="end" gap={2}>
-                    <Text color="gray.900">Суурьлуулалтын хураамж:</Text>
-                    <Text color="orange.600" fontSize={16} fontWeight="bold">
-                      290,000₮
-                    </Text>
-                  </Flex>
-                </Box>
-              </VStack>
+                        )}
+                      </Text>
+
+                      <Flex justifyContent="center" gap={2}>
+                        <Text color="gray.600">
+                          -
+                          {currencyDisplayHandler(
+                            products
+                              .filter((p) => p.name === selectEnv)[0]
+                              .ProductVariant.filter(
+                                (r) => r.sits === packageSits && r.duration === 1
+                              )[0].price * 0.6,
+                            "mn"
+                          )}{" "}
+                          хэмнэлт
+                        </Text>
+                        <Text color="red.600"> -10%</Text>
+                      </Flex>
+                    </Box>
+
+                    <Button
+                      mt={2}
+                      onClick={() =>
+                        purchaseSelectedVariant(
+                          products
+                            .filter((p) => p.name === selectEnv)[0]
+                            .ProductVariant.filter(
+                              (r) => r.sits === packageSits && r.duration === 6
+                            )[0].id
+                        )
+                      }
+                    >
+                      <Icon as={MdShoppingCart} mr={2} />6 сараар худалдан авах
+                    </Button>
+
+                    {/* Суулгах хураамж */}
+                    <Box w="full" mt={6}>
+                      <Flex justifyContent="end" gap={2}>
+                        <Text color="gray.900">Суурьлуулалтын хураамж:</Text>
+                        <Text color="orange.600" fontSize={16} fontWeight="bold">
+                          290,000₮
+                        </Text>
+                      </Flex>
+                    </Box>
+                  </Box>
+                </Stack>
+              </Box>
             </VStack>
           )
         )}

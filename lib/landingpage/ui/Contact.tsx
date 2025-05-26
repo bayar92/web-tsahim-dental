@@ -10,7 +10,7 @@ export const Contact = () => {
       w="full"
       bg="white"
       px="4"
-      pt="24"
+      pt="12"
       pb="24"
       flex="1"
     >

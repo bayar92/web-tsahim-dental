@@ -98,7 +98,7 @@ async function AddProduct() {
       productVariant: [
         {
           name: "Интернэт Орчинд, 1 сар, 1-3 кресл",
-          price: 290000,
+          price: 190000,
           discount: 0,
           duration: 1,
           unit: "month",
