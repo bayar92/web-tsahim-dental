@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState , useRef} from 'react';
+import SignatureCanvas from 'react-signature-canvas';
 import { useRouter } from 'next/router';
 import {
   Box,
   Checkbox,
   Heading,
+  Button,
   Stack,
   Text,
   Textarea,
@@ -30,8 +32,12 @@ type QuestionaryForm = {
   reason: string;
 };
 
+
 export default function QuestionaryPage() {
   
+  const sigCanvasRef = useRef<SignatureCanvas | null>(null);
+  const [signatureData, setSignatureData] = useState<string | null>(null);
+
   const [allergyName, setAllergyName] = useState('');
   const [reason, setReason] = useState<string>('');
   const [hasAllergy, setHasAllergy] = useState<string>('');
@@ -50,7 +56,13 @@ export default function QuestionaryPage() {
   const [otherDisease, setOtherDisease] = useState<string>('');
 
   const toast = useToast();
-  
+  const handleSaveSignature = () => {
+  if (sigCanvasRef.current && !sigCanvasRef.current.isEmpty()) {
+    const dataUrl = sigCanvasRef.current.toDataURL();
+    setSignatureData(dataUrl); // Энэ dataUrl-ийг хадгалах payload-д оруулна
+  } 
+};
+
   const handleYesNoChange = (field: string, value: string) => {
   switch (field) {
     case 'hasAllergy':
@@ -59,7 +71,6 @@ export default function QuestionaryPage() {
       break;
     case 'hasMedication':
       setHasMedication(value);
-      // энэ хэсэгт input clear хийх бол нэмж болно
       break;
     case 'hasPregnant':
       setHasPregnant(value);
@@ -91,7 +102,7 @@ export default function QuestionaryPage() {
 };
 
 return (
-  <Box maxW="800px" mx="auto" mt={6} border="1px solid #ccc" borderRadius="md">
+  <Box maxW="800px" mx="auto" mt={6} mb={6} border="1px solid #ccc" borderRadius="md" justifyContent="center" alignItems="center">
     {/* Шалтгаан */}
     <Box p={2}>
         <Text mb={2}>Манай эмнэлэгт ирсэн шалтгаан юу вэ?</Text>
@@ -104,7 +115,7 @@ return (
     {/* Эмийн харшил */}
     <Box p={2}>
       <Text mb={2}>Та ямар нэгэн эмийн бодист харшилтай юу?</Text>
-      <RadioGroup value={hasAllergy} onChange={(val) => handleYesNoChange('setHasAllergy',val)} colorScheme="blue">
+      <RadioGroup value={hasAllergy} onChange={(val) => handleYesNoChange('hasAllergy',val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -113,19 +124,14 @@ return (
       {hasAllergy === 'Тийм' && (
       <Box mt={3}>
           <Text>Тийм бол ямар бодисонд харшилтай вэ?</Text>
-          <Input
-          mt={3}
-          value={allergyName}
-          onChange={(e) => setAllergyName(e.target.value)}
-          placeholder="Жишээ: Пенициллин"
-        />
+          <Input mt={3} value={allergyName} onChange={(e) => setAllergyName(e.target.value)} placeholder="Жишээ: Пенициллин"/>
       </Box>
       )}
     </Box>
     {/* Танд байнга хэрэглэдэг эм тариа бий юу? */}
     <Box p={2}>
       <Text mb={2}>Танд байнга хэрэглэдэг эм тариа бий юу?</Text>
-      <RadioGroup value={hasMedication} onChange={(val) => handleYesNoChange('setHasMedication',val)} colorScheme="blue">
+      <RadioGroup value={hasMedication} onChange={(val) => handleYesNoChange('hasMedication',val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -142,7 +148,7 @@ return (
     {/* Та жирэмснэ үү? (Эмэгтэйчүүдэд хамааралтай) */}
     <Box p={2}>
       <Text mb={2}>Та жирэмснэ үү? (Эмэгтэйчүүдэд хамааралтай) </Text>
-      <RadioGroup value={hasPregnant} onChange={(val) => handleYesNoChange('setHasPregnant',val)} colorScheme="blue">
+      <RadioGroup value={hasPregnant} onChange={(val) => handleYesNoChange('hasPregnant',val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -159,7 +165,7 @@ return (
     { /*Та хөхүүл хүүхэдтэй юу? (Эмэгтэйчүүдэд хамааралтай) */}
     <Box p={2}>
       <Text mb={2}>Та хөхүүл хүүхэдтэй юу? (Эмэгтэйчүүдэд хамааралтай)  </Text>
-      <RadioGroup value={hasbreastfeeding} onChange={(val) => handleYesNoChange('setHasbreastfeeding',val)} colorScheme="blue">
+      <RadioGroup value={hasbreastfeeding} onChange={(val) => handleYesNoChange('hasbreastfeeding',val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -176,7 +182,7 @@ return (
     {/*Таны хүүхэд хамгийн сүүлд хэзээ шүдний эмнэлэгт үзүүлсэн бэ? (Хүүхдэд хамааралтай) */}
     <Box p={2}>
       <Text mb={2}>Та хөхүүл хүүхэдтэй юу? (Эмэгтэйчүүдэд хамааралтай)  </Text>
-      <RadioGroup value={haschild} onChange={(val) => handleYesNoChange('setHaschild',val)} colorScheme="blue">
+      <RadioGroup value={haschild} onChange={(val) => handleYesNoChange('haschild',val)} colorScheme="blue">
         <Stack direction="row" spacing={6}>
             <Radio value="Тийм">Тийм</Radio>
             <Radio value="Үгүй">Үгүй</Radio>
@@ -195,13 +201,14 @@ return (
       <Text mb={2}>
         Таны хүүхэд шүдний эмчид үзүүлэхдээ сэтгэлзүй ямар байсан бэ? (Хүүхдэд хамааралтай)
       </Text>
-      <RadioGroup value={emotionalReaction} onChange={(val) => handleYesNoChange('setEmotionalReaction', val)} colorScheme="blue">
-        <Stack direction="row" spacing={4}>
+      <RadioGroup value={emotionalReaction} onChange={(val) => handleYesNoChange('emotionalReaction', val)} colorScheme="blue">
+        <SimpleGrid columns={[1, 2, 3, 4]} spacing={2}>
+        
           <Radio value="Сайн үзүүлдэг">Сайн үзүүлдэг</Radio>
           <Radio value="Үзүүлэх дургүй">Үзүүлэх дургүй</Radio>
           <Radio value="Уйлдаг">Уйлдаг</Radio>
           <Radio value="Бусад">Бусад</Radio>
-        </Stack>
+        </SimpleGrid>
       </RadioGroup>
       {emotionalReaction === 'Бусад' && (
         <Box mt={3}>
@@ -213,7 +220,7 @@ return (
     {/*Та хагалгаанд орж байсан уу? */}
     <Box p={2}>
       <Text mb={2}>Та хагалгаанд орж байсан уу?</Text>
-       <RadioGroup value={hassurgery} onChange={(val) => handleYesNoChange('setHassurgery', val)} colorScheme="blue">
+       <RadioGroup value={hassurgery} onChange={(val) => handleYesNoChange('hassurgery', val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -230,7 +237,7 @@ return (
     {/*Та шүдний эмнэлэгт эмчилгээ хийлгэх үед эсвэл мэдээ алдуулах тариа хийлгэх үед гаж нөлөө илэрч байсан уу?*/}
     <Box p={2}>
       <Text mb={2}>Та шүдний эмнэлэгт эмчилгээ хийлгэх үед эсвэл мэдээ алдуулах тариа хийлгэх үед гаж нөлөө илэрч байсан уу?</Text>
-      <RadioGroup value={hasanesthesia} onChange={(val) => handleYesNoChange('setHasanesthesia', val)} colorScheme="blue">
+      <RadioGroup value={hasanesthesia} onChange={(val) => handleYesNoChange('hasanesthesia', val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -247,7 +254,7 @@ return (
     {/*Та урьд нь шүдний эмнэлэгт үзүүлж байхдаа ерөнхий биеийн хүндрэлтэй учирч байсан уу?*/}
     <Box p={2}>
       <Text mb={2}>Та урьд нь шүдний эмнэлэгт үзүүлж байхдаа ерөнхий биеийн хүндрэлтэй учирч байсан уу?</Text>
-       <RadioGroup value={hasgeneral} onChange={(val) => handleYesNoChange('setHasgeneral', val)} colorScheme="blue">
+       <RadioGroup value={hasgeneral} onChange={(val) => handleYesNoChange('hasgeneral', val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -264,7 +271,7 @@ return (
     {/*Та тамхи татдаг уу?*/}
     <Box p={2}>
       <Text mb={2}>Та тамхи татдаг уу?</Text>
-      <RadioGroup value={hasSmoke} onChange={(val) => handleYesNoChange('setHasSmoke', val)} colorScheme="blue">
+      <RadioGroup value={hasSmoke} onChange={(val) => handleYesNoChange('hasSmoke', val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -274,7 +281,7 @@ return (
     {/*Та хар тамхи хэрэглэж байсан уу?*/}
     <Box p={2}>
       <Text mb={2}>Та хар тамхи хэрэглэж байсан уу?</Text>
-      <RadioGroup value={hasBlackSmoke} onChange={(val) => handleYesNoChange('setHasBlackSmoke', val)} colorScheme="blue">
+      <RadioGroup value={hasBlackSmoke} onChange={(val) => handleYesNoChange('hasBlackSmoke', val)} colorScheme="blue">
           <Stack direction="row" spacing={6}>
               <Radio value="Тийм">Тийм</Radio>
               <Radio value="Үгүй">Үгүй</Radio>
@@ -305,6 +312,24 @@ return (
         onChange={(e) => setOtherDisease(e.target.value)}
         placeholder="Энд бичнэ үү"
         />
+    </Box>
+    <Box p={2}>
+      <Text mb={2}>Гарын үсгээ зурна уу</Text>
+      <Box border="1px solid #ccc" borderRadius="md" overflow="hidden" mb={2}>
+        <SignatureCanvas
+          penColor="black"
+          canvasProps={{ width: 500, height: 200, className: 'sigCanvas' }}
+          ref={sigCanvasRef}
+        />
+      </Box>
+      <Stack direction="row" spacing={4}>
+        <Button onClick={() => sigCanvasRef.current?.clear()} colorScheme="gray">
+          Арилгах
+        </Button>
+        <Button onClick={handleSaveSignature} colorScheme="teal">
+          Зураг хадгалах
+        </Button>
+      </Stack>
     </Box>
   </Box>  
   );
