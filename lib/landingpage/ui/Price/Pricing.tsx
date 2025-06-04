@@ -105,7 +105,7 @@ export const Pricing = () => {
     } else createQPayInvoice(productVariantId);
   };
   return (
-    <Box w="full" mx="auto" justifyContent="center"  mt="4">
+    <Box w={{ base: "70%", md: "100%", lg: "100%" }} mx="auto" justifyContent="center"  mt="4">
       <VStack id="pricing" w="full" textAlign="center" mx="auto" gap={4}>
         {isLoadingProducts ? (
           <Box w="full" textAlign="center">
@@ -114,7 +114,7 @@ export const Pricing = () => {
         ) : (
           products &&
           products.length > 0 && (
-            <VStack mx="auto" textAlign="center" bg="white" maxW={{ base: "100%", md: "1000px" }} w="full">
+            <VStack mx="auto" textAlign="center" bg="white" w={{ base: "50%",  md: "65%",lg: "100%" }}>
               <Box
                 w="full"
                 border="1px solid"
@@ -129,7 +129,7 @@ export const Pricing = () => {
                   align="flex-start"
                   justify="center"
                 >
-                  <Box w={{ base: "100%", md: "50%" }}>
+                  <Box w={{ base: "100%", lg: "100%" }}>
                     {products
                       .filter((r) => r.name === onlineKey)
                       .map((product) => (
@@ -150,12 +150,16 @@ export const Pricing = () => {
                         />
                       ))}
                   </Box>
-                  <Box w={{ base: "100%", md: "60%" }}>
+                  <Box w={{ base: "100%", md: "100%" }} alignSelf="center">
                     <RadioGroup
                       onChange={(value) => setPackageSits(parseInt(value))}
-                      value={packageSits.toString()}
+                        value={packageSits.toString()}
+                        justifyContent="center"
+                        alignItems="center"
+                        display="flex"
+                        flexDirection="column"
                     >
-                      <HStack spacing={10} justify="center">
+                        <HStack spacing={{base:2, md:10}}>
                         <Radio size="lg" colorScheme="primary" value="3">
                           <Text>1-3 кресл</Text>
                           <Text>(5 компьютер)</Text>
@@ -172,7 +176,7 @@ export const Pricing = () => {
                     </RadioGroup>
 
                     <HStack
-                      w="full"
+                      w={{ base: "100%", md: "70%" , lg:"100%"}}
                       mt={6}
                       bg="gray.100"
                       h="48px"
@@ -183,7 +187,7 @@ export const Pricing = () => {
                         onClick={() => {
                           setSelectedEnv(onlineKey);
                         }}
-                        w="full"
+                        w={{ base: "100%", md: "100%" }}
                         variant={
                           selectEnv === onlineKey
                             ? "secondary_rounded"

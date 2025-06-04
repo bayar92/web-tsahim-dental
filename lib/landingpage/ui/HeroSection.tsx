@@ -90,8 +90,11 @@ export const HeroSection = () => {
               </Text>
             </Box>
             <Heading
-              fontSize={{ base: "32px", lg: "60px" }}
-              lineHeight={{ base: 10, lg: "72px" }}
+              fontSize={{ base: "24px", md: "40px", lg: "56px" }}
+              lineHeight={{ base: "24px", md: "48px", lg: "56px" }}
+              width={{ base: "30%", md: "60%", lg: "100%" }}
+              mx="auto"
+
               fontWeight="600"
             >
               Шүдний эмнэлэгийнхээ үйл ажиллагааг бүрэн автоматжуул
@@ -99,14 +102,17 @@ export const HeroSection = () => {
             <VStack mx="auto" textAlign="center" bg="white">
               <Text
                 color="gray.800"
-                fontSize={"16px"}
-                lineHeight="35px"
                 fontWeight={500}
+                fontSize={{ base: "16px", md: "16px", lg: "16px" }}
+                lineHeight={{ base: "24px", md: "48px", lg: "48px" }}
+                width={{ base: "40%", md: "70%", lg: "100%" }}
+                mx="auto"
               >
                 Edental програм нь windows application бөгөөд дараах 2 сүлжээний
                 нэгийг сонгон ашиглах боломжтой.
               </Text>
-              <HStack w="700px" bg="gray.100" p={1} borderRadius={"24px"}>
+              <HStack w={{ base: "30%", sm: "90%", md: "70%", lg: "700px" }}
+                bg="gray.100" p={1} borderRadius={"24px"} >
                 {/* <Button
                   w="full"
                   onClick={() => {
@@ -122,6 +128,8 @@ export const HeroSection = () => {
                   onClick={() => {
                     setSelectedEnv("online");
                   }}
+                  fontSize={{ base: "14px", md: "16px" }}
+                  lineHeight={{ base: "20px", md: "24px" }}
                   w="full"
                   variant={
                     selectEnv == "online"
@@ -136,9 +144,10 @@ export const HeroSection = () => {
                 <Text
                   p={2}
                   color="gray.600"
-                  maxW={"1000px"}
-                  fontWeight={400}
-                  fontSize={"md"}
+                  fontSize={{ base: "12px", md: "16px", lg: "16px" }}
+                  lineHeight={{ base: "16px", md: "20px", lg: "22px" }}
+                  width={{ base: "35%", md: "70%", lg: "90%" }}
+                  mx="auto"
                 >
                   {content}
                 </Text>
@@ -150,37 +159,40 @@ export const HeroSection = () => {
                 Туршилтын хувилбар татах
               </Button>
             </Box>
-            <Box id="features" position="relative">
+            <Box id="features" position="relative" >
               <Tabs
-                marginTop={10}
+                marginTop={6}
                 variant={"topbordered"}
                 w="full"
                 index={tabIndex}
                 onChange={handleTabsChange}
               >
+                <Box w="full" overflowX="auto">
                 <TabList
                   position="relative"
                   display="flex"
                   justifyContent="center"
                   width="100%"
                   overflowX="auto"
+                  px={{ base: 2, md: 0 }}
                   whiteSpace="nowrap"
                   css={{
-                    "&::-webkit-scrollbar": { display: "none" },
+                    "&::-webkit-scrollbar": { display: "none", scrollbarWidth: "none" },
                   }}
                 >
-                  <Tab {...parentTabStyle}>Ресепшин</Tab>
-                  <Tab {...parentTabStyle}>Цаг захиалга</Tab>
-                  <Tab {...parentTabStyle}>Цахим карт</Tab>
-                  <Tab {...parentTabStyle}>Зөвлөгөө</Tab>
-                  <Tab {...parentTabStyle}>X-ray</Tab>
-                  <Tab {...parentTabStyle}>Зураг дарах</Tab>
-                  <Tab {...parentTabStyle}>Үйлчлүүлэгч</Tab>
-                  <Tab {...parentTabStyle}>Төлбөр</Tab>
-                  <Tab {...parentTabStyle}>Касс</Tab>
-                  <Tab {...parentTabStyle}>Статистик</Tab>
-                  <Tab {...parentTabStyle}>Тохиргоо</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Ресепшин</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Цаг захиалга</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Цахим карт</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Зөвлөгөө</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>X-ray</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Зураг дарах</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Үйлчлүүлэгч</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Төлбөр</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Касс</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Статистик</Tab>
+                  <Tab minW="fit-content" flexShrink={0} {...parentTabStyle}>Тохиргоо</Tab>
                 </TabList>
+                </Box>
                 <TabPanels mt="1">
                   <TabPanel>
                     <Tabs index={childTabIndex} onChange={handleChildTabsChange} variant="solid">
@@ -342,10 +354,19 @@ export const HeroSection = () => {
             Үнэ
           </Text>
         </Box>
-        <Heading fontSize={"36px"} lineHeight={"44px"} fontWeight="700">
+        <Heading
+          fontSize={{ base: "36px", md: "36px", lg: "36px" }}
+          fontWeight="700"
+          lineHeight={{ base: "36px", md: "36px", lg: "20px" }}
+          width={{ base: "40%", md: "80%", lg: "100%" }}
+          mx="auto">
           Танай үйл ажиллагаанд яг тохирсон үнэ
         </Heading>
-        <Text color="gray.600" maxW={"600px"} fontWeight={400} fontSize={"md"}>
+        <Text color="gray.600"
+          fontSize={{ base: "16px", md: "18px" }}
+          lineHeight={{ base: "20px", md: "24px"}}
+          width={{ base: "50%", md: "100%"}}
+          mx="auto">
           Хамгийн сайн боломжуудыг агуулсан боломжийн үнийн төлөвлөгөөг сонгоно
           уу.
         </Text>
