@@ -59,7 +59,7 @@ export default function QuestionaryPage() {
   const handleSaveSignature = () => {
   if (sigCanvasRef.current && !sigCanvasRef.current.isEmpty()) {
     const dataUrl = sigCanvasRef.current.toDataURL();
-    setSignatureData(dataUrl); // Энэ dataUrl-ийг хадгалах payload-д оруулна
+    setSignatureData(dataUrl);
   } 
 };
 

@@ -10,18 +10,28 @@ export const Contact = () => {
       w="full"
       bg="white"
       px="4"
-      pt="12"
+      pt="8"
       pb="24"
       flex="1"
     >
-      <Heading fontSize={"36px"} fontWeight="700" w="full">
+      <Heading fontSize={{ base: "24px", md: "40px", lg: "36px" }}
+              lineHeight={{ base: "24px", md: "48px", lg: "36px" }}
+              width={{ base: "35%", md: "70%", lg: "100%" }}
+              fontWeight="700"
+              mx="auto">
         Холбоо барих
       </Heading>
-      <Text w="full">
+      <Text fontSize={{ base: "12px", md: "14px", lg: "15px" }}
+              lineHeight={{ base: "16px", md: "16px", lg: "16px" }}
+              width={{ base: "35%", md: "70%", lg: "100%" }}
+              mx="auto">
         Бүтээгдэхүүний талаар асууж тодруулах зүйл байвал мөн хэрэв та бидэнтэй
         холбогдохыг хүсвэл дараах хаягаар холбогдоно уу.
       </Text>
-      <Stack w="full" direction={{ base: "column", md: "row" }}>
+      <Stack fontSize={{ base: "12px", md: "14px", lg: "15px" }}
+              lineHeight={{ base: "16px", md: "16px", lg: "16px" }}
+              width={{ base: "35%", md: "70%", lg: "100%" }}
+              mx="auto" direction={{ base: "column", md: "row" }}>
         <Box w="full" display="flex" alignItems="center" gap="12px">
           <Icon as={GrMailOption} boxSize={6} />
           <Link href="mailto:head@edental.mn">
