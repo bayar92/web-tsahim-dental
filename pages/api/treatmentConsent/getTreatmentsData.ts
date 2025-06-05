@@ -10,7 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const pool = await getDbConnectionById(tenantId as string);
-    const result = await pool.request().query(`SELECT * FROM ${tenantId}[dbo].[cTreatmentConsent]`);
+    const result = await pool.request().query(
+      `SELECT * FROM [${tenantId}].[dbo].[cTreatmentConsent]`
+    );
     res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: 'DB холболтын алдаа' });

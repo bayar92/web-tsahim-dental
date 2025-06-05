@@ -1,3 +1,4 @@
+//pages/patient/treatmentConsent/[clinic]/[personId].tsx
 import {
   Box,
   Heading,
@@ -74,7 +75,7 @@ export default function TreatmentPage({ treatments, tenantDB, personId,  }: { tr
 
         if (!res.ok) throw new Error('Хадгалах үед алдаа');
 
-        alert('Гарын үсэг амжилттай хадгалагдлаа!');
+        alert('Амжилттай хадгалагдлаа!');
         onClose();
       } catch (err) {
         console.error('Хадгалах үед алдаа:', err);
@@ -157,33 +158,31 @@ export default function TreatmentPage({ treatments, tenantDB, personId,  }: { tr
   );
 }
 
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const rawParam = context.params?.id;
+  const clinic = context.params?.clinic as string;
+  const personId = context.params?.personId as string;
 
-  if (!rawParam || typeof rawParam !== 'string') {
+  if (!clinic || !personId) {
     return { props: { treatments: [], tenantDB: null, personId: null } };
   }
 
-  const [dbName, personIdStr] = rawParam.split('=');
+  try {
+    const pool = await getDbConnectionById(clinic);
+    const result = await pool.request().query(`SELECT * FROM [${clinic}].[dbo].[cTreatmentConsent]`);
 
-  if (!dbName || !personIdStr) {
+    const treatments = result.recordset.map((t: any) => ({
+      ...t,
+      CreatedDate: t.CreatedDate?.toISOString() ?? null,
+    }));
+
+    return {
+      props: {
+        treatments,
+        tenantDB: clinic,
+        personId: Number(personId),
+      },
+    };
+  } catch (error) {
     return { props: { treatments: [], tenantDB: null, personId: null } };
   }
-
-  const pool = await getDbConnectionById(dbName);
-  const result = await pool.request().query('SELECT * FROM [dbo].[cTreatmentConsent]');
-
-  const treatments = result.recordset.map((t: any) => ({
-    ...t,
-    CreatedDate: t.CreatedDate?.toISOString() ?? null,
-  }));
-
-  return {
-    props: {
-      treatments,
-      tenantDB: dbName,
-      personId: Number(personIdStr),
-    },
-  };
 };
