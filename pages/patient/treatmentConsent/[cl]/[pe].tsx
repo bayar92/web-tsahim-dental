@@ -159,8 +159,8 @@ export default function TreatmentPage({ treatments, tenantDB, personId,  }: { tr
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const clinic = context.params?.clinic as string;
-  const personId = context.params?.personId as string;
+  const clinic = context.params?.cl as string;
+  const personId = context.params?.pe as string;
 
   if (!clinic || !personId) {
     return { props: { treatments: [], tenantDB: null, personId: null } };
