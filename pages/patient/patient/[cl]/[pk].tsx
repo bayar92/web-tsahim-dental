@@ -39,8 +39,9 @@ export default function Patient({
         const data = await res.json();
         if (res.ok) {
             alert('Амжилттай бүртгэгдлээ');
+            window.location.href = 'https://edental.mn'
         } else {
-            console.error('Хариу алдаа:', data); // ← эндээс яг ямар алдаа гарсныг харж болно
+            console.error('Хариу алдаа:', data);
             alert('Алдаа гарлаа: ' + data.message);
         }
     };
