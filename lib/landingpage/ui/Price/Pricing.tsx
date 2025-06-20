@@ -26,6 +26,7 @@ import {
   toaster,
   useDisclosure,
   VStack,
+  SimpleGrid
 } from "@ui/index";
 import { currencyDisplayHandler } from "@util/converters";
 import { useRouter } from "next/router";
@@ -42,14 +43,33 @@ export type PriceModel = {
   totalPrice: number;
   features: string[];
 };
+const durations = [
+    { label: "1 жилийн эрх", value: "12" },
+    { label: "6 сарын эрх", value: "6" },
+    { label: "3 сарын эрх", value: "3" },
+  ];
+  
+const packages = [
+  { value: "12", seats: 3, license: 5, monthlyPrice: 190000, totalPrice: 2280000 },
+  { value: "12", seats: 5, license: 8, monthlyPrice: 250000, totalPrice: 3000000 },
+  { value: "12", seats: 10, license: 14, monthlyPrice: 290000, totalPrice: 3480000 },
 
+  { value: "6", seats: 3, license: 5, monthlyPrice: 200000, totalPrice: 1200000 },
+  { value: "6", seats: 5, license: 8, monthlyPrice: 270000, totalPrice: 1620000 },
+  { value: "6", seats: 10, license: 14, monthlyPrice: 300000, totalPrice: 1800000 },
+
+  { value: "3", seats: 3, license: 5, monthlyPrice: 210000, totalPrice: 630000 },
+  { value: "3", seats: 5, license: 8, monthlyPrice: 280000, totalPrice: 840000 },
+  { value: "3", seats: 10, license: 14, monthlyPrice: 310000, totalPrice: 930000 },
+];
 export const Pricing = () => {
   const [packageSits, setPackageSits] = useState<number>(3);
   const { data: products, isLoading: isLoadingProducts } = useGetProducts();
+  const [selectedDuration, setSelectedDuration] = useState("12");
   const { user, isLoggedIn } = useAuth();
-
+  
   const btnRef = React.useRef(null);
-
+ 
   const {
     isOpen: isQpayOpen,
     onOpen: onQPayBankChoiceOpen,
@@ -104,6 +124,8 @@ export const Pricing = () => {
       return;
     } else createQPayInvoice(productVariantId);
   };
+  const filteredPackages = packages.filter((pkg) => pkg.value === selectedDuration);
+
   return (
     <Box w={{ base: "70%", md: "100%", lg: "100%" }} mx="auto" justifyContent="center"  mt="4">
       <VStack id="pricing" w="full" textAlign="center" mx="auto" gap={4}>
@@ -129,7 +151,7 @@ export const Pricing = () => {
                   align="flex-start"
                   justify="center"
                 >
-                  <Box w={{ base: "100%", lg: "100%" }}>
+                  <Box w={{ base: "90%", lg: "100%" }}>
                     {products
                       .filter((r) => r.name === onlineKey)
                       .map((product) => (
@@ -150,160 +172,83 @@ export const Pricing = () => {
                         />
                       ))}
                   </Box>
-                  <Box w={{ base: "100%", md: "100%" }} alignSelf="center">
-                    <RadioGroup
-                      onChange={(value) => setPackageSits(parseInt(value))}
-                        value={packageSits.toString()}
-                        justifyContent="center"
-                        alignItems="center"
-                        display="flex"
-                        flexDirection="column"
-                    >
-                        <HStack spacing={{base:2, md:10}}>
-                        <Radio size="lg" colorScheme="primary" value="3">
-                          <Text>1-3 кресл</Text>
-                          <Text>(5 компьютер)</Text>
-                        </Radio>
-                        <Radio size="lg" colorScheme="primary" value="5">
-                          <Text>4-5 кресл</Text>
-                          <Text>(8 компьютер)</Text>
-                        </Radio>
-                        <Radio size="lg" colorScheme="primary" value="10">
-                          <Text>6-10 кресл</Text>
-                          <Text>(14 компьютер)</Text>
-                        </Radio>
-                      </HStack>
-                    </RadioGroup>
+                  <Box w={{ base: "100%", md: "100%" }} mx="auto" >
+                    <VStack id="pricing">
+                      <RadioGroup onChange={setSelectedDuration} value={selectedDuration} mb={4} w="100%" >
+                        <HStack justify="center" spacing={8}>
+                          {durations.map((d) => (
+                            <Radio key={d.value} value={d.value} size="lg" colorScheme="primary">
+                              {d.label}
+                            </Radio>
+                          ))}
+                        </HStack>
+                      </RadioGroup>
 
-                    <HStack
-                      w={{ base: "100%", md: "70%" , lg:"100%"}}
-                      mt={6}
-                      bg="gray.100"
-                      h="48px"
-                      p={1}
-                      borderRadius="24px"
-                    >
-                      <Button
-                        onClick={() => {
-                          setSelectedEnv(onlineKey);
-                        }}
-                        w={{ base: "100%", md: "100%" }}
-                        variant={
-                          selectEnv === onlineKey
-                            ? "secondary_rounded"
-                            : "ghost_rounded"
-                        }
-                      >
-                        {onlineKey}
-                      </Button>
-                    </HStack>
+                     <SimpleGrid minChildWidth="250px" spacing={4} w="full">
+                        {filteredPackages.map((pkg) => (
+                          <Box
+                            key={`${pkg.value}-${pkg.seats}`}
+                            p={6}
+                            borderWidth="1px"
+                            borderRadius="md"
+                            bg="white"
+                            boxShadow="sm"
+                          >
+                            <Grid display="flex" alignItems="center" textAlign="center" >
+                              <Box w="25%">
+                                <Text fontSize="20px" fontWeight="semibold">
+                                  {pkg.seats} кресл
+                                </Text>
+                                <Text fontSize="14px" color="gray.500">
+                                  ({pkg.license} эрх)
+                                </Text>
+                              </Box>
 
-                    {/* 1 сараар үнэ */}
-                    <Box mt={6}>
-                      <Text
-                        color="gray.900"
-                        fontSize="64px"
-                        lineHeight="60px"
-                        fontWeight="700"
-                      >
-                        {currencyDisplayHandler(
-                          products
-                            .filter((p) => p.name === selectEnv)[0]
-                            .ProductVariant.filter(
-                              (r) => r.sits === packageSits && r.duration === 1
-                            )[0].price,
-                          "mn"
-                        )}
-                      </Text>
-                    </Box>
+                              <Box  w="75%">
+                                <Text fontSize="24px" fontWeight="bold">
+                                  {currencyDisplayHandler(pkg.monthlyPrice, "mn").replace(/,/g, "'")}{" "}
+                                  <Text as="span" fontSize="sm" color="gray.600">
+                                    (1 сарын төлбөр)
+                                  </Text>
+                                </Text>
+                                <Text fontSize="sm" fontWeight="medium" color="gray.700">
+                                  Нийт {currencyDisplayHandler(pkg.monthlyPrice * 12, "mn").replace(/,/g, "'")}
+                                </Text>
+                              </Box>
+                            </Grid>
+                          </Box>
+                        ))}
+                      </SimpleGrid>
+                       {/* Суулгах хураамж */}
+                      <Box w="full" mt={6}>
+                        <Flex justifyContent="end" gap={2}>
+                          <Text color="gray.900">Суурьлуулалтын хураамж:</Text>
+                          <Text color="orange.600" fontSize={16} fontWeight="bold">
+                            290,000₮
+                          </Text>
+                        </Flex>
+                      </Box>
 
-                    <Button
-                      mt={6}
-                      onClick={() =>
-                        purchaseSelectedVariant(
-                          products
-                            .filter((p) => p.name === selectEnv)[0]
-                            .ProductVariant.filter(
-                              (r) => r.sits === packageSits && r.duration === 1
-                            )[0].id
-                        )
-                      }
-                    >
-                      <Icon as={MdShoppingCart} mr={2} />1 сараар худалдан авах
-                    </Button>
-                    {/* 6 сараар үнэ */}
-                    <Box borderTop="1px solid #eee" pt={6} mt={6}>
-                      <Flex justifyContent="center" gap={6}>
-                        <Text color="gray.600">
-                          Үндсэн үнэ{" "}
-                          {currencyDisplayHandler(
-                            products
-                              .filter((p) => p.name === selectEnv)[0]
-                              .ProductVariant.filter(
-                                (r) => r.sits === packageSits && r.duration === 1
-                              )[0].price * 6,
-                            "mn"
+                    </VStack>
+
+                    <Drawer isOpen={isQpayOpen} placement="bottom" onClose={onClose} finalFocusRef={btnRef}>
+                      <DrawerOverlay />
+                      <DrawerContent borderTopRadius={"8px"} bg="gray.50">
+                        <DrawerCloseButton />
+                        <DrawerHeader fontSize={"16px"} fontWeight="400" color="gray.800" textAlign="center">
+                          Банкны апп-р төлөх
+                        </DrawerHeader>
+                        <DrawerBody maxW={"640px"} textAlign="center" mx="auto">
+                          {invoiceMutation.isLoading ? (
+                            <Box w="full" textAlign="center">
+                              <Spinner size="xl" />
+                            </Box>
+                          ) : (
+                            <QPayBankChoice qpayData={qpayData} />
                           )}
-                        </Text>
-                      </Flex>
-
-                      <Text
-                        color="gray.900"
-                        fontSize="64px"
-                        lineHeight="60px"
-                        fontWeight="700"
-                      >
-                        {currencyDisplayHandler(
-                          products
-                            .filter((p) => p.name === selectEnv)[0]
-                            .ProductVariant.filter(
-                              (r) => r.sits === packageSits && r.duration === 6
-                            )[0].price,
-                          "mn"
-                        )}
-                      </Text>
-
-                      <Flex justifyContent="center" gap={2}>
-                        <Text color="gray.600">
-                          -
-                          {currencyDisplayHandler(
-                            products
-                              .filter((p) => p.name === selectEnv)[0]
-                              .ProductVariant.filter(
-                                (r) => r.sits === packageSits && r.duration === 1
-                              )[0].price * 0.6,
-                            "mn"
-                          )}{" "}
-                          хэмнэлт
-                        </Text>
-                        <Text color="red.600"> -10%</Text>
-                      </Flex>
-                    </Box>
-
-                    <Button
-                      mt={2}
-                      onClick={() =>
-                        purchaseSelectedVariant(
-                          products
-                            .filter((p) => p.name === selectEnv)[0]
-                            .ProductVariant.filter(
-                              (r) => r.sits === packageSits && r.duration === 6
-                            )[0].id
-                        )
-                      }
-                    >
-                      <Icon as={MdShoppingCart} mr={2} />6 сараар худалдан авах
-                    </Button>
-
-                    {/* Суулгах хураамж */}
-                    <Box w="full" mt={6}>
-                      <Flex justifyContent="end" gap={2}>
-                        <Text color="gray.900">Суурьлуулалтын хураамж:</Text>
-                        <Text color="orange.600" fontSize={16} fontWeight="bold">
-                          290,000₮
-                        </Text>
-                      </Flex>
-                    </Box>
+                        </DrawerBody>
+                      </DrawerContent>
+                    </Drawer>
                   </Box>
                 </Stack>
               </Box>
