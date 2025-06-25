@@ -1,21 +1,12 @@
-import { useState , useRef} from 'react';
+import { useState, useRef, useEffect } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
-import { useRouter } from 'next/router';
 import {
-  Box,
-  Checkbox,
-  Heading,
-  Button,
-  Stack,
-  Text,
-  Textarea,
-  Input,
-  Radio,
-  RadioGroup,
-  useToast,
-  CheckboxGroup,SimpleGrid
+  Box, Checkbox, Heading, Button, Stack, Text, Textarea, Input,
+  Radio, RadioGroup, useToast, CheckboxGroup, SimpleGrid
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
+
 
 const diseasesList = [
   'Шарлалт', 'В вирус', 'С вирус', 'Өндөр даралт', 'Үе мөчний өвчин',
@@ -25,81 +16,170 @@ const diseasesList = [
   'Амьсгалын гажиг', 'Гайморит', 'Нүдний даралт', 'Аль нь ч байхгүй'
 ];
 
-type QuestionaryForm = {
-  userID: string;
-  diseases: string[];
-  otherDisease: string;
-  reason: string;
-};
-
-
 export default function QuestionaryPage() {
-  
-  const sigCanvasRef = useRef<SignatureCanvas | null>(null);
-  const [signatureData, setSignatureData] = useState<string | null>(null);
+  const router = useRouter();
+  const [tenantId, setTenantId] = useState('');
+  const [personId, setPersonId] = useState('');
 
+  useEffect(() => {
+    if (router.asPath.includes('=')) {
+      const [tenant, person] = router.asPath.split('/').pop()?.split('=') || [];
+      setTenantId(tenant);
+      setPersonId(person);
+    }
+  }, [router.asPath]);
+
+  const sigCanvasRef = useRef<SignatureCanvas>(null);
+
+  const [reason, setReason] = useState('');
   const [allergyName, setAllergyName] = useState('');
-  const [reason, setReason] = useState<string>('');
-  const [hasAllergy, setHasAllergy] = useState<string>('');
-  const [hasMedication, setHasMedication] = useState<string>('');
-  const [hasPregnant, setHasPregnant] = useState<string>('');
-  const [hasbreastfeeding, setHasbreastfeeding] = useState<string>(''); 
-  const [haschild, setHaschild] = useState<string>(''); 
-  const [hassurgery, setHassurgery] = useState<string>('');
-  const [hasanesthesia , setHasanesthesia ] = useState<string>(''); 
-  const [hasgeneral, setHasgeneral] = useState<string>(''); 
-  const [hasSmoke, setHasSmoke] = useState(''); 
-  const [hasBlackSmoke, setHasBlackSmoke] = useState(''); 
+  const [medicationDesc, setMedicationDesc] = useState('');
+  const [pregnantMonth, setPregnantMonth] = useState('');
+  const [breastfeedMonth, setBreastfeedMonth] = useState('');
+  const [childMonth, setChildMonth] = useState('');
+  const [surgeryDesc, setSurgeryDesc] = useState('');
+  const [anesthesiaDesc, setAnesthesiaDesc] = useState('');
+  const [generalDesc, setGeneralDesc] = useState('');
+  const [emotionalOther, setEmotionalOther] = useState('');
+
+  const [hasAllergy, setHasAllergy] = useState('');
+  const [hasMedication, setHasMedication] = useState('');
+  const [hasPregnant, setHasPregnant] = useState('');
+  const [hasbreastfeeding, setHasbreastfeeding] = useState('');
+  const [haschild, setHaschild] = useState('');
+  const [hassurgery, setHassurgery] = useState('');
+  const [hasanesthesia, setHasanesthesia] = useState('');
+  const [hasgeneral, setHasgeneral] = useState('');
+  const [hasSmoke, setHasSmoke] = useState('');
+  const [hasBlackSmoke, setHasBlackSmoke] = useState('');
   const [emotionalReaction, setEmotionalReaction] = useState('');
-  
   const [selectedDiseases, setSelectedDiseases] = useState<string[]>([]);
-  const [otherDisease, setOtherDisease] = useState<string>('');
+  const [otherDisease, setOtherDisease] = useState('');
 
   const toast = useToast();
-  const handleSaveSignature = () => {
-  if (sigCanvasRef.current && !sigCanvasRef.current.isEmpty()) {
-    const dataUrl = sigCanvasRef.current.toDataURL();
-    setSignatureData(dataUrl);
-  } 
-};
 
   const handleYesNoChange = (field: string, value: string) => {
-  switch (field) {
-    case 'hasAllergy':
-      setHasAllergy(value);
-      if (value === 'Үгүй') setAllergyName('');
-      break;
-    case 'hasMedication':
-      setHasMedication(value);
-      break;
-    case 'hasPregnant':
-      setHasPregnant(value);
-      break;
-    case 'hasbreastfeeding':
-      setHasbreastfeeding(value);
-      break;
-    case 'haschild':
-      setHaschild(value);
-      break;
-    case 'hassurgery':
-      setHassurgery(value);
-      break;
-    case 'hasanesthesia':
-      setHasanesthesia(value);
-      break;
-    case 'hasgeneral':
-      setHasgeneral(value);
-      break;
-    case 'hasSmoke':
-      setHasSmoke(value);
-      break;
-    case 'hasBlackSmoke':
-      setHasBlackSmoke(value);
-      break;
-    default:
-      break;
-  }
-};
+    switch (field) {
+      case 'hasAllergy': setHasAllergy(value); if (value === 'Үгүй') setAllergyName(''); break;
+      case 'hasMedication': setHasMedication(value); break;
+      case 'hasPregnant': setHasPregnant(value); break;
+      case 'hasbreastfeeding': setHasbreastfeeding(value); break;
+      case 'haschild': setHaschild(value); break;
+      case 'hassurgery': setHassurgery(value); break;
+      case 'hasanesthesia': setHasanesthesia(value); break;
+      case 'hasgeneral': setHasgeneral(value); break;
+      case 'hasSmoke': setHasSmoke(value); break;
+      case 'hasBlackSmoke': setHasBlackSmoke(value); break;
+      case 'emotionalReaction': setEmotionalReaction(value); break;
+      default: break;
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!sigCanvasRef.current || sigCanvasRef.current.isEmpty()) {
+      toast({
+        title: 'Анхааруулга',
+        description: 'Гарын үсгээ зурна уу.',
+        status: 'warning',
+        duration: 3000
+      });
+      return;
+    }
+  const fullDataUrl = sigCanvasRef.current.toDataURL();
+  const base64Data = fullDataUrl.replace(/^data:image\/png;base64,/, ''); // <-- зөвхөн base64
+
+    const finalData = {
+      tenantId,
+      personId: parseInt(personId),
+      questionnairePK: 1,
+      SignatureData: base64Data,
+      Reason: reason,
+      bodisHarshil: hasAllergy === 'Тийм',
+      bodisHarshilDesc: allergyName,
+      emTaria: hasMedication === 'Тийм',
+      emTariaDesc: medicationDesc,
+      Pregnant: hasPregnant === 'Тийм',
+      PregnantDesc: pregnantMonth,
+      Surgery: hassurgery === 'Тийм',
+      SurgeryDesc: surgeryDesc,
+      Difficulty: hasgeneral === 'Тийм',
+      DifficultyDesc: generalDesc,
+      Uvchin: otherDisease,
+      breast: hasbreastfeeding === 'Тийм',
+      breastDesc: breastfeedMonth,
+      children: childMonth,
+      psychology: ['Сайн үзүүлдэг', 'Үзүүлэх дургүй', 'Уйлдаг', 'Бусад'].includes(emotionalReaction),
+      psychologyDesc: emotionalReaction === 'Бусад' ? emotionalOther : emotionalReaction,
+      sideEffects: hasanesthesia === 'Тийм',
+      sideEffectsDesc: anesthesiaDesc,
+
+      Harshil_Tiim1: hasAllergy === 'Тийм',
+      Harshil_Ugui1: hasAllergy === 'Үгүй',
+      EmTaria_Tiim2: hasMedication === 'Тийм',
+      EmTaria_Ugui2: hasMedication === 'Үгүй',
+      Jiremsen_Tiim3: hasPregnant === 'Тийм',
+      Jiremsen_Ugui3: hasPregnant === 'Үгүй',
+      Huhuul_Huuhedtei_Tiim4: hasbreastfeeding === 'Тийм',
+      Huhuul_Huuhedtei_Ugui4: hasbreastfeeding === 'Үгүй',
+      Hagalgaand_Orj_Baisan_Tiim5: hassurgery === 'Тийм',
+      Hagalgaand_Orj_Baisan_Ugui5: hassurgery === 'Үгүй',
+      Gaj_Nuluu_Ilerch_Baisan_Tiim6: hasanesthesia === 'Тийм',
+      Gaj_Nuluu_Ilerch_Baisan_Ugui6: hasanesthesia === 'Үгүй',
+      Biyiin_Hundreltei_Uchirch_Baisan_Tiim7: hasgeneral === 'Тийм',
+      Biyiin_Hundreltei_Uchirch_Baisan_Ugui7: hasgeneral === 'Үгүй',
+      Tamhi_Tatdag_Tiim8: hasSmoke === 'Тийм',
+      Tamhi_Tatdag_Ugui8: hasSmoke === 'Үгүй',
+      Har_Tamhi_Hereglej_Baisan_Tiim9: hasBlackSmoke === 'Тийм',
+      Har_Tamhi_Hereglej_Baisan_Ugui9: hasBlackSmoke === 'Үгүй',
+
+      Sain_Uzuuldeg: emotionalReaction === 'Сайн үзүүлдэг',
+      Uzuuleh_Durgui: emotionalReaction === 'Үзүүлэх дургүй',
+      Uildag: emotionalReaction === 'Уйлдаг',
+      Busad: emotionalReaction === 'Бусад',
+
+      Shartalt: selectedDiseases.includes('Шарлалт'),
+      B_Virus: selectedDiseases.includes('В вирус'),
+      C_Virus: selectedDiseases.includes('С вирус'),
+      Undur_Daralt: selectedDiseases.includes('Өндөр даралт'),
+      Uy_Much: selectedDiseases.includes('Үе мөчний өвчин'),
+      Tsus: selectedDiseases.includes('Цус гардагтай'),
+      Suriye: selectedDiseases.includes('Сүрьеэ'),
+      Tsus_Bagadalt: selectedDiseases.includes('Цус багадалт'),
+      Tatalt: selectedDiseases.includes('Таталт'),
+      Havdar: selectedDiseases.includes('Хорт хавдар'),
+      Hodood: selectedDiseases.includes('Ходоодны эмгэг'),
+      Bagtraa: selectedDiseases.includes('Батграш'),
+      Zurhnii_Uvchin: selectedDiseases.includes('Зүрхний өвчин'),
+      Buurnii_Uvchin: selectedDiseases.includes('Бөөрний өвчин'),
+      ZurhniiGajig: selectedDiseases.includes('Эрхийн гажиг'),
+      Shigdees: selectedDiseases.includes('Шигдэс'),
+      Tsusnii_Uvchin: selectedDiseases.includes('Цусны өвчин'),
+      Chihriin_Shinjin: selectedDiseases.includes('Чихрийн шижин'),
+      AmisgaliinGajig: selectedDiseases.includes('Амьсгалын гажиг'),
+      Gaimorit: selectedDiseases.includes('Гайморит'),
+      Nudnii_Daralt: selectedDiseases.includes('Нүдний даралт'),
+      Baihgui: selectedDiseases.includes('Аль нь ч байхгүй')
+    };
+
+    console.log('📝 Final JSON:', finalData);
+
+    try {
+      await axios.post('/api/questionary/submit', finalData);
+      toast({
+        title: 'Амжилттай хадгалагдлаа',
+        status: 'success',
+        duration: 3000
+      });
+    } catch (error) {
+      console.error('❌ Илгээх алдаа:', error);
+      toast({
+        title: 'Алдаа гарлаа',
+        description: 'Мэдээлэл илгээх үед алдаа гарлаа',
+        status: 'error',
+        duration: 3000
+      });
+    }
+  };
 
 return (
   <Box maxW="800px" mx="auto" mt={6} mb={6} border="1px solid #ccc" borderRadius="md" justifyContent="center" alignItems="center">
@@ -297,7 +377,7 @@ return (
       >
         <SimpleGrid columns={[1, 2, 3, 4]} spacing={2}>
           {diseasesList.map((disease) => (
-            <Checkbox key={disease} value={disease}>
+            <Checkbox key={disease} value={disease} colorScheme="blue">
               {disease}
             </Checkbox>
           ))}
@@ -326,7 +406,7 @@ return (
         <Button onClick={() => sigCanvasRef.current?.clear()} colorScheme="gray">
           Арилгах
         </Button>
-        <Button onClick={handleSaveSignature} colorScheme="teal">
+        <Button onClick={handleSubmit} colorScheme="teal">
           Зураг хадгалах
         </Button>
       </Stack>
