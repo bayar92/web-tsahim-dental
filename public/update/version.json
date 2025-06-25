@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0.3",
-  "downloadUrl": "https://www.edental.mn/update/tsahim_dental.zip",
-  "changelog": "Цаг захиалга эмч сонгох засвар, Үйлчлүүлэгчийн хамаарал засвар",
+  "version": "1.0.0.4",
+  "downloadUrl": "https://edental.mn/update/tsahim_dental.zip",
+  "changelog": "Цаг захиалга, QR code уншуулаж хэрэглэгч бүртгүүлэх",
   "type": ""
 }
