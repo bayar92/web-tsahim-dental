@@ -88,7 +88,6 @@ export const Pricing = () => {
         onSuccess: (data) => {
           setQpayData(data);
         },
-        //Need to implement error handling when Qpay is down
       }
     );
   };
