@@ -42,7 +42,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           @BirthDate,
           @Address
         )
-      `);
+    `);
+    await pool.request()
+    .input('nowDateTime', sql.DateTime, new Date())
+    .query(`
+      UPDATE cCardNumber
+      SET CurrentNumber = CurrentNumber + 1,
+          LastUpdate = @nowDateTime
+    `);
+      
 
     return res.status(200).json({ message: 'Амжилттай бүртгэгдлээ' });
   } catch (error: any) {
