@@ -211,7 +211,7 @@ export const Pricing = () => {
                                   </Text>
                                 </Text>
                                 <Text fontSize="sm" fontWeight="medium" color="gray.700">
-                                  Нийт {currencyDisplayHandler(pkg.monthlyPrice * 12, "mn").replace(/,/g, "'")}
+                                  Нийт {currencyDisplayHandler(pkg.totalPrice, "mn").replace(/,/g, "'")}
                                 </Text>
                               </Box>
                             </Grid>
