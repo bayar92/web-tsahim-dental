@@ -67,7 +67,6 @@
     "next-session": "^4.0.5",
     "next-translate": "^2.0.2",
     "next-translate-plugin": "^2.0.2",
-    "node-cron": "^4.2.1",
     "openai": "^3.2.1",
     "passport": "^0.5.3",
     "passport-facebook": "^3.0.0",
