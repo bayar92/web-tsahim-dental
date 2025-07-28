@@ -19,30 +19,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const pool = await getDbConnectionById(tenantId);
 
     await pool.request()
-      .input('CardNumber', sql.Int, parseInt(pk))
-      .input('LastName', sql.NVarChar(100), lastName)
-      .input('FirstName', sql.NVarChar(100), firstName)
-      .input('PhoneNumber', sql.VarChar(20), phone || null)
-      .input('BirthDate', sql.Date, new Date(BirthDate))
-      .input('Address', sql.NVarChar(200), address || null)
-      .query(`
-        INSERT INTO cPerson (
-          CardNumber,
-          LastName,
-          FirstName,
-          PhoneNumber,
-          BirthDate,
-          Address
-        )
-        VALUES (
-          @CardNumber,
-          @LastName,
-          @FirstName,
-          @PhoneNumber,
-          @BirthDate,
-          @Address
-        )
-    `);
+  .input('CardNumber', sql.Int, parseInt(pk))
+  .input('LastName', sql.NVarChar(100), lastName)
+  .input('FirstName', sql.NVarChar(100), firstName)
+  .input('PhoneNumber', sql.VarChar(20), phone || null)
+  .input('BirthDate', sql.Date, new Date(BirthDate))
+  .input('Address', sql.NVarChar(200), address || null)
+  .query(`
+    INSERT INTO cPerson (
+      CardNumber,
+      LastName,
+      FirstName,
+      PhoneNumber,
+      BirthDate,
+      Address,
+      age
+    )
+    VALUES (
+      @CardNumber,
+      @LastName,
+      @FirstName,
+      @PhoneNumber,
+      @BirthDate,
+      @Address,
+      DATEDIFF(YEAR, @BirthDate, GETDATE()) -
+        CASE 
+          WHEN MONTH(@BirthDate) > MONTH(GETDATE()) 
+               OR (MONTH(@BirthDate) = MONTH(GETDATE()) AND DAY(@BirthDate) > DAY(GETDATE())) 
+          THEN 1 
+          ELSE 0 
+        END
+    )
+  `);
     await pool.request()
     .input('nowDateTime', sql.DateTime, new Date())
     .query(`
