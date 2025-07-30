@@ -9,8 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Зөвхөн POST хүсэлт зөвшөөрнө' });
   }
 
-  const { tenantId, pk, lastName, firstName, phone, BirthDate, address } = req.body;
-
+  const { tenantId, pk, lastName, firstName, phone, BirthDate, address, gender, Register, email, profession, reason } = req.body;
   
   if (!lastName || !firstName || !BirthDate) {
     return res.status(400).json({ message: 'Мэдээлэл дутуу байна' });
@@ -25,6 +24,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   .input('PhoneNumber', sql.VarChar(20), phone || null)
   .input('BirthDate', sql.Date, new Date(BirthDate))
   .input('Address', sql.NVarChar(200), address || null)
+  .input('Gender', sql.NVarChar(80), gender || null)
+  .input('Register', sql.NVarChar(20), Register || null)
+  .input('Email', sql.NVarChar(100), email || null)
+  .input('Profession', sql.NVarChar(100), profession || null)
+  .input('Reason', sql.Int, reason || null)
+
   .query(`
     INSERT INTO cPerson (
       CardNumber,
@@ -33,7 +38,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       PhoneNumber,
       BirthDate,
       Address,
-      age
+      Gender,
+      Register,
+      Email,
+      Profession,
+      Reason,
+      Age
     )
     VALUES (
       @CardNumber,
@@ -42,10 +52,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       @PhoneNumber,
       @BirthDate,
       @Address,
+      @Gender,
+      @Register,
+      @Email,
+      @Profession,
+      @Reason,
       DATEDIFF(YEAR, @BirthDate, GETDATE()) -
         CASE 
           WHEN MONTH(@BirthDate) > MONTH(GETDATE()) 
-               OR (MONTH(@BirthDate) = MONTH(GETDATE()) AND DAY(@BirthDate) > DAY(GETDATE())) 
+              OR (MONTH(@BirthDate) = MONTH(GETDATE()) AND DAY(@BirthDate) > DAY(GETDATE())) 
           THEN 1 
           ELSE 0 
         END
