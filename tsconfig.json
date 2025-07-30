@@ -23,6 +23,6 @@
     },
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "lib/scheduler.js"],
   "exclude": ["node_modules"]
 }
