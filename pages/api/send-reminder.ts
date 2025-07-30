@@ -38,11 +38,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             
             const pool = await getDbConnectionById(dbName);
             const appointments = await queryAppointments(pool, startLocal, endLocal);
-
+            console.log("Startdate:" + startLocal);
+            console.log("enddate:" + endLocal);
             for (const ap of appointments) {
                 const d = new Date(`${ap.StartDate.toISOString().slice(0, 19)}+08:00`);
                 const formatted = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
-                const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${formatted}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна.`;
+                const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${ap.StartDate}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна.`;
 
                 try {
                     await sendSMS(ap.PhoneNumber, message);
