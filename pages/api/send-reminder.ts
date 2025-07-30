@@ -29,6 +29,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } else {
         return res.status(400).json({ error: 'Invalid type' });
     }
+
+    // Хүсвэл яг тухайн timezone-д тохируулсан Date объект гаргаж авч болно
+    const startDate = toZonedTime(startLocal, timeZone);
+    const endDate = toZonedTime(endLocal, timeZone);
+
     const databaseList = ['dental_clinic'];
     
     let totalSent = 0;
@@ -38,12 +43,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             
             const pool = await getDbConnectionById(dbName);
             const appointments = await queryAppointments(pool, startLocal, endLocal);
-            console.log("Startdate:" + startLocal);
-            console.log("enddate:" + endLocal);
+           
+            console.log(`📋 ${dbName} - Appointments found:`, appointments.length);
+            console.log('🔎 Type:', type);
+            console.log('🔍 Date range1:', startLocal, '-', endLocal);
+            console.log('📋 Found appointments:', appointments.length);
+
             for (const ap of appointments) {
                 const d = new Date(`${ap.StartDate.toISOString().slice(0, 19)}+08:00`);
                 const formatted = `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
-                const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${ap.StartDate}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна.`;
+                const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${formatted}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна.`;
+
+                if (!ap.PhoneNumber) {
+                    console.log(`⚠️ No phone number for ${ap.PatientName}`);
+                    continue;
+                }
 
                 try {
                     await sendSMS(ap.PhoneNumber, message);
