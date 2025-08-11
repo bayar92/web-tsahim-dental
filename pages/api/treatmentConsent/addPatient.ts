@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { tenantId, pk, lastName, firstName, phone, BirthDate, address, gender, Register, email, profession, reason } = req.body;
   
-  if (!lastName || !firstName || !BirthDate) {
+  if (!phone || !firstName ) {
     return res.status(400).json({ message: 'Мэдээлэл дутуу байна' });
   }
   try {
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     await pool.request()
   .input('CardNumber', sql.Int, parseInt(pk))
-  .input('LastName', sql.NVarChar(100), lastName)
+  .input('LastName', sql.NVarChar(100), lastName || null)
   .input('FirstName', sql.NVarChar(100), firstName)
   .input('PhoneNumber', sql.VarChar(20), phone || null)
   .input('BirthDate', sql.Date, new Date(BirthDate))
