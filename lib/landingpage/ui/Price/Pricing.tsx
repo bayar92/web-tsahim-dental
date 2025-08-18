@@ -198,9 +198,7 @@ export const Pricing = () => {
                                 <Text fontSize="20px" fontWeight="semibold">
                                   {pkg.seats} кресл
                                 </Text>
-                                <Text fontSize="14px" color="gray.500">
-                                  ({pkg.license} эрх)
-                                </Text>
+                               
                               </Box>
 
                               <Box  w="75%">
@@ -220,7 +218,13 @@ export const Pricing = () => {
                       </SimpleGrid>
                        {/* Суулгах хураамж */}
                       <Box w="full" mt={6}>
-                        <Flex justifyContent="end" gap={2}>
+                         <Flex justifyContent="end" gap={2}>
+                          <Text color="gray.900">Серверийн зардал:</Text>
+                          <Text color="orange.600" fontSize={16} fontWeight="bold">
+                            29,000₮
+                          </Text>
+                        </Flex>
+                        <Flex justifyContent="end" gap={2} mt={4}>
                           <Text color="gray.900">Суурьлуулалтын хураамж:</Text>
                           <Text color="orange.600" fontSize={16} fontWeight="bold">
                             290,000₮
