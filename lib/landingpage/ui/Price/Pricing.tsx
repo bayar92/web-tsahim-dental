@@ -52,15 +52,18 @@ const durations = [
 const packages = [
   { value: "12", seats: "1-3", license: 5, monthlyPrice: 190000, totalPrice: 2280000 },
   { value: "12", seats: "4-5", license: 8, monthlyPrice: 250000, totalPrice: 3000000 },
-  { value: "12", seats: "6-дээш", license: 14, monthlyPrice: 290000, totalPrice: 3480000 },
+  { value: "12", seats: "6-8", license: 14, monthlyPrice: 290000, totalPrice: 3480000 },
+  { value: "12", seats: "9-дээш", license: 14, monthlyPrice: 350000, totalPrice: 4200000 },
 
   { value: "6", seats: "1-3", license: 5, monthlyPrice: 220000, totalPrice: 1320000 },
   { value: "6", seats: "4-5", license: 8, monthlyPrice: 280000, totalPrice: 1680000 },
-  { value: "6", seats: "6-дээш", license: 14, monthlyPrice: 320000, totalPrice: 1920000 },
+  { value: "6", seats: "6-8", license: 14, monthlyPrice: 320000, totalPrice: 1920000 },
+  { value: "6", seats: "9-дээш", license: 14, monthlyPrice: 380000, totalPrice: 2280000 },
 
   { value: "3", seats: "1-3", license: 5, monthlyPrice: 250000, totalPrice: 750000 },
   { value: "3", seats: "4-5", license: 8, monthlyPrice: 310000, totalPrice: 930000 },
-  { value: "3", seats: "6-дээш", license: 14, monthlyPrice: 350000, totalPrice: 1050000 },
+  { value: "3", seats: "6-8", license: 14, monthlyPrice: 350000, totalPrice: 1050000 },
+  { value: "3", seats: "9-дээш", license: 14, monthlyPrice: 410000, totalPrice: 1230000 },
 ];
 export const Pricing = () => {
   const [packageSits, setPackageSits] = useState<number>(3);
