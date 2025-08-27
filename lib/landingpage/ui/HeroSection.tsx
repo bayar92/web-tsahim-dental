@@ -108,11 +108,10 @@ export const HeroSection = () => {
                 width={{ base: "40%", md: "70%", lg: "100%" }}
                 mx="auto"
               >
-                Edental програм нь windows application бөгөөд дараах 2 сүлжээний
-                нэгийг сонгон ашиглах боломжтой.
+                Edental програм нь windows application бөгөөд өгөгдөл клоуд дээр хадгалагдана.
               </Text>
-              <HStack w={{ base: "30%", sm: "90%", md: "70%", lg: "700px" }}
-                bg="gray.100" p={1} borderRadius={"24px"} >
+              {/* <HStack w={{ base: "30%", sm: "90%", md: "70%", lg: "700px" }}
+                bg="gray.100" p={1} borderRadius={"24px"} > */}
                 {/* <Button
                   w="full"
                   onClick={() => {
@@ -124,7 +123,7 @@ export const HeroSection = () => {
                 >
                   Дотоот (локал) сүлжээ:
                 </Button> */}
-                <Button
+                {/* <Button
                   onClick={() => {
                     setSelectedEnv("online");
                   }}
@@ -138,8 +137,8 @@ export const HeroSection = () => {
                   }
                 >
                   Интернэт орчинд
-                </Button>
-              </HStack>
+                </Button> */}
+              {/* </HStack> */}
               <Box>
                 <Text
                   p={2}

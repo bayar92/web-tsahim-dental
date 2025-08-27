@@ -222,7 +222,7 @@ export const Pricing = () => {
                        {/* Суулгах хураамж */}
                       <Box w="full" mt={6}>
                          <Flex justifyContent="end" gap={2}>
-                          <Text color="gray.900">Серверийн зардал:</Text>
+                          <Text color="gray.900">1 сарын серверийн зардал:</Text>
                           <Text color="orange.600" fontSize={16} fontWeight="bold">
                             29,000₮
                           </Text>
