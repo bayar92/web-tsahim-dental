@@ -19,6 +19,7 @@ import { BsDownload } from "react-icons/bs";
 import { CircleAvatar } from "./CircleAvatar";
 import { FreeTrialModal } from "./DownloadFreeTrial/FreeTrialModal";
 import { WaitModal } from "./Waitlist/WaitModal";
+import { ToSave } from "./ToSave/ToSave";
 
 export const HeroSection = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -75,8 +76,8 @@ export const HeroSection = () => {
       <VStack>
         <Box
           width={{ lg: "full" }}
-          px={{ base: "6", md: "8", lg: "0" }}
-          py={{ base: "6", md: "8", lg: "8" }}
+          // px={{ base: "6", md: "8", lg: "0" }}
+          // py={{ base: "6", md: "8", lg: "8" }}
         >
           <VStack textAlign={"center"} spacing={{ base: 4, lg: 4 }}>
             <Box borderRadius={"30px"} p={2} px={4} bg="success.100">
@@ -335,41 +336,7 @@ export const HeroSection = () => {
           </VStack>
         </Box>
       </VStack>
-      <VStack id="pricing" textAlign="center" mx="auto" gap={4}>
-        <Box
-          textAlign="center"
-          borderRadius={"30px"}
-          p={2}
-          px={4}
-          bg="gray.100"
-          w="200px"
-        >
-          <Text
-            color="gray.800"
-            fontSize={"14px"}
-            lineHeight="20px"
-            fontWeight={500}
-          >
-            Үнэ
-          </Text>
-        </Box>
-        <Heading
-          fontSize={{ base: "36px", md: "36px", lg: "36px" }}
-          fontWeight="700"
-          lineHeight={{ base: "36px", md: "36px", lg: "20px" }}
-          width={{ base: "40%", md: "80%", lg: "100%" }}
-          mx="auto">
-          Танай үйл ажиллагаанд яг тохирсон үнэ
-        </Heading>
-        <Text color="gray.600"
-          fontSize={{ base: "16px", md: "18px" }}
-          lineHeight={{ base: "20px", md: "24px"}}
-          width={{ base: "50%", md: "100%"}}
-          mx="auto">
-          Хамгийн сайн боломжуудыг агуулсан боломжийн үнийн төлөвлөгөөг сонгоно
-          уу.
-        </Text>
-      </VStack>
+      
       <WaitModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
       <FreeTrialModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
     </>

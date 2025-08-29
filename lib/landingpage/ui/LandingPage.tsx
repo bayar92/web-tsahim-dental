@@ -5,6 +5,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Contact } from "./Contact";
 import { HeroSection } from "./HeroSection";
 import { Pricing } from "./Price/Pricing";
+import { ToSave } from "./ToSave/ToSave";
 
 export const LandingPage = () => {
   const { t } = useTranslation("app");
@@ -14,6 +15,7 @@ export const LandingPage = () => {
       <SEO title={"Нүүр"} />
       <LandingLayout>
         <HeroSection />
+        <ToSave/>
         <Pricing />
         <Contact />
       </LandingLayout>

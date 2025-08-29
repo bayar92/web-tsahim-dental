@@ -130,6 +130,41 @@ export const Pricing = () => {
 
   return (
     <Box w={{ base: "70%", md: "100%", lg: "100%" }} mx="auto" justifyContent="center"  mt="4">
+      <VStack id="pricing" textAlign="center" mx="auto" gap={4} mb={8}>
+        <Box
+          textAlign="center"
+          borderRadius={"30px"}
+          p={2}
+          px={4}
+          bg="gray.100"
+          w="200px"
+        >
+          <Text
+            color="gray.800"
+            fontSize={"14px"}
+            lineHeight="20px"
+            fontWeight={500}
+          >
+            Үнэ
+          </Text>
+        </Box>
+        <Heading
+          fontSize={{ base: "36px", md: "36px", lg: "36px" }}
+          fontWeight="700"
+          lineHeight={{ base: "36px", md: "36px", lg: "20px" }}
+          width={{ base: "40%", md: "80%", lg: "100%" }}
+          mx="auto">
+          Танай үйл ажиллагаанд яг тохирсон үнэ
+        </Heading>
+        <Text color="gray.600"
+          fontSize={{ base: "16px", md: "18px" }}
+          lineHeight={{ base: "20px", md: "24px"}}
+          width={{ base: "50%", md: "100%"}}
+          mx="auto">
+          Хамгийн сайн боломжуудыг агуулсан боломжийн үнийн төлөвлөгөөг сонгоно
+          уу.
+        </Text>
+      </VStack>
       <VStack id="pricing" w="full" textAlign="center" mx="auto" gap={4}>
         {isLoadingProducts ? (
           <Box w="full" textAlign="center">
