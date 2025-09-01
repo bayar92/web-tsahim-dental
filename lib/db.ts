@@ -42,7 +42,8 @@ export async function queryAppointments(
       .request()
       .input("startDate", sql.DateTime, formattedStart)
       .input("endDate", sql.DateTime, formattedEnd).query(`
-        SELECT 
+        SELECT
+          ap.PersonPK,
           ap.UniqueID,
           CONCAT(LEFT(patient.LastName, 1), '. ', patient.FirstName) AS PatientName,
           CONCAT(LEFT(doctor.LastName, 1), '. ', doctor.FirstName) AS DoctorName,
@@ -74,5 +75,19 @@ export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
       UPDATE [dbo].[Appointments]
       SET smsStatus = 1
       WHERE UniqueID = @id;
+    `);
+}
+
+export async function markSmsData(
+  pool: sql.ConnectionPool,
+  personPk: number,
+  uniqueId: number
+) {
+  await pool
+    .request()
+    .input("PersonPK", sql.Int, personPk)
+    .input("UniqueID", sql.Int, uniqueId).query(`
+      INSERT INTO [dbo].[cSmsData] (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
+      VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
     `);
 }

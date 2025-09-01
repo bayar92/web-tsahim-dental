@@ -3,6 +3,7 @@ import { getDbConnectionById, queryAppointments } from "@lib/db";
 import { sendSMS } from "@lib/sms";
 import { toZonedTime, format } from "date-fns-tz";
 import { markSmsSent } from "@lib/db";
+import { markSmsData } from "@lib/db";
 
 export default async function handler(
   req: NextApiRequest,
@@ -61,7 +62,6 @@ export default async function handler(
           .toString()
           .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
         const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${formatted}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна.`;
-        console.log("→ markSmsSent input:", ap.UniqueID, typeof ap.UniqueID);
 
         if (!ap.PhoneNumber) {
           console.log(`⚠️ No phone number for ${ap.PatientName}`);
@@ -71,6 +71,7 @@ export default async function handler(
         try {
           await sendSMS(ap.PhoneNumber, message);
           await markSmsSent(pool, ap.UniqueID);
+          await markSmsData(pool, ap.PersonPK, ap.UniqueID);
           totalSent++;
         } catch (err) {
           console.error(`❌ Failed to send to ${ap.PhoneNumber}:`, err);
