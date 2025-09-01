@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getDbConnectionById, queryAppointments } from "@lib/db";
 import { sendSMS } from "@lib/sms";
 import { toZonedTime, format } from "date-fns-tz";
-import { markSmsSent } from "@lib/db";
-import { markSmsData } from "@lib/db";
+// import { markSmsSent } from "@lib/db";
+// import { markSmsData } from "@lib/db";
 
 export default async function handler(
   req: NextApiRequest,
@@ -39,8 +39,8 @@ export default async function handler(
     return res.status(400).json({ error: "Invalid type" });
   }
 
-  const databaseList = ["dental_clinic"];
-  // "uGiJQUeiwmJm1AHG",
+  const databaseList = ["uGiJQUeiwmJm1AHG", "dental_clinic"];
+  //
 
   let totalSent = 0;
 
@@ -71,8 +71,8 @@ export default async function handler(
 
         try {
           await sendSMS(ap.PhoneNumber, message);
-          await markSmsSent(pool, ap.UniqueID);
-          await markSmsData(pool, ap.PersonPK, ap.UniqueID);
+          // await markSmsSent(pool, ap.UniqueID);
+          // await markSmsData(pool, ap.PersonPK, ap.UniqueID);
           totalSent++;
         } catch (err) {
           console.error(`❌ Failed to send to ${ap.PhoneNumber}:`, err);
