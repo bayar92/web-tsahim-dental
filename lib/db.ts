@@ -70,25 +70,25 @@ export async function queryAppointments(
   }
 }
 
-// export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
-//   await pool.request().input("id", sql.Int, uniqueId) // BIGINT бол sql.BigInt
-//     .query(`
-//       UPDATE [dbo].[Appointments]
-//       SET smsStatus = 1
-//       WHERE UniqueID = @id;
-//     `);
-// }
+export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
+  await pool.request().input("id", sql.Int, uniqueId) // BIGINT бол sql.BigInt
+    .query(`
+      UPDATE [dbo].[Appointments]
+      SET smsStatus = 1
+      WHERE UniqueID = @id;
+    `);
+}
 
-// export async function markSmsData(
-//   pool: sql.ConnectionPool,
-//   personPk: number,
-//   uniqueId: number
-// ) {
-//   await pool
-//     .request()
-//     .input("PersonPK", sql.Int, personPk)
-//     .input("UniqueID", sql.Int, uniqueId).query(`
-//       INSERT INTO [dbo].[cSmsData] (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
-//       VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
-//     `);
-// }
+export async function markSmsData(
+  pool: sql.ConnectionPool,
+  personPk: number,
+  uniqueId: number
+) {
+  await pool
+    .request()
+    .input("PersonPK", sql.Int, personPk)
+    .input("UniqueID", sql.Int, uniqueId).query(`
+      INSERT INTO [dbo].[cSmsData] (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
+      VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
+    `);
+}

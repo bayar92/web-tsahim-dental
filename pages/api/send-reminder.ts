@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getDbConnectionById, queryAppointments } from "@lib/db";
 import { sendSMS } from "@lib/sms";
-
-// ⚠️ date-fns-tz импорт хэрэггүй болустай — UTC-д өөрсдөө форматлаж байна
-// import { toZonedTime, format } from "date-fns-tz";
+import { markSmsSent } from "@lib/db";
+import { markSmsData } from "@lib/db";
 
 type HandlerType = "afternoon" | "tomorning";
 
@@ -27,7 +26,6 @@ export default async function handler(
   let startUTC: Date, endUTC: Date;
 
   if (t === "afternoon") {
-    // Өнөөдөр UTC 13:00:00 — 23:59:59.999
     const today = new Date();
     startUTC = new Date(today);
     startUTC.setUTCHours(13, 0, 0, 0);
@@ -35,9 +33,7 @@ export default async function handler(
     endUTC = new Date(today);
     endUTC.setUTCHours(23, 59, 59, 999);
   } else if (t === "tomorning") {
-    // Маргаашийн UTC 00:00:00 — 12:59:59.999
     const tomorrow = new Date();
-    // ✅ getUTCDate ашиглана
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 
     startUTC = new Date(tomorrow);
@@ -66,7 +62,6 @@ export default async function handler(
     try {
       const pool = await getDbConnectionById(dbName);
 
-      // ⚠️ queryAppointments нь UTC интервал авч шүүдэг гэж үзэв
       const appointments = await queryAppointments(pool, startUTC, endUTC);
 
       console.log(`📋 ${dbName} - Appointments found: ${appointments.length}`);
@@ -87,7 +82,7 @@ export default async function handler(
         const message =
           `Сайн байна уу? ${hospital} шүдний эмнэлэг байна. ` +
           `${patient} та ${startUtcStr}-д ${doctor} эмчид үзүүлэх цаг авсан байна. ` +
-          `${phoneHospital}`;
+          `Утас: ${phoneHospital}`;
 
         console.log("✉️", message);
 
@@ -98,8 +93,8 @@ export default async function handler(
 
         try {
           await sendSMS(phonePatient, message);
-          // await markSmsSent(pool, ap.UniqueID);
-          // await markSmsData(pool, ap.PersonPK, ap.UniqueID);
+          await markSmsSent(pool, ap.UniqueID);
+          await markSmsData(pool, ap.PersonPK, ap.UniqueID);
           totalSent++;
         } catch (err) {
           console.error(`❌ Failed to send to ${phonePatient}:`, err);
