@@ -62,8 +62,8 @@ export default async function handler(
           .getHours()
           .toString()
           .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
-        const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${formatted}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна.`;
-
+        const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${formatted}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна. ${ap.HosPhone}`;
+        console.log(message);
         if (!ap.PhoneNumber) {
           console.log(`⚠️ No phone number for ${ap.PatientName}`);
           continue;

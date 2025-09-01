@@ -53,7 +53,8 @@ export async function queryAppointments(
           ap.Subject,
           ap.Location,
           ap.Description,
-          patient.PhoneNumber
+          patient.PhoneNumber,
+          h.PhoneNumber as HosPhone
         FROM [dbo].[Appointments] ap
         LEFT JOIN [dbo].[cPerson] patient ON ap.PersonPK = patient.PK
         LEFT JOIN [dbo].[cPerson] doctor ON ap.DoctorId = doctor.PK
