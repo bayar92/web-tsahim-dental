@@ -56,13 +56,13 @@ export default async function handler(
 
       for (const ap of appointments) {
         const d = new Date(`${ap.StartDate.toISOString().slice(0, 19)}+08:00`);
-        const formatted = `${d.getFullYear()}.${(d.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}.${d.getDate().toString().padStart(2, "0")} ${d
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
-        const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${formatted}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна. ${ap.HosPhone}`;
+        // const formatted = `${d.getFullYear()}.${(d.getMonth() + 1)
+        //   .toString()
+        //   .padStart(2, "0")}.${d.getDate().toString().padStart(2, "0")} ${d
+        //   .getHours()
+        //   .toString()
+        //   .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
+        const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${ap.StartDate}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна. ${ap.HosPhone}`;
         console.log(message);
         if (!ap.PhoneNumber) {
           console.log(`⚠️ No phone number for ${ap.PatientName}`);
