@@ -1,86 +1,114 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getDbConnectionById, queryAppointments } from "@lib/db";
 import { sendSMS } from "@lib/sms";
-import { toZonedTime, format } from "date-fns-tz";
-// import { markSmsSent } from "@lib/db";
-// import { markSmsData } from "@lib/db";
+
+// ⚠️ date-fns-tz импорт хэрэггүй болустай — UTC-д өөрсдөө форматлаж байна
+// import { toZonedTime, format } from "date-fns-tz";
+
+type HandlerType = "afternoon" | "tomorning";
+
+function formatDateUTC(date: Date) {
+  const yyyy = date.getUTCFullYear();
+  const MM = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+  const hh = String(date.getUTCHours()).padStart(2, "0");
+  const mm = String(date.getUTCMinutes()).padStart(2, "0");
+  const ss = String(date.getUTCSeconds()).padStart(2, "0");
+  return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`;
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { type } = req.query;
+  const t = String(type) as HandlerType;
 
-  const timeZone = "Asia/Ulaanbaatar";
+  let startUTC: Date, endUTC: Date;
 
-  let startLocal: Date, endLocal: Date;
-
-  if (type === "afternoon") {
+  if (t === "afternoon") {
+    // Өнөөдөр UTC 13:00:00 — 23:59:59.999
     const today = new Date();
-    console.log(today);
-    startLocal = new Date(today);
-    startLocal.setUTCHours(12, 59, 59, 999);
+    startUTC = new Date(today);
+    startUTC.setUTCHours(13, 0, 0, 0);
 
-    endLocal = new Date(today);
-    endLocal.setUTCHours(23, 59, 59, 999);
-  } else if (type === "tomorning") {
+    endUTC = new Date(today);
+    endUTC.setUTCHours(23, 59, 59, 999);
+  } else if (t === "tomorning") {
+    // Маргаашийн UTC 00:00:00 — 12:59:59.999
     const tomorrow = new Date();
-    tomorrow.setUTCDate(tomorrow.getDate() + 1);
+    // ✅ getUTCDate ашиглана
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 
-    startLocal = new Date(tomorrow);
-    startLocal.setUTCHours(0, 0, 0, 0);
+    startUTC = new Date(tomorrow);
+    startUTC.setUTCHours(0, 0, 0, 0);
 
-    endLocal = new Date(tomorrow);
-    endLocal.setUTCHours(12, 59, 59, 999);
-
-    console.log("startUtc:", startLocal.toISOString());
-    console.log("endUtc:", endLocal.toISOString());
+    endUTC = new Date(tomorrow);
+    endUTC.setUTCHours(12, 59, 59, 999);
   } else {
-    return res.status(400).json({ error: "Invalid type" });
+    return res
+      .status(400)
+      .json({ error: "Invalid type. Use 'afternoon' or 'tomorning'." });
   }
 
-  const databaseList = ["uGiJQUeiwmJm1AHG", "dental_clinic"];
-  //
+  console.log("🔎 Type:", t);
+  console.log(
+    "⏱️ Range UTC:",
+    startUTC.toISOString(),
+    "—",
+    endUTC.toISOString()
+  );
 
+  const databaseList = ["uGiJQUeiwmJm1AHG", "dental_clinic"];
   let totalSent = 0;
 
   for (const dbName of databaseList) {
     try {
       const pool = await getDbConnectionById(dbName);
-      const appointments = await queryAppointments(pool, startLocal, endLocal);
 
-      console.log(`📋 ${dbName} - Appointments found:`, appointments.length);
-      console.log("🔎 Type:", type);
-      console.log("🔍 Date range1:", startLocal, "-", endLocal);
-      console.log("📋 Found appointments:", appointments.length);
+      // ⚠️ queryAppointments нь UTC интервал авч шүүдэг гэж үзэв
+      const appointments = await queryAppointments(pool, startUTC, endUTC);
+
+      console.log(`📋 ${dbName} - Appointments found: ${appointments.length}`);
 
       for (const ap of appointments) {
-        const d = new Date(`${ap.StartDate.toISOString().slice(0, 19)}+08:00`);
-        // const formatted = `${d.getFullYear()}.${(d.getMonth() + 1)
-        //   .toString()
-        //   .padStart(2, "0")}.${d.getDate().toString().padStart(2, "0")} ${d
-        //   .getHours()
-        //   .toString()
-        //   .padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
-        const message = `Сайн байна уу? ${ap.HospitalName} шүдний эмнэлэг байна. ${ap.PatientName} та ${ap.StartDate}-д ${ap.DoctorName} эмчид үзүүлэх цаг авсан байна. ${ap.HosPhone}`;
-        console.log(message);
-        if (!ap.PhoneNumber) {
-          console.log(`⚠️ No phone number for ${ap.PatientName}`);
+        // ap.StartDate-г Date болгоно (DB-с string ирэх магадлалтай)
+        const start = new Date(ap.StartDate);
+
+        // Зөвхөн UTC формат:
+        const startUtcStr = formatDateUTC(start);
+
+        const hospital = ap.HospitalName ?? "";
+        const patient = ap.PatientName ?? "";
+        const doctor = ap.DoctorName ?? "";
+        const phoneHospital = ap.HosPhone ?? "";
+        const phonePatient: string | null = ap.PhoneNumber ?? null;
+
+        const message =
+          `Сайн байна уу? ${hospital} шүдний эмнэлэг байна. ` +
+          `${patient} та ${startUtcStr}-д ${doctor} эмчид үзүүлэх цаг авсан байна. ` +
+          `${phoneHospital}`;
+
+        console.log("✉️", message);
+
+        if (!phonePatient) {
+          console.log(`⚠️ No phone number for ${patient}`);
           continue;
         }
 
         try {
-          await sendSMS(ap.PhoneNumber, message);
+          await sendSMS(phonePatient, message);
           // await markSmsSent(pool, ap.UniqueID);
           // await markSmsData(pool, ap.PersonPK, ap.UniqueID);
           totalSent++;
         } catch (err) {
-          console.error(`❌ Failed to send to ${ap.PhoneNumber}:`, err);
+          console.error(`❌ Failed to send to ${phonePatient}:`, err);
         }
       }
     } catch (err) {
       console.error(`❌ Failed for ${dbName}:`, err);
     }
   }
+
   return res.status(200).json({ success: true, totalSent });
 }
