@@ -1,5 +1,6 @@
-import sql from 'mssql';
-import { toZonedTime , format } from 'date-fns-tz';
+import sql from "mssql";
+import { toZonedTime, format } from "date-fns-tz";
+import { int } from "aws-sdk/clients/datapipeline";
 
 export async function getDbConnectionById(id: string | number) {
   const dbName = `${id}`;
@@ -20,21 +21,27 @@ export async function getDbConnectionById(id: string | number) {
     const pool = await new sql.ConnectionPool(config).connect();
     return pool;
   } catch (err) {
-    console.error('❌ Connection Error:', err);
+    console.error("❌ Connection Error:", err);
     throw err;
   }
 }
 
-export async function queryAppointments(pool: sql.ConnectionPool, startDate: Date, endDate: Date) {
+export async function queryAppointments(
+  pool: sql.ConnectionPool,
+  startDate: Date,
+  endDate: Date
+) {
   try {
-    const timeZone = 'Asia/Ulaanbaatar';
-    const formattedStart = format(startDate, 'yyyy-MM-dd HH:mm:ss', { timeZone });
-    const formattedEnd = format(endDate, 'yyyy-MM-dd HH:mm:ss', { timeZone });
-    console.log(formattedEnd, formattedStart)
-    const result = await pool.request()
-      .input('startDate', sql.DateTime, formattedStart)
-      .input('endDate', sql.DateTime, formattedEnd)
-      .query(`
+    const timeZone = "Asia/Ulaanbaatar";
+    const formattedStart = format(startDate, "yyyy-MM-dd HH:mm:ss", {
+      timeZone,
+    });
+    const formattedEnd = format(endDate, "yyyy-MM-dd HH:mm:ss", { timeZone });
+    console.log(formattedEnd, formattedStart);
+    const result = await pool
+      .request()
+      .input("startDate", sql.DateTime, formattedStart)
+      .input("endDate", sql.DateTime, formattedEnd).query(`
         SELECT 
           ap.UniqueID,
           CONCAT(LEFT(patient.LastName, 1), '. ', patient.FirstName) AS PatientName,
@@ -50,13 +57,22 @@ export async function queryAppointments(pool: sql.ConnectionPool, startDate: Dat
         LEFT JOIN [dbo].[cPerson] patient ON ap.PersonPK = patient.PK
         LEFT JOIN [dbo].[cPerson] doctor ON ap.DoctorId = doctor.PK
         CROSS JOIN [dbo].[cHospital] h
-        WHERE ap.StartDate >= @startDate AND ap.StartDate < @endDate
+        WHERE ap.StartDate >= @startDate AND ap.StartDate < @endDate AND ap.smsStatus IS NULL
         ORDER BY ap.StartDate ASC;
       `);
 
     return result.recordset;
   } catch (err) {
-    console.error('❌ Query Error:', err);
+    console.error("❌ Query Error:", err);
     return [];
   }
+}
+
+export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
+  await pool.request().input("id", sql.Int, uniqueId) // BIGINT бол sql.BigInt
+    .query(`
+      UPDATE [dbo].[Appointments]
+      SET smsStatus = 1
+      WHERE UniqueID = @id;
+    `);
 }
