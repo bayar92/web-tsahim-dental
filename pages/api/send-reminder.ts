@@ -39,7 +39,8 @@ export default async function handler(
     return res.status(400).json({ error: "Invalid type" });
   }
 
-  const databaseList = ["uGiJQUeiwmJm1AHG", "dental_clinic"];
+  const databaseList = ["dental_clinic"];
+  // "uGiJQUeiwmJm1AHG",
 
   let totalSent = 0;
 
