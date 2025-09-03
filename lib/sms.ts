@@ -6,7 +6,7 @@ export async function sendSMS(phone: string, message: string) {
   //   phone
   // )}&sms=${encodeURIComponent(message)}`;
 
-  console.log(`📨 Sending to ${phone}: ${message}`);
+  // console.log(`📨 Sending to ${phone}: ${message}`);
   // try {
   //   const response = await fetch(url, {
   //     method: "GET",

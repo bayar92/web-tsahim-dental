@@ -29,13 +29,13 @@ export default async function handler(
     const today = new Date();
     startUTC = new Date(today);
     startUTC.setUTCHours(13, 0, 0, 0);
-
+    console.log("afternoon");
     endUTC = new Date(today);
     endUTC.setUTCHours(23, 59, 59, 999);
   } else if (t === "tomorning") {
     const tomorrow = new Date();
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-
+console.log("tomorrow");
     startUTC = new Date(tomorrow);
     startUTC.setUTCHours(0, 0, 0, 0);
 
@@ -55,7 +55,8 @@ export default async function handler(
     endUTC.toISOString()
   );
 
-  const databaseList = ["uGiJQUeiwmJm1AHG", "dental_clinic"];
+  const databaseList = [ "dental_clinic"];
+  //" uGiJQUeiwmJm1AHG" ,
   let totalSent = 0;
 
   for (const dbName of databaseList) {

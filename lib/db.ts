@@ -32,16 +32,13 @@ export async function queryAppointments(
   endDate: Date
 ) {
   try {
-    const timeZone = "Asia/Ulaanbaatar";
-    const formattedStart = format(startDate, "yyyy-MM-dd HH:mm:ss", {
-      timeZone,
-    });
-    const formattedEnd = format(endDate, "yyyy-MM-dd HH:mm:ss", { timeZone });
-    console.log(formattedEnd, formattedStart);
+    // const formattedStart = format(startDate, "yyyy-MM-dd HH:mm:ss");
+    // const formattedEnd = format(endDate, "yyyy-MM-dd HH:mm:ss");
+    console.log(startDate, endDate);
     const result = await pool
       .request()
-      .input("startDate", sql.DateTime, formattedStart)
-      .input("endDate", sql.DateTime, formattedEnd).query(`
+      .input("startDate", sql.DateTime, startDate)
+      .input("endDate", sql.DateTime, endDate).query(`
         SELECT
           ap.PersonPK,
           ap.UniqueID,
@@ -59,7 +56,9 @@ export async function queryAppointments(
         LEFT JOIN [dbo].[cPerson] patient ON ap.PersonPK = patient.PK
         LEFT JOIN [dbo].[cPerson] doctor ON ap.DoctorId = doctor.PK
         CROSS JOIN [dbo].[cHospital] h
-        WHERE ap.StartDate >= @startDate AND ap.StartDate < @endDate AND ap.smsStatus IS NULL
+        WHERE ap.StartDate >= @startDate 
+          AND ap.StartDate < @endDate 
+          AND ap.smsStatus IS NULL
         ORDER BY ap.StartDate ASC;
       `);
 
