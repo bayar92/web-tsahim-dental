@@ -78,16 +78,16 @@ export async function queryAppointments(
 //     `);
 // }
 
-// export async function markSmsData(
-//   pool: sql.ConnectionPool,
-//   personPk: number,
-//   uniqueId: number
-// ) {
-//   await pool
-//     .request()
-//     .input("PersonPK", sql.Int, personPk)
-//     .input("UniqueID", sql.Int, uniqueId).query(`
-//       INSERT INTO [dbo].[cSmsData] (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
-//       VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
-//     `);
-// }
+export async function markSmsData(
+  pool: sql.ConnectionPool,
+  personPk: number,
+  uniqueId: number
+) {
+  await pool
+    .request()
+    .input("PersonPK", sql.Int, personPk)
+    .input("UniqueID", sql.Int, uniqueId).query(`
+      INSERT INTO [dbo].[cSmsData] (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
+      VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
+    `);
+}
