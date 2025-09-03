@@ -55,8 +55,8 @@ console.log("tomorrow");
     endUTC.toISOString()
   );
 
-  const databaseList = [ "dental_clinic"];
-  //" uGiJQUeiwmJm1AHG" ,
+  const databaseList = ["uGiJQUeiwmJm1AHG" , "dental_clinic"];
+  //
   let totalSent = 0;
 
   for (const dbName of databaseList) {
