@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getDbConnectionById, queryAppointments } from "@lib/db";
 import { sendSMS } from "@lib/sms";
-// import { markSmsSent } from "@lib/db";
+import { markSmsSent } from "@lib/db";
 import { markSmsData } from "@lib/db";
 
 type HandlerType = "afternoon" | "tomorning";
@@ -94,7 +94,7 @@ console.log("tomorrow");
 
         try {
           await sendSMS(phonePatient, message);
-          // await markSmsSent(pool, ap.UniqueID);
+          await markSmsSent(pool, ap.UniqueID);
           await markSmsData(pool, ap.PersonPK, ap.UniqueID);
           totalSent++;
         } catch (err) {

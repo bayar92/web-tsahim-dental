@@ -69,14 +69,14 @@ export async function queryAppointments(
   }
 }
 
-// export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
-//   await pool.request().input("id", sql.Int, uniqueId) // BIGINT бол sql.BigInt
-//     .query(`
-//       UPDATE [dbo].[Appointments]
-//       SET smsStatus = 1
-//       WHERE UniqueID = @id;
-//     `);
-// }
+export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
+  await pool.request().input("id", sql.Int, uniqueId) // BIGINT бол sql.BigInt
+    .query(`
+      UPDATE [dbo].[Appointments]
+      SET smsStatus = 1
+      WHERE UniqueID = @id;
+    `);
+}
 
 export async function markSmsData(
   pool: sql.ConnectionPool,
