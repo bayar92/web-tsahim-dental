@@ -24,18 +24,16 @@ export default async function handler(
   const t = String(type) as HandlerType;
 
   let startUTC: Date, endUTC: Date;
-
-  if (t === "afternoon") {
-    const today = new Date();
-    startUTC = new Date(today);
+  const tomorrow = new Date();
+  tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+  if (t === "tomorning") {
+    startUTC = new Date(tomorrow);
     startUTC.setUTCHours(13, 0, 0, 0);
-    console.log("afternoon");
-    endUTC = new Date(today);
+    console.log("tomorning");
+    endUTC = new Date(tomorrow);
     endUTC.setUTCHours(23, 59, 59, 999);
-  } else if (t === "tomorning") {
-    const tomorrow = new Date();
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-console.log("tomorrow");
+  } else if (t === "afternoon") {
+    console.log("afternoon");
     startUTC = new Date(tomorrow);
     startUTC.setUTCHours(0, 0, 0, 0);
 
