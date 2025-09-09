@@ -53,7 +53,11 @@ export default async function handler(
     endUTC.toISOString()
   );
 
-  const databaseList = ["uGiJQUeiwmJm1AHG" , "dental_clinic"];
+  const databaseList = [
+    "uGiJQUeiwmJm1AHG",
+    "dental_clinic",
+    "VV1tS59yQZQtxjhK",
+  ];
   //
   let totalSent = 0;
 
