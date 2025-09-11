@@ -1,3 +1,4 @@
+// pages/api/win/check-patient-photo.ts
 import { createHandler } from "@api/handler";
 import { checkPatientPhoto } from "@lib/win/api/service";
 
