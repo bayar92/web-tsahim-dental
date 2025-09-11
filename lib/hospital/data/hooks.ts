@@ -7,6 +7,7 @@ export const useGetHospitalInfo = (hospitalDomain: string) =>
     API._query(Method.POST, `hospital/landing/${hospitalDomain}`)
   );
 
+  
 export const useGetMyHospital = () =>
   useQuery(`my-hospital`, API._query(Method.POST, `hospital/my-hospital`));
 
