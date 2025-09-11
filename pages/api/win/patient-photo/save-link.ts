@@ -1,4 +1,3 @@
-//pages/api/win/patient-photo/save-link.ts
 import { createHandler } from "@api/handler";
 import { savePhotoLink } from "@lib/win/api/service";
 

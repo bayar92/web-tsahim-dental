@@ -1,4 +1,3 @@
-//lib/win/api/service.ts
 import { prisma } from "@api/prisma";
 import { getCurrentDate } from "@api/currentDate";
 import { AppError } from "@util/errors";

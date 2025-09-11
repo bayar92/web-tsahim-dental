@@ -1,4 +1,3 @@
-//lib/win/data/hooks.ts
 import { useQuery, useMutation } from "react-query";
 import { API, Method } from "@util/query";
 

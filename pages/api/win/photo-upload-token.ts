@@ -1,4 +1,3 @@
-// pages/api/win/photo-upload-token.ts
 import { createHandler } from "@api/handler";
 import { createPhotoUploadToken } from "@lib/win/api/service";
 

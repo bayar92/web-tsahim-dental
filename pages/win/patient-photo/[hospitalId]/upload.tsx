@@ -1,4 +1,3 @@
-//pages/win/petient-photo/[hospitalid]/updload.tsx
 import { Box, Button, Heading, Icon, Input, VStack } from "@chakra-ui/react";
 import {
   useToast,
