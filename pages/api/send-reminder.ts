@@ -55,7 +55,7 @@ export default async function handler(
 
   const databaseList = [
     "uGiJQUeiwmJm1AHG",
-    "dental_clinic",
+    "X8CLKeswvlaIcj5z",
     "VV1tS59yQZQtxjhK",
   ];
   //
