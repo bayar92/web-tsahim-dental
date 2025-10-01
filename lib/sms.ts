@@ -1,6 +1,7 @@
 export async function sendSMS(phone: string, message: string) {
   if (!phone) return;
-  const baseUrl = "https://sms-api.telcocom.mn/sms-api/v1/sms/telco/send";
+  // const baseUrl = "https://sms-api.telcocom.mn/sms-api/v1/sms/telco/send";
+  const baseUrl = "https://sms-api.telcocom.mn/sms-api/v2/sms/send";
   const tenantId = "664b1179b84a7748cdacaddb";
   const url = `${baseUrl}?tenantId=${tenantId}&toNumber=${encodeURIComponent(
     phone
@@ -11,7 +12,7 @@ export async function sendSMS(phone: string, message: string) {
     const response = await fetch(url, {
       method: "GET",
       headers: {
-        "telco-auth-token": "84ee4a3138f12d25762c3b31681c4504",
+        "telco-auth-token": "W_gwalorzSuk6yGCDREA434RRNtx-8sfb1yfI-5dMfM",
       },
     });
 
