@@ -1,7 +1,7 @@
 export async function sendSMS(phone: string, message: string) {
   if (!phone) return;
   // const baseUrl = "https://sms-api.telcocom.mn/sms-api/v1/sms/telco/send";
-  const baseUrl = "https://sms-api.telcocom.mn/sms-api/v2/sms/send";
+  const baseUrl = "https://sms-api.telcocom.mn/sms-api/v2/sms/telco/send";
   const tenantId = "664b1179b84a7748cdacaddb";
   const url = `${baseUrl}?tenantId=${tenantId}&toNumber=${encodeURIComponent(
     phone

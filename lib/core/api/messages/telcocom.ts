@@ -11,7 +11,7 @@ export const sendMessageViaTelcocom = async (
   phoneNumber: string,
   messageContent: string
 ) => {
-  const url = `https://sms-api.telcocom.mn/sms-api/v2/sms/send?tenantId=664b1179b84a7748cdacaddb&toNumber=${phoneNumber}&sms=${messageContent}`;
+  const url = `https://sms-api.telcocom.mn/sms-api/v2/sms/telco/send?tenantId=664b1179b84a7748cdacaddb&toNumber=${phoneNumber}&sms=${messageContent}`;
   //  https://sms-api.telcocom.mn/sms-api/v2/sms/send?tenantId=664b1179b84a7748cdacaddb&toNumber={toNumber}&sms={sms}
 
   //send request to chatwoot

@@ -1,6 +1,6 @@
 {
-  "version": "1.0.2.9",
+  "version": "1.0.3.0",
   "downloadUrl": "https://edental.mn/update/tsahim_dental.zip",
-  "changelog": "Бүтэн амралтыг 7 хонгийн давтамжтай болгосон. Цаг захиалга дээр өнгө оруулав. ",
+  "changelog": "Автомат мессеж засвар. Касс, статистик засвар",
   "type": ""
 }
