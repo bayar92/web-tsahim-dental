@@ -6,56 +6,89 @@ export const Contact = () => {
   return (
     <VStack
       id="about-me"
-      gap={2}
+      gap={4}
       w="full"
       bg="white"
-      px="4"
+      px={{ base: 4, md: 6 }}
       pt="8"
       pb="24"
-      flex="1"
     >
-      <Heading fontSize={{ base: "24px", md: "40px", lg: "36px" }}
-              lineHeight={{ base: "24px", md: "48px", lg: "36px" }}
-              width={{ base: "35%", md: "70%", lg: "100%" }}
-              fontWeight="700"
-              mx="auto">
+      {/* TITLE */}
+      <Heading
+        fontSize={{ base: "24px", md: "36px" }}
+        lineHeight={{ base: "28px", md: "40px" }}
+        fontWeight="700"
+        textAlign="center"
+        w="full"
+      >
         Холбоо барих
       </Heading>
-      <Text fontSize={{ base: "12px", md: "14px", lg: "15px" }}
-              lineHeight={{ base: "16px", md: "16px", lg: "16px" }}
-              width={{ base: "35%", md: "70%", lg: "100%" }}
-              mx="auto">
+
+      {/* SUBTITLE */}
+      <Text
+        fontSize={{ base: "14px", md: "16px" }}
+        lineHeight={{ base: "20px", md: "24px" }}
+        textAlign="center"
+        maxW="600px"
+        color="gray.700"
+      >
         Бүтээгдэхүүний талаар асууж тодруулах зүйл байвал мөн хэрэв та бидэнтэй
         холбогдохыг хүсвэл дараах хаягаар холбогдоно уу.
       </Text>
-      <Stack fontSize={{ base: "12px", md: "14px", lg: "15px" }}
-              lineHeight={{ base: "16px", md: "16px", lg: "16px" }}
-              width={{ base: "35%", md: "70%", lg: "100%" }}
-              mx="auto" direction={{ base: "column", md: "row" }}>
-        <Box w="full" display="flex" alignItems="center" gap="12px">
-          <Icon as={GrMailOption} boxSize={6} />
-          <Link href="mailto:head@edental.mn">
-            <Heading fontSize="">И-мэйл илгээх</Heading>
-            <Text _hover={{ textDecoration: "underline" }}>
-              head@edental.mn
-            </Text>
-          </Link>
+
+      {/* CONTACT ITEMS */}
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        spacing={{ base: 6, md: 10 }}
+        w="full"
+        justify="center"
+        align="flex-start"
+        mt={4}
+      >
+        {/* EMAIL */}
+        <Box w="full" display="flex" alignItems="flex-start" gap={3}>
+          <Icon as={GrMailOption} boxSize={6} flexShrink={0} />
+
+          <Box>
+            <Heading fontSize={{ base: "14px", md: "16px" }}>
+              И-мэйл илгээх
+            </Heading>
+            <Link href="mailto:head@edental.mn">
+              <Text _hover={{ textDecoration: "underline" }}>
+                head@edental.mn
+              </Text>
+            </Link>
+          </Box>
         </Box>
-        <Box w="full" display="flex" alignItems="center" gap="12px">
-          <Icon as={GrPhone} boxSize={6} />
-          <Link href="tel:+97680454011">
-            <Heading fontSize="">Утсаар холбогдох</Heading>
-            <Text _hover={{ textDecoration: "underline" }}>+976 80454011</Text>
-          </Link>
+
+        {/* PHONE */}
+        <Box w="full" display="flex" alignItems="flex-start" gap={3}>
+          <Icon as={GrPhone} boxSize={6} flexShrink={0} />
+
+          <Box>
+            <Heading fontSize={{ base: "14px", md: "16px" }}>
+              Утсаар холбогдох
+            </Heading>
+            <Link href="tel:+97680454011">
+              <Text _hover={{ textDecoration: "underline" }}>
+                +976 80454011
+              </Text>
+            </Link>
+          </Box>
         </Box>
-        <Box w="full" display="flex" alignItems="center" gap="12px">
-          <Icon as={GrMapLocation} boxSize={6} />
-          <Link href="https://maps.app.goo.gl/Ckf8ct3o2J41kfdZA">
-            <Heading fontSize="">Хаяг</Heading>
-            <Text _hover={{ textDecoration: "underline" }}>
-              Улаанбаатар, Энхтайвны өргөн чөлөө
-            </Text>
-          </Link>
+
+        {/* ADDRESS */}
+        <Box w="full" display="flex" alignItems="flex-start" gap={3}>
+          <Icon as={GrMapLocation} boxSize={6} flexShrink={0} />
+
+          <Box>
+            <Heading fontSize={{ base: "14px", md: "16px" }}>Хаяг</Heading>
+            <Link href="https://maps.app.goo.gl/Ckf8ct3o2J41kfdZA">
+              <Text _hover={{ textDecoration: "underline" }}>
+                Улаанбаатар, Энхтайвны өргөн чөлөө
+              </Text>
+            </Link>
+          </Box>
         </Box>
       </Stack>
     </VStack>

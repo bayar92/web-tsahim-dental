@@ -15,7 +15,7 @@ export const LandingPage = () => {
       <SEO title={"Нүүр"} />
       <LandingLayout>
         <HeroSection />
-        <ToSave/>
+        <ToSave />
         <Pricing />
         <Contact />
       </LandingLayout>
