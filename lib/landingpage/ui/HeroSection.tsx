@@ -16,6 +16,7 @@ import {
   IconButton,
   Flex,
 } from "@chakra-ui/react";
+import type { ImageProps } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { BsDownload, BsChevronLeft, BsChevronRight } from "react-icons/bs"; // Сумны icon нэмсэн
 import { WaitModal } from "./Waitlist/WaitModal";
@@ -45,11 +46,11 @@ export const HeroSection = () => {
   useEffect(() => {}, [selectEnv]);
 
   // Tab солих функц
-  const handleTabsChange = (index) => {
+  const handleTabsChange = (index: number) => {
     setTabIndex(index);
   };
 
-  const handleChildTabsChange = (index) => {
+  const handleChildTabsChange = (index: number) => {
     setChildTabIndex(index);
   };
 
@@ -81,7 +82,7 @@ export const HeroSection = () => {
   };
 
   // Зургийн Responsive загвар
-  const responsiveImageProps = {
+  const responsiveImageProps: ImageProps = {
     w: "full",
     h: "auto",
     borderRadius: { base: "12px", md: "24px" }, // Жижиг дэлгэц дээр бага radius
