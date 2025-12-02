@@ -73,14 +73,6 @@ export const HeroSection = () => {
     px: 4,
   };
 
-  const parentTabStyle = {
-    _hover: { color: "#069cdf" },
-    color: "#58cbf9",
-    fontWeight: "800",
-    fontSize: "md",
-    whiteSpace: "nowrap",
-  };
-
   // Зургийн Responsive загвар
   const responsiveImageProps: ImageProps = {
     w: "full",
@@ -220,7 +212,15 @@ export const HeroSection = () => {
                     borderBottom="none"
                   >
                     {TAB_NAMES.map((name, idx) => (
-                      <Tab key={idx} minW="fit-content" {...parentTabStyle}>
+                      <Tab
+                        key={idx}
+                        minW="fit-content"
+                        _hover={{ color: "#069cdf" }}
+                        color="#58cbf9"
+                        fontWeight="800"
+                        fontSize="md"
+                        whiteSpace="nowrap"
+                      >
                         {name}
                       </Tab>
                     ))}
