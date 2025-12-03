@@ -101,6 +101,7 @@ export default async function handler(
     "X8CLKeswvlaIcj5z",
     "VV1tS59yQZQtxjhK",
     "iUEmbWAl8RlHe2L3",
+    "dental_clinic",
   ];
   //
   let totalSent = 0;
