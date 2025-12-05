@@ -131,9 +131,14 @@ export default async function handler(
         const patientLatin = cyrillicToLatin(patient);
         const hospitalLatin = cyrillicToLatin(hospital);
         
-        const message =
-          `Sain bn uu? ${hospitalLatin} shudnii emneleg baina. ` +
-          `${patientLatin} ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina. ` +
+        // const message =
+        //   `Sain bn uu? ${hospitalLatin} shudnii emneleg baina. ` +
+        //   `${patientLatin} ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina. ` +
+        //   `Utas: ${phoneHospital}`;
+
+          const message =
+          `Sain bn uu? ${hospitalLatin} shudnii emneleg baina.` +
+          `Ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina.` +
           `Utas: ${phoneHospital}`;
         
 
