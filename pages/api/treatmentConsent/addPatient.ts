@@ -11,14 +11,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const { tenantId, pk, lastName, firstName, phone, BirthDate, address, gender, Register, email, profession, reason } = req.body;
   
-  if (!phone || !firstName ) {
+  if (!phone || !firstName || !Register || ! lastName ) {
     return res.status(400).json({ message: 'Мэдээлэл дутуу байна' });
   }
   try {
     const pool = await getDbConnectionById(tenantId);
 
+    const check = await pool.request()
+    .input('CardNumber', sql.Int, parseInt(pk))
+    .query(`SELECT CardNumber FROM cPerson WHERE CardNumber = @CardNumber`);
+
+    let finalCardNumber = parseInt(pk);
+
+    if (check.recordset.length > 0) {
+      const nextNum = await pool.request().query(`
+        SELECT CurrentNumber + 1 AS NewNumber FROM cCardNumber
+      `);
+
+      finalCardNumber = nextNum.recordset[0].NewNumber;
+    }
+
     await pool.request()
-  .input('CardNumber', sql.Int, parseInt(pk))
+  .input('CardNumber', sql.Int, finalCardNumber)
   .input('LastName', sql.NVarChar(100), lastName || null)
   .input('FirstName', sql.NVarChar(100), firstName)
   .input('PhoneNumber', sql.VarChar(20), phone || null)
@@ -70,12 +84,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     .input('nowDateTime', sql.DateTime, new Date())
     .query(`
       UPDATE cCardNumber
-      SET CurrentNumber = CurrentNumber + 1,
+      SET CurrentNumber = ${finalCardNumber},
           LastUpdate = @nowDateTime
     `);
       
 
-    return res.status(200).json({ message: 'Амжилттай бүртгэгдлээ' });
+    return res.status(200).json({ 
+      message: 'Амжилттай бүртгэгдлээ',
+      cardNumber: finalCardNumber
+    });
+    
   } catch (error: any) {
     console.error('Insert алдаа:', error);
     return res.status(500).json({ message: 'Хадгалах үед алдаа гарлаа', error: error.message });

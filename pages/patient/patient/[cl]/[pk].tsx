@@ -2,7 +2,13 @@
 import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { Box, Heading, Input, FormControl, FormLabel, Button, Select, Stack, Flex, useToast, FormHelperText } from '@chakra-ui/react';
+import {
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter,
+  ModalBody, ModalCloseButton, useDisclosure, Divider
+} from "@chakra-ui/react";
+
 import { useRouter } from 'next/router';
+import { register } from 'ts-node';
 
 export default function Patient({ pk, cl }: { pk: string; cl: string }) {
   const [lastName, setLastName] = useState('');
@@ -20,12 +26,37 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
   const toast = useToast();
   const router = useRouter();
 
+  const registerRegex = /^[A-Z]{2}\d{8}$/;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [savedInfo, setSavedInfo] = useState<any>(null);
+
   const handleSave = async () => {
-    // Зөвхөн Нэр + Утас шаардлагатай
-    if (!firstName.trim() || !phone.trim()) {
+    if (!firstName.trim() || !lastName.trim()) {
       toast({
         title: 'Мэдээлэл дутуу байна',
-        description: 'Нэр болон утас заавал бөглөнө үү.',
+        description: 'Овог болон Нэр заавал бөглөнө үү.',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (!phone.trim()) {
+      toast({
+        title: 'Мэдээлэл дутуу байна',
+        description: 'Утасны дугаараа оруулна уу.',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+ 
+    if (!Register.trim()) {
+      toast({
+        title: 'Мэдээлэл дутуу байна',
+        description: 'Регистерийн дугаараа оруулна уу.',
         status: 'warning',
         duration: 3000,
         isClosable: true,
@@ -33,6 +64,17 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
       return;
     }
 
+    // if (!registerRegex.test(Register.toUpperCase())) {
+    //   toast({
+    //     title: 'Регистрийн дугаар буруу байна',
+    //     description: 'Зөв формат: AA###### (2 үсэг + 8 тоо)',
+    //     status: 'warning',
+    //     duration: 3000,
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
+  
     try {
       setLoading(true);
       const res = await fetch('/api/treatmentConsent/addPatient', {
@@ -53,12 +95,25 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
           reason: reason || null,
         }),
       });
-
+  
       const data = await res.json();
-
+  
       if (res.ok) {
-        toast({ title: 'Амжилттай бүртгэгдлээ', status: 'success', duration: 2200, isClosable: true });
-        router.push('https://edental.mn');
+        setSavedInfo({
+          cardNumber: data.cardNumber,
+          firstName, lastName,
+          phone,
+        });
+  
+        toast({
+          title: 'Амжилттай бүртгэгдлээ',
+          status: 'success',
+          duration: 1500,
+          isClosable: true,
+        });
+  
+        onOpen();
+  
       } else {
         toast({
           title: 'Алдаа гарлаа',
@@ -80,22 +135,31 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
       setLoading(false);
     }
   };
+  
 
   return (
     <Flex justify="center" align="center" minH="100vh" bg="gray.50">
       <Box p={6} border="1px" borderColor="gray.200" m={4} borderRadius="md" maxW={640} w="100%" boxShadow="sm" bg="white">
+      {cl == 'GZeuFqzMLRSEniaz' && ( 
+        <Heading size="lg" mb={4} textAlign="center">
+          "Зонне" шүдний эмнэлэг
+        </Heading>
+      )}
         <Heading size="lg" mb={4} textAlign="center">
           Шинэ хэрэглэгч бүртгэх
         </Heading>
         <Stack spacing={4}>
-          <FormControl>
-            <FormLabel>Картын дугаар</FormLabel>
-            <Input p={2} value={pk} readOnly />
-          </FormControl>
+          {cl !== 'GZeuFqzMLRSEniaz' && (
+            <FormControl>
+              <FormLabel>Картын дугаар</FormLabel>
+              <Input p={2} value={pk} readOnly />
+            </FormControl>
+          )}
 
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Овог</FormLabel>
             <Input p={2} value={lastName} onChange={(e) => setLastName(e.target.value)} isDisabled={loading} />
+            <FormHelperText>Заавал бөглөнө.</FormHelperText>
           </FormControl>
 
           <FormControl isRequired>
@@ -117,6 +181,12 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
             <FormHelperText>Заавал бөглөнө.</FormHelperText>
           </FormControl>
 
+          <FormControl isRequired>
+            <FormLabel>Регистрийн дугаар</FormLabel>
+            <Input p={2} value={Register} onChange={(e) => setRegister(e.target.value)} isDisabled={loading} />
+            <FormHelperText>Заавал бөглөнө.</FormHelperText>
+          </FormControl>
+
           <FormControl>
             <FormLabel>Төрсөн огноо</FormLabel>
             <Input p={2} type="date" value={BirthDate} onChange={(e) => setBirthDate(e.target.value)} isDisabled={loading} />
@@ -130,22 +200,14 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
               <option value="Эмэгтэй">Эмэгтэй</option>
             </Select>
           </FormControl>
-
-          <FormControl>
-            <FormLabel>Регистрийн дугаар</FormLabel>
-            <Input p={2} value={Register} onChange={(e) => setRegister(e.target.value)} isDisabled={loading} />
-          </FormControl>
-
           <FormControl>
             <FormLabel>Мэйл хаяг</FormLabel>
             <Input p={2} value={email} onChange={(e) => setEmail(e.target.value)} isDisabled={loading} />
           </FormControl>
-
           <FormControl>
             <FormLabel>Мэргэжил</FormLabel>
             <Input p={2} value={profession} onChange={(e) => setProfession(e.target.value)} isDisabled={loading} />
           </FormControl>
-
           <FormControl>
             <FormLabel>Сонгож ирсэн шалтгаан</FormLabel>
             <Select borderRadius={10} bg="white" value={reason} onChange={(e) => setReason(e.target.value)} isDisabled={loading}>
@@ -156,12 +218,10 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
               <option value="9">Бусад</option>
             </Select>
           </FormControl>
-
           <FormControl>
             <FormLabel>Хаяг</FormLabel>
             <Input p={2} value={address} onChange={(e) => setAddress(e.target.value)} isDisabled={loading} />
           </FormControl>
-
           <Button
             colorScheme="blue"
             onClick={handleSave}
@@ -173,7 +233,71 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
           </Button>
         </Stack>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
+      <ModalOverlay />
+      <ModalContent borderRadius="lg" boxShadow="xl" p={2}>
+        <ModalHeader textAlign="center" fontSize="xl" fontWeight="bold">
+          🎉 Бүртгэл амжилттай!
+        </ModalHeader>
+        <ModalCloseButton />
+
+        <ModalBody>
+          <Box
+            border="1px solid"
+            borderColor="gray.200"
+            borderRadius="md"
+            p={4}
+            bg="gray.50"
+          >
+            <Stack spacing={3} fontSize="md">
+              <Box>
+                <strong style={{ color: "#2B6CB0" }}>Картын дугаар:</strong>
+                <Box
+                  fontSize="xl"
+                  fontWeight="bold"
+                  color="blue.600"
+                  mt={1}
+                  p={2}
+                  bg="white"
+                  borderRadius="md"
+                  textAlign="center"
+                  border="1px dashed #3182CE"
+                >
+                  {savedInfo?.cardNumber}
+                </Box>
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <strong style={{ color: "#2F855A" }}>Үйлчлүүлэгч:</strong>
+                <Box mt={1}>{savedInfo?.lastName} {savedInfo?.firstName}</Box>
+              </Box>
+
+              <Box>
+                <strong style={{ color: "#805AD5" }}>Утас:</strong>
+                <Box mt={1}>{savedInfo?.phone}</Box>
+              </Box>
+            </Stack>
+          </Box>
+        </ModalBody>
+
+        <ModalFooter justifyContent="center">
+          <Button 
+            colorScheme="blue" 
+            w="100%" 
+            borderRadius="full"
+            size="lg"
+            onClick={() => router.push('https://edental.mn')}
+          >
+            Хаах
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+
     </Flex>
+    
   );
 }
 
