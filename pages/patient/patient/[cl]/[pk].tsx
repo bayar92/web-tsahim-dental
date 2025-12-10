@@ -142,7 +142,7 @@ export default function Patient({ pk, cl }: { pk: string; cl: string }) {
       <Box p={6} border="1px" borderColor="gray.200" m={4} borderRadius="md" maxW={640} w="100%" boxShadow="sm" bg="white">
       {cl == 'GZeuFqzMLRSEniaz' && ( 
         <Heading size="lg" mb={4} textAlign="center">
-          "Зонне" шүдний эмнэлэг
+          Зонне шүдний эмнэлэг
         </Heading>
       )}
         <Heading size="lg" mb={4} textAlign="center">
