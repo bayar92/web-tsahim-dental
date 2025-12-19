@@ -354,7 +354,7 @@ export const Pricing = () => {
                               wrap="wrap"
                               gap={2}
                             >
-                              <Box w={{ base: "auto", md: "30%" }}>
+                              <Box w={{ base: "auto", md: "60%" }} >
                                 <Text
                                   fontSize={{ base: "18px", md: "20px" }}
                                   fontWeight="semibold"

@@ -149,12 +149,12 @@ export const HeroSection = () => {
                 </Text>
               </Box>
             </VStack>
-            <Box py={4}>
+            {/* <Box py={4}>
               <Button onClick={onOpen}>
                 <Icon as={BsDownload} mr="2" />
                 Туршилтын хувилбар татах
               </Button>
-            </Box>
+            </Box> */}
 
             {/* --- FEATURES SECTION --- */}
             <Box id="features" position="relative" w="full">
