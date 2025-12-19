@@ -94,7 +94,7 @@ export const LandingLayout = ({ children }: { children?: ReactNode }) => {
                     <NextLink href="#about-me">
                       <MenuItem>Холбоо барих</MenuItem>
                     </NextLink>
-                    <NextLink href="/">
+                    <NextLink href="/directions">
                       <MenuItem>Зааврууд</MenuItem>
                     </NextLink>
                     <MenuDivider />
@@ -121,7 +121,7 @@ export const LandingLayout = ({ children }: { children?: ReactNode }) => {
                   <NextLink href="#about-me">
                     <Text>Холбоо барих</Text>
                   </NextLink>
-                  <NextLink href="/" >
+                  <NextLink href="/directions" >
                     <Text borderBottom={"1px solid gray"}>Зааврууд</Text>
                   </NextLink>
                   {user ? (
