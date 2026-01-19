@@ -8,46 +8,83 @@ type HandlerType = "afternoon" | "tomorning";
 
 function cyrillicToLatin(text: string) {
   const map = {
-    А: "A", а: "a",
-    Б: "B", б: "b",
-    В: "V", в: "v",
-    Г: "G", г: "g",
-    Д: "D", д: "d",
-    Е: "E", е: "e",
-    Ё: "Yo", ё: "yo",
-    Ж: "J", ж: "j",
-    З: "Z", з: "z",
-    И: "I", и: "i",
-    Й: "I", й: "i",
-    К: "K", к: "k",
-    Л: "L", л: "l",
-    М: "M", м: "m",
-    Н: "N", н: "n",
-    О: "O", о: "o",
-    Ө: "U", ө: "u",
-    П: "P", п: "p",
-    Р: "R", р: "r",
-    С: "S", с: "s",
-    Т: "T", т: "t",
-    У: "U", у: "u",
-    Ү: "U", ү: "u",
-    Ф: "F", ф: "f",
-    Х: "Kh", х: "kh",
-    Ц: "Ts", ц: "ts",
-    Ч: "Ch", ч: "ch",
-    Ш: "Sh", ш: "sh",
-    Щ: "Sh", щ: "sh",
-    Ъ: "", ъ: "",
-    Ы: "Y", ы: "y",
-    Ь: "", ь: "",
-    Э: "E", э: "e",
-    Ю: "Yu", ю: "yu",
-    Я: "Ya", я: "ya"
+    А: "A",
+    а: "a",
+    Б: "B",
+    б: "b",
+    В: "V",
+    в: "v",
+    Г: "G",
+    г: "g",
+    Д: "D",
+    д: "d",
+    Е: "E",
+    е: "e",
+    Ё: "Yo",
+    ё: "yo",
+    Ж: "J",
+    ж: "j",
+    З: "Z",
+    з: "z",
+    И: "I",
+    и: "i",
+    Й: "I",
+    й: "i",
+    К: "K",
+    к: "k",
+    Л: "L",
+    л: "l",
+    М: "M",
+    м: "m",
+    Н: "N",
+    н: "n",
+    О: "O",
+    о: "o",
+    Ө: "U",
+    ө: "u",
+    П: "P",
+    п: "p",
+    Р: "R",
+    р: "r",
+    С: "S",
+    с: "s",
+    Т: "T",
+    т: "t",
+    У: "U",
+    у: "u",
+    Ү: "U",
+    ү: "u",
+    Ф: "F",
+    ф: "f",
+    Х: "Kh",
+    х: "kh",
+    Ц: "Ts",
+    ц: "ts",
+    Ч: "Ch",
+    ч: "ch",
+    Ш: "Sh",
+    ш: "sh",
+    Щ: "Sh",
+    щ: "sh",
+    Ъ: "",
+    ъ: "",
+    Ы: "Y",
+    ы: "y",
+    Ь: "",
+    ь: "",
+    Э: "E",
+    э: "e",
+    Ю: "Yu",
+    ю: "yu",
+    Я: "Ya",
+    я: "ya",
   };
 
-  return text.split('').map((ch: string) => map[ch as keyof typeof map] ?? ch).join('');
+  return text
+    .split("")
+    .map((ch: string) => map[ch as keyof typeof map] ?? ch)
+    .join("");
 }
-
 
 function formatDateUTC(date: Date) {
   const yyyy = date.getUTCFullYear();
@@ -100,7 +137,7 @@ export default async function handler(
     "uGiJQUeiwmJm1AHG",
     "X8CLKeswvlaIcj5z",
     "VV1tS59yQZQtxjhK",
-    "iUEmbWAl8RlHe2L3",
+    // "iUEmbWAl8RlHe2L3",
     "dental_clinic",
   ];
   //
@@ -126,21 +163,20 @@ export default async function handler(
         const doctor = ap.DoctorName ?? "";
         const phoneHospital = ap.HosPhone ?? "";
         const phonePatient: string | null = ap.PhoneNumber ?? null;
-        
+
         const doctorLatin = cyrillicToLatin(doctor);
         const patientLatin = cyrillicToLatin(patient);
         const hospitalLatin = cyrillicToLatin(hospital);
-        
+
         // const message =
         //   `Sain bn uu? ${hospitalLatin} shudnii emneleg baina. ` +
         //   `${patientLatin} ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina. ` +
         //   `Utas: ${phoneHospital}`;
 
-          const message =
+        const message =
           `Sain bn uu? ${hospitalLatin} shudnii emneleg baina.` +
           `Ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina.` +
           `Utas: ${phoneHospital}`;
-        
 
         console.log("✉️", message);
 
