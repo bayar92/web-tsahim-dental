@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getDbConnectionById, queryAppointments } from "@lib/db";
 import { sendSMS } from "@lib/sms";
+import sql from "mssql";
 import { markSmsSent } from "@lib/db";
 import { markSmsData } from "@lib/db";
 
@@ -142,62 +143,78 @@ export default async function handler(
   ];
   //
   let totalSent = 0;
-
   for (const dbName of databaseList) {
     try {
       const pool = await getDbConnectionById(dbName);
-
       const appointments = await queryAppointments(pool, startUTC, endUTC);
 
       console.log(`📋 ${dbName} - Appointments found: ${appointments.length}`);
 
       for (const ap of appointments) {
-        // ap.StartDate-г Date болгоно (DB-с string ирэх магадлалтай)
         const start = new Date(ap.StartDate);
-
-        // Зөвхөн UTC формат:
         const startUtcStr = formatDateUTC(start);
 
-        const hospital = ap.HospitalName ?? "";
-        const patient = ap.PatientName ?? "";
-        const doctor = ap.DoctorName ?? "";
+        const hospitalLatin = cyrillicToLatin(ap.HospitalName ?? "");
+        const patientLatin = cyrillicToLatin(ap.PatientName ?? "");
         const phoneHospital = ap.HosPhone ?? "";
         const phonePatient: string | null = ap.PhoneNumber ?? null;
 
-        const doctorLatin = cyrillicToLatin(doctor);
-        const patientLatin = cyrillicToLatin(patient);
-        const hospitalLatin = cyrillicToLatin(hospital);
-
-        // const message =
-        //   `Sain bn uu? ${hospitalLatin} shudnii emneleg baina. ` +
-        //   `${patientLatin} ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina. ` +
-        //   `Utas: ${phoneHospital}`;
-
         const message =
-          `Sain bn uu? ${hospitalLatin} shudnii emneleg baina.` +
-          `Ta ${startUtcStr}-d ${doctorLatin} emchid uzuulekh tsag avsan baina.` +
+          `Sain bn uu? ${hospitalLatin} shudnii emneleg baina. ` +
+          `${patientLatin} ta ${startUtcStr}-d uzuulekh tsag avsan baina. ` +
           `Utas: ${phoneHospital}`;
 
-        console.log("✉️", message);
-
         if (!phonePatient) {
-          console.log(`⚠️ No phone number for ${patient}`);
+          console.log(`⚠️ No phone number for ${patientLatin}`);
           continue;
         }
 
+        let transaction: sql.Transaction | null = null;
+
         try {
           await sendSMS(phonePatient, message);
-          await markSmsSent(pool, ap.UniqueID);
-          await markSmsData(pool, ap.PersonPK, ap.UniqueID);
+
+          transaction = new sql.Transaction(pool);
+          await transaction.begin();
+
+          await transaction.request()
+            .input("id", sql.Int, ap.UniqueID)
+            .query(`
+              UPDATE [dbo].[Appointments]
+              SET smsStatus = 1
+              WHERE UniqueID = @id
+            `);
+
+          await transaction.request()
+            .input("PersonPK", sql.Int, ap.PersonPK)
+            .input("UniqueID", sql.Int, ap.UniqueID)
+            .query(`
+              INSERT INTO [dbo].[cSmsData]
+              (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
+              VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
+            `);
+
+          await transaction.commit();
           totalSent++;
+
         } catch (err) {
-          console.error(`❌ Failed to send to ${phonePatient}:`, err);
+          if (transaction) {
+            try {
+              await transaction.rollback();
+            } catch (rbErr) {
+              console.error("❌ Rollback failed:", rbErr);
+            }
+          }
+
+          console.error(
+            `❌ Failed SMS. DB=${dbName}, UniqueID=${ap.UniqueID}, Phone=${phonePatient}`,
+            err
+          );
         }
       }
     } catch (err) {
-      console.error(`❌ Failed for ${dbName}:`, err);
+      console.error(`❌ Failed for DB ${dbName}:`, err);
     }
   }
-
   return res.status(200).json({ success: true, totalSent });
 }
