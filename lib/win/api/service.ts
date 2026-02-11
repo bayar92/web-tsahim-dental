@@ -3,12 +3,15 @@ import { getCurrentDate } from "@api/currentDate";
 import { AppError } from "@util/errors";
 
 export const createPhotoUploadToken = async (hospitalId: string, hospitalUserKey: string) => {
+  console.log("falksdhfkjasd")
   const token = await checkPhotoUploadToken(hospitalId, hospitalUserKey);
   if (token) {
     return token;
   }
   const currentDate = getCurrentDate(); //3 hours from current date
   const expiresAt = new Date(currentDate.getTime() + (3 * 60 * 60 * 1000));
+  console.log(hospitalId);
+  console.log(hospitalUserKey)
   return prisma.photoUploadToken.create({
     data: {
       hospitalId,
