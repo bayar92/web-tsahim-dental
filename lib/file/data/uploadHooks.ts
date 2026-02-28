@@ -11,48 +11,22 @@ const getSignedUrl = async (file: File) => {
 
   return result;
 };
-
-export const uploadToS3 = async ({
-  file,
-  setProgress,
-  cancel,
-}: {
-  file: File;
-  setProgress?: any;
-  cancel?: CancelTokenSource;
-}) => {
+export const uploadToS3 = async ({ file, setProgress, cancel }:{ file: File; setProgress?: any; cancel?: CancelTokenSource}) => {
   const { signedRequest, url } = await getSignedUrl(file);
-  
-  const cloudFrontCDN =
-    "https://d20w50h9bogza6.cloudfront.net";    
-  //  process.env.AWS_CLOUDFRONT_URL ||
 
-  let returnUrl = url.replace(
-    "https://edentalmn.s3.ap-northeast-2.amazonaws.com/",
-    cloudFrontCDN
-  );
+  let returnUrl = url;
 
-  await axios
-    .put(signedRequest, file, {
-      headers: {
-        "Content-Type": file.type,
-      },
-      cancelToken: cancel?.token,
-      onUploadProgress: (progressEvent) => {
-        let percentCompleted = progressEvent.total
-          ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
-          : 0;
-        setProgress && setProgress(percentCompleted);
-      },
-    })
-    .catch(function (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-        returnUrl = "";
-      } else {
-        console.log("error:", error.message);
-      }
-    });
+  await axios.put(signedRequest, file, {
+    headers: { "Content-Type": file.type },
+    cancelToken: cancel?.token,
+    onUploadProgress: (e) => {
+      const percent = e.total ? Math.round((e.loaded * 100) / e.total) : 0;
+      setProgress?.(percent);
+    },
+  }).catch((error) => {
+    if (axios.isCancel(error)) returnUrl = "";
+    else console.log("error:", error.message);
+  });
 
   return returnUrl;
 };

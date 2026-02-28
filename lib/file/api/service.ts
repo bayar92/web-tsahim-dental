@@ -4,21 +4,23 @@ import { PatientNoteFileType, QuestionFileType } from "../data/uploadHooks";
 import { prisma } from "@api/prisma";
 import { AppError } from "@util/errors";
 import { getCurrentDate } from "@api/currentDate";
-const a = "TfU98ZqEfoqY7fCfn7Hfpf";
-const b = "HkkruMUZnJCJpe2/IT";
-const c = "AKIAUYJM45D46MKJ3MIQ";
+import crypto from "crypto";
+import path from "path";
+// const a = "TfU98ZqEfoqY7fCfn7Hfpf";
+// const b = "HkkruMUZnJCJpe2/IT";
+// const c = "AKIAS6QG57GCXVMA7GPM";
 const s3 = new S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID_F || c,//process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_F || a + b,//process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,//process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey:process.env.AWS_SECRET_ACCESS_KEY, //process.env.AWS_SECRET_ACCESS_KEY_F || a + b,
   region: "ap-northeast-2",
 });
 
-const bucket = "edental-bucket"// process.env.AWS_BUCKET ? process.env.AWS_BUCKET : "";
+const bucket = "edental.mn"// process.env.AWS_BUCKET ? process.env.AWS_BUCKET : "";
 
 const generateKey = async (fileName: string) => {
-  // TODO: Generate unique key
-  const id = await hash(fileName, 10);
-  return id;
+  const ext = path.extname(fileName) || "";   // ".jpg" гэх мэт
+  const id = crypto.randomUUID();             // URL-safe
+  return `${id}${ext}`;
 };
 
 export const getUploadKey = async (
@@ -38,7 +40,7 @@ export const getUploadKey = async (
         if (error) reject(error);
         resolve({
           signedRequest: data,
-          url: `https://s3.amazonaws.com/${bucket}/${key}`,
+          url: `https://d33uusnjh2qh6s.cloudfront.net/${key}`,
         });
       }
     );
