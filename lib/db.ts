@@ -59,6 +59,7 @@ export async function queryAppointments(
         WHERE ap.StartDate >= @startDate 
           AND ap.StartDate < @endDate 
           AND ap.smsStatus IS NULL
+          AND ap.status != 5
         ORDER BY ap.StartDate ASC;
       `);
 
@@ -70,8 +71,7 @@ export async function queryAppointments(
 }
 
 export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
-  await pool.request().input("id", sql.Int, uniqueId)
-    .query(`
+  await pool.request().input("id", sql.Int, uniqueId).query(`
       UPDATE [dbo].[Appointments]
       SET smsStatus = 1
       WHERE UniqueID = @id;
