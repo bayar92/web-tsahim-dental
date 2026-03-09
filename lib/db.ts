@@ -73,7 +73,6 @@ export async function queryAppointments(
 export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
   await pool.request().input("id", sql.Int, uniqueId).query(`
       UPDATE [dbo].[Appointments]
-      SET smsStatus = 1
       WHERE UniqueID = @id;
     `);
 }
