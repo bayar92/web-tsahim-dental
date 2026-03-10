@@ -58,7 +58,9 @@ export async function queryAppointments(
         CROSS JOIN [dbo].[cHospital] h
         WHERE ap.StartDate >= @startDate 
           AND ap.StartDate < @endDate 
-          AND ap.status != 5
+          AND ap.smsStatus IS NULL
+          AND (ap.status != 5 OR ap.status IS NULL)
+          AND (ap.Type != 1 OR ap.Type IS NULL)
         ORDER BY ap.StartDate ASC;
       `);
 
