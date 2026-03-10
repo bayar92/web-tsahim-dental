@@ -58,7 +58,6 @@ export async function queryAppointments(
         CROSS JOIN [dbo].[cHospital] h
         WHERE ap.StartDate >= @startDate 
           AND ap.StartDate < @endDate 
-          AND ap.smsStatus IS NULL
           AND ap.status != 5
         ORDER BY ap.StartDate ASC;
       `);
@@ -73,6 +72,7 @@ export async function queryAppointments(
 export async function markSmsSent(pool: sql.ConnectionPool, uniqueId: number) {
   await pool.request().input("id", sql.Int, uniqueId).query(`
       UPDATE [dbo].[Appointments]
+      SET smstatus = 1
       WHERE UniqueID = @id;
     `);
 }
