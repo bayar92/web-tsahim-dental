@@ -139,7 +139,8 @@ export default async function handler(
     "X8CLKeswvlaIcj5z",
     // "VV1tS59yQZQtxjhK",
     // "iUEmbWAl8RlHe2L3",
-    "dental_clinic",
+    // "dental_clinic",
+    "IS8uMR5hxGYVabgo",
   ];
   //
   let totalSent = 0;
@@ -177,18 +178,16 @@ export default async function handler(
           transaction = new sql.Transaction(pool);
           await transaction.begin();
 
-          await transaction.request()
-            .input("id", sql.Int, ap.UniqueID)
-            .query(`
+          await transaction.request().input("id", sql.Int, ap.UniqueID).query(`
               UPDATE [dbo].[Appointments]
               SET smsStatus = 1
               WHERE UniqueID = @id
             `);
 
-          await transaction.request()
+          await transaction
+            .request()
             .input("PersonPK", sql.Int, ap.PersonPK)
-            .input("UniqueID", sql.Int, ap.UniqueID)
-            .query(`
+            .input("UniqueID", sql.Int, ap.UniqueID).query(`
               INSERT INTO [dbo].[cSmsData]
               (createdDate, Desctiption, PersonPK, Status, AppoinmentPK)
               VALUES (SYSUTCDATETIME(), N'Цаг захиалга', @PersonPK, N'Sent', @UniqueID)
@@ -196,7 +195,6 @@ export default async function handler(
 
           await transaction.commit();
           totalSent++;
-
         } catch (err) {
           if (transaction) {
             try {
