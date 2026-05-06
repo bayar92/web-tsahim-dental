@@ -135,12 +135,12 @@ export default async function handler(
   );
 
   const databaseList = [
-    // "uGiJQUeiwmJm1AHG",
-    // "X8CLKeswvlaIcj5z",
+    "uGiJQUeiwmJm1AHG",
+    "X8CLKeswvlaIcj5z",
     // "VV1tS59yQZQtxjhK",
     // "iUEmbWAl8RlHe2L3",
-    "dental_clinic",
-    // "IS8uMR5hxGYVabgo",
+    // "dental_clinic",
+    "IS8uMR5hxGYVabgo",
   ];
   //
   let totalSent = 0;
