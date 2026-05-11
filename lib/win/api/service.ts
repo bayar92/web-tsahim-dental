@@ -50,7 +50,7 @@ export const checkPatientPhoto = async (hospitalId: string, hospitalUserId: stri
       photoUrl: true,
     },
   });
-  //update sync date
+  
   await prisma.photoUpload.updateMany({
     where: { id: { in: photos.map((photo) => photo.id) } },
     data: { syncedAt: new Date(), isSynced: true },
