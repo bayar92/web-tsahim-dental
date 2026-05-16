@@ -8,12 +8,14 @@ const app = next({ dev });
 const port = parseInt(process.env.PORT || "3000", 10);
 const handle = app.getRequestHandler();
 
+const host = process.env.HOST || "0.0.0.0";
+
 app.prepare().then(() => {
   createServer((req, res) => {
     handle(req, res, parse(req.url, true));
-  }).listen(port, () => {
+  }).listen(port, host, () => {
     console.log(
-      `> Server listening at http://localhost:${port} as ${
+      `> Server listening at http://${host}:${port} as ${
         dev ? "development" : process.env.NODE_ENV
       }`
     );
