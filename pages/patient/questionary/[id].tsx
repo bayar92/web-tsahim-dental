@@ -1,11 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
-import SignatureCanvas from 'react-signature-canvas';
+import dynamic from 'next/dynamic';
+import type SignatureCanvasType from 'react-signature-canvas';
 import {
   Box, Checkbox, Heading, Button, Stack, Text, Textarea, Input,
   Radio, RadioGroup, useToast, CheckboxGroup, SimpleGrid
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+
+const SignatureCanvas = dynamic(
+  () => import('react-signature-canvas'),
+  { ssr: false }
+) as unknown as typeof SignatureCanvasType;
 
 
 const diseasesList = [
@@ -29,7 +35,7 @@ export default function QuestionaryPage() {
     }
   }, [router.asPath]);
 
-  const sigCanvasRef = useRef<SignatureCanvas>(null);
+  const sigCanvasRef = useRef<SignatureCanvasType>(null);
 
   const [reason, setReason] = useState('');
   const [allergyName, setAllergyName] = useState('');
