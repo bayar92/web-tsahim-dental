@@ -7,7 +7,6 @@ import Head from "next/head";
 import Router from "next/router";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { Analytics } from "@vercel/analytics/react";
 import "@fontsource/inter";
 import "@fontsource/inter/100.css";
 import "@fontsource/inter/200.css";
@@ -54,7 +53,6 @@ export const reportWebVitals = ({
 const MyApp = ({ Component, pageProps }: Props) => {
   return (
     <>
-      <Analytics />
       <ChakraProvider theme={theme}>
         <Head>
           <meta

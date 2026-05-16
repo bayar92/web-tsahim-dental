@@ -58,7 +58,6 @@ export const LandingLayout = ({ children }: { children?: ReactNode }) => {
     router.push("/");
     onClose();
   };
-  console.log(user);
   return (
     <Box px={4}>
       <VStack

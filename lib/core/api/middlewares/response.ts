@@ -21,7 +21,9 @@ export const responseMiddleware = (
     if (typeof error === "number")
       error = new AppError(error, message, translationKey, isOperational);
 
-    if (isDev) console.error(error);
+    const statusCode =
+      (error as AppError)?.statusCode ?? 500;
+    if (isDev && statusCode >= 500) console.error(error);
 
     if (assertAppError(error)) {
       res.status(error.statusCode || 500).json({
