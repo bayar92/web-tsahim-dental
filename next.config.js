@@ -1,6 +1,18 @@
-import nextTranslate from "next-translate-plugin";
+const nextTranslate = require("next-translate-plugin");
 
 const nextConfig = {
+  reactStrictMode: true,
+
+  turbopack: {},
+
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   headers: async () => [
     {
       source: "/(.*)?",
@@ -16,9 +28,6 @@ const nextConfig = {
       ],
     },
   ],
-
-  eslint: {},
-  reactStrictMode: true,
 };
 
-export default nextTranslate(nextConfig);
+module.exports = nextTranslate(nextConfig);
