@@ -1,4 +1,4 @@
-const nextTranslate = require("next-translate-plugin");
+import nextTranslate from "next-translate-plugin";
 
 const nextConfig = {
   headers: async () => [
@@ -16,17 +16,16 @@ const nextConfig = {
       ],
     },
   ],
+
   // async redirects() {
   //   return [
   //     {
-  //       // source: "/widget",
-  //       // destination: "/app/patient",
-  //       // permanent: true,
   //     },
   //   ];
   // },
+
   eslint: {},
   reactStrictMode: true,
 };
 
-module.exports = nextTranslate(nextConfig);
+export default nextTranslate(nextConfig);
