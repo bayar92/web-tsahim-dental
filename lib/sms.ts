@@ -53,7 +53,6 @@ export async function incrementSlot() {
   let slot = await getTodaySlot();
 
   if (slot.count >= LIMIT_PER_NUMBER) {
-
     const slotIndex = list.length; // 0–∞
     const nextNumber = String(BASE_NUMBER + (slotIndex % 9)); // 0–8 давтан
 
@@ -86,17 +85,48 @@ export async function sendSMS(phone: string, message: string) {
     `&to=${encodeURIComponent(phone)}` +
     `&text=${encodeURIComponent(message)}`;
 
-  const resp = await fetch(url, { method: "GET" });
-  const result = await resp.json();
+  try {
+    const resp = await fetch(url, { method: "GET" });
 
-  if (!resp.ok || result[0].Result !== "SUCCESS") {
-    throw new Error(result[0].Reason || "SMS error");
+    const rawText = await resp.text();
+
+    console.log("SMS RAW RESPONSE:", rawText);
+
+    let result: any;
+
+    try {
+      result = JSON.parse(rawText);
+    } catch {
+      throw new Error(`Invalid JSON response: ${rawText}`);
+    }
+
+    // validation
+    if (!Array.isArray(result) || result.length === 0) {
+      throw new Error(`Empty SMS response: ${rawText}`);
+    }
+
+    const first = result[0];
+
+    if (!resp.ok) {
+      throw new Error(first?.Reason || first?.Message || `HTTP ${resp.status}`);
+    }
+
+    if (first?.Result !== "SUCCESS") {
+      throw new Error(first?.Reason || first?.Message || "SMS sending failed");
+    }
+
+    const updatedSlot = await incrementSlot();
+
+    return {
+      ...first,
+      slot: updatedSlot,
+    };
+  } catch (err: any) {
+    console.error("❌ SMS SEND ERROR:", {
+      phone,
+      error: err?.message,
+    });
+
+    throw err;
   }
-
-  const updatedSlot = await incrementSlot();
-
-  return {
-    ...result[0],
-    slot: updatedSlot,
-  };
 }
