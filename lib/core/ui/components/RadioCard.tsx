@@ -1,14 +1,15 @@
-import { Box, useRadio } from "@chakra-ui/react";
+import { Box, useRadio, UseRadioProps } from "@chakra-ui/react";
 
-export const RadioCard = (props: any) => {
-  const { getInputProps, getRadioProps } = useRadio(props);
+export const RadioCard = (props: UseRadioProps & any) => {
+  const radioHook = useRadio(props);
 
-  const input = getInputProps();
-  const radio = getRadioProps();
+  const input = radioHook.getInputProps();
+  const radio = radioHook.getRadioProps();
 
   return (
     <Box as="label" w={props.width} h={props.height}>
       <input {...input} />
+
       <Box
         {...radio}
         cursor="pointer"
