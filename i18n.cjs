@@ -2,10 +2,7 @@ module.exports = {
   locales: ["mn"],
   defaultLocale: "mn",
   pages: {
-    "*": [
-      "app",
-      "error",
-    ],
+    "*": ["app", "error"],
   },
   interpolation: {
     prefix: "${",

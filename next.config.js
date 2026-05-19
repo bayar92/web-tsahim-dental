@@ -17,13 +17,6 @@ const nextConfig = {
     },
   ],
 
-  // async redirects() {
-  //   return [
-  //     {
-  //     },
-  //   ];
-  // },
-
   eslint: {},
   reactStrictMode: true,
 };
