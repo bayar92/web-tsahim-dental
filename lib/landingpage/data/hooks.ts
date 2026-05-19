@@ -2,7 +2,7 @@ import { API, Method } from "@util/query";
 import { useMutation } from "react-query";
 
 export const useJoinWaitList = () =>
-  useMutation(API._auth(Method.POST, `landing/joinwaitlist`, true));
+  useMutation(API.useAuthMutation(Method.POST, `landing/joinwaitlist`, true));
 
 export const useFreeTrialDownloaderList = () =>
-  useMutation(API._auth(Method.POST, `landing/freetrial`, true));
+  useMutation(API.useAuthMutation(Method.POST, `landing/freetrial`, true));

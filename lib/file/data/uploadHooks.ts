@@ -63,22 +63,22 @@ export type PatientNoteFileTypeSelect = {
   id: string;
 };
 export const useCreateQuestionFile = () =>
-  useMutation(API._mutate(Method.POST, `file/doctorquestion`));
+  useMutation(API.useMutateFn(Method.POST, `file/doctorquestion`));
 
 export const useCreatePatientNoteFile = () =>
-  useMutation(API._mutate(Method.POST, `file/patientnote`));
+  useMutation(API.useMutateFn(Method.POST, `file/patientnote`));
 
 export const useDeletePatientNoteFile = () =>
-  useMutation(API._mutate(Method.DELETE, `file/patientnote`));
+  useMutation(API.useMutateFn(Method.DELETE, `file/patientnote`));
 
 export const usePatientNoteFiles = (patientNoteId: string) =>
   useQuery<PatientNoteFileTypeSelect[]>(
     ["patientNoteId", patientNoteId],
-    API._query(Method.GET, `file/patientnote`, { patientNoteId })
+    API.useQueryFn(Method.GET, `file/patientnote`, { patientNoteId })
   );
 
 export const usePatientFiles = (patientId: string) =>
   useQuery<PatientNoteFileTypeSelect[]>(
     ["patientNoteId", patientId],
-    API._query(Method.GET, `file/document/patient/${patientId}`)
+    API.useQueryFn(Method.GET, `file/document/patient/${patientId}`)
   );

@@ -78,7 +78,7 @@ export const API = {
           return body;
         })
     ),
-  _auth: (method: Method, path: string, shouldInvalidate?: boolean) => {
+  useAuthMutation: (method: Method, path: string, shouldInvalidate?: boolean) => {
     const handleAuth = useHandleAuth(shouldInvalidate);
     return (data: any): Promise<AuthUser> =>
       fetch(endpoint(path), {
@@ -100,7 +100,7 @@ export const API = {
         })
       );
   },
-  _query: (
+  useQueryFn: (
     method: Method,
     path: string,
     params = {},
@@ -115,7 +115,7 @@ export const API = {
         body: method === Method.GET ? undefined : JSON.stringify(data),
       }).then(handleResp(refetch, te));
   },
-  _mutate: (
+  useMutateFn: (
     method: Method,
     path: string,
     params = {}

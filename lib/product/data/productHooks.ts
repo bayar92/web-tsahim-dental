@@ -26,4 +26,4 @@ type ProductDto = {
 };
 
 export const useGetProducts = () =>
-  useQuery<ProductDto[]>(["products"], API._query(Method.GET, `product`, {}));
+  useQuery<ProductDto[]>(["products"], API.useQueryFn(Method.GET, `product`, {}));

@@ -13,7 +13,7 @@ export const useHospitalAdminUserList = (filter: QueryParamType) =>
       filter.country,
       filter.text,
     ],
-    API._query(Method.POST, `users/hospitaladminusers`, {}, filter),
+    API.useQueryFn(Method.POST, `users/hospitaladminusers`, {}, filter),
     { enabled: !!filter }
   );
 
@@ -27,25 +27,25 @@ export const useUserList = (filter: QueryParamType) =>
       filter.country,
       filter.text,
     ],
-    API._query(Method.POST, `users/list`, {}, filter),
+    API.useQueryFn(Method.POST, `users/list`, {}, filter),
     { enabled: !!filter }
   );
 
 export const useUserDetail = (userId: any) => {
   return useQuery(
     ["userDetail", userId],
-    API._query(Method.GET, `users/detail/${userId}`),
+    API.useQueryFn(Method.GET, `users/detail/${userId}`),
     { initialData: [] }
   );
 };
 
 // Delete invited user only
 export const useDeleteInvitedUser = (userId: string) =>
-  useMutation(API._mutate(Method.DELETE, `user/${userId}`));
+  useMutation(API.useMutateFn(Method.DELETE, `user/${userId}`));
 // Delete invited user only
 export const useConnectWithLocalDoctor = (interviewId: string) =>
   useMutation(
-    API._mutate(
+    API.useMutateFn(
       Method.POST,
       `users/localdoctors/connect?interviewId=${interviewId}`
     )
@@ -71,7 +71,7 @@ export const useDoctorsBySpecialistType = ({
     isAllowedToClick?: boolean;
   }>(
     ["localdoctorsspecialist", specialisttype],
-    API._query(
+    API.useQueryFn(
       Method.POST,
       `users/localdoctors/type`,
       {},
@@ -89,21 +89,21 @@ export const useDoctorsBySpecialistType = ({
 
 // Create a new user
 export const useCreateUser = () =>
-  useMutation(API._mutate(Method.POST, `user`));
+  useMutation(API.useMutateFn(Method.POST, `user`));
 
 export const useCreateUserFromContact = () =>
-  useMutation(API._mutate(Method.POST, `users/create`));
+  useMutation(API.useMutateFn(Method.POST, `users/create`));
 
 // Update an existing user
 export const useUpdateUser = (userId: string) =>
-  useMutation(API._mutate(Method.PUT, `user/${userId}`));
+  useMutation(API.useMutateFn(Method.PUT, `user/${userId}`));
 
 // Get list of all users
 // Only verified and
 export const useLocaldoctors = (country?: string) => {
   return useQuery(
     ["localdoctors", country],
-    API._query(Method.GET, `users/localdoctors`, { country }),
+    API.useQueryFn(Method.GET, `users/localdoctors`, { country }),
     { initialData: [], enabled: !!country }
   );
 };
@@ -112,7 +112,7 @@ export const useLocaldoctors = (country?: string) => {
 export const useDisableLocaldoctorMatch = (id?: string) => {
   return useQuery(
     ["disablelocaldoctors", id],
-    API._query(Method.POST, `users/localdoctors/disablematch/${id}`, { id }),
+    API.useQueryFn(Method.POST, `users/localdoctors/disablematch/${id}`, { id }),
     { initialData: [], enabled: !!id }
   );
 };
@@ -121,42 +121,42 @@ export const useDisableLocaldoctorMatch = (id?: string) => {
 export const useEnableLocaldoctorMatch = (id?: string) => {
   return useQuery(
     ["enablelocaldoctors", id],
-    API._query(Method.POST, `users/localdoctors/enablematch/${id}`, { id }),
+    API.useQueryFn(Method.POST, `users/localdoctors/enablematch/${id}`, { id }),
     { initialData: [], enabled: !!id }
   );
 };
 
 // Enable/Disable localdoctor auto match
 export const useToggleLocaldoctorMatch = () =>
-  useMutation(API._mutate(Method.POST, `users/localdoctors/togglematch`));
+  useMutation(API.useMutateFn(Method.POST, `users/localdoctors/togglematch`));
 
 //Subscription toggle
 export const useToggleLocaldoctorSubscription = () =>
   useMutation(
-    API._mutate(Method.POST, `users/localdoctors/togglesubscription`)
+    API.useMutateFn(Method.POST, `users/localdoctors/togglesubscription`)
   );
 
 // Get patient access table data
 export const usePatientAccess = (userId: string) => {
   return useQuery(
     ["patientAccess", userId],
-    API._query(Method.GET, `users/detail/${userId}/patientAccess`),
+    API.useQueryFn(Method.GET, `users/detail/${userId}/patientAccess`),
     { initialData: [], enabled: !!userId }
   );
 };
 
 // Give new access to local doctor
 export const useAssignToLocalDoctor = () =>
-  useMutation(API._mutate(Method.POST, `patient/giveaccess`));
+  useMutation(API.useMutateFn(Method.POST, `patient/giveaccess`));
 
 // Give new access to local doctor
 export const useRemoveFromAccessTable = () =>
-  useMutation(API._mutate(Method.POST, `patient/removeaccess`));
+  useMutation(API.useMutateFn(Method.POST, `patient/removeaccess`));
 
 // Give new access to local doctor
 export const usePhonechangemanually = () =>
-  useMutation(API._mutate(Method.POST, `users/phonechangemanually`));
+  useMutation(API.useMutateFn(Method.POST, `users/phonechangemanually`));
 export const useChangePasswordManually = () =>
-  useMutation(API._mutate(Method.POST, `users/changepassword`));
+  useMutation(API.useMutateFn(Method.POST, `users/changepassword`));
 export const useChangeEmailManually = () =>
-  useMutation(API._mutate(Method.POST, `users/changeemail`));
+  useMutation(API.useMutateFn(Method.POST, `users/changeemail`));

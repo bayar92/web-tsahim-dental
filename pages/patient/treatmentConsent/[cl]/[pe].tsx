@@ -136,7 +136,9 @@ export default function TreatmentPage({ treatments, tenantDB, personId,  }: { tr
             <Text fontWeight="semibold" mb={2}>Үйлчлүүлэгчийн гарын үсэг</Text>
             <Box border="1px" borderColor="gray.300" borderRadius="md" p={2}>
               <SignaturePad
-                ref={(ref) => (sigPadRef.current = ref)}
+                ref={(ref) => {
+                  sigPadRef.current = ref;
+                }}
                 canvasProps={{
                   width: 500,
                   height: 200,

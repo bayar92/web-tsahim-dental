@@ -4,6 +4,6 @@ import { useQuery } from "react-query";
 export const useIpAddressToCountryCode = () =>
   useQuery(
     ["useIpAddressToCountryCode"],
-    API._query(Method.GET, `ip2location`),
+    API.useQueryFn(Method.GET, `ip2location`),
     {}
   );

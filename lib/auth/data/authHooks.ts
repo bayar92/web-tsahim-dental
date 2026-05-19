@@ -18,31 +18,31 @@ export const useCurrentUser = () => {
 };
 
 export const useRefresh = () =>
-  useQuery([`refresh`], API._query(Method.GET, `auth/refresh`));
+  useQuery([`refresh`], API.useQueryFn(Method.GET, `auth/refresh`));
 
 export const useLogin = () =>
-  useMutation(API._auth(Method.POST, `auth/login`, true));
+  useMutation(API.useAuthMutation(Method.POST, `auth/login`, true));
 
 export const useSignup = () =>
-  useMutation(API._auth(Method.POST, `auth/signup`));
+  useMutation(API.useAuthMutation(Method.POST, `auth/signup`));
 
 export const usePasswordCreate = () =>
-  useMutation(API._auth(Method.PUT, `auth/password/create`, true));
+  useMutation(API.useAuthMutation(Method.PUT, `auth/password/create`, true));
 
 export const usePasswordForgotRequest = () =>
-  useMutation(API._auth(Method.PATCH, `auth/password/forgot`));
+  useMutation(API.useAuthMutation(Method.PATCH, `auth/password/forgot`));
 
 export const usePasswordForgotCheck = () =>
-  useMutation(API._auth(Method.POST, `auth/password/forgot`));
+  useMutation(API.useAuthMutation(Method.POST, `auth/password/forgot`));
 
 export const usePasswordForgotReset = () =>
-  useMutation(API._auth(Method.PUT, `auth/password/forgot`, true));
+  useMutation(API.useAuthMutation(Method.PUT, `auth/password/forgot`, true));
 
 export const usePhoneVerification = () =>
-  useMutation(API._mutate(Method.POST, `auth/sendverification`));
+  useMutation(API.useMutateFn(Method.POST, `auth/sendverification`));
 
 export const usePhoneConfirmation = () =>
-  useMutation(API._mutate(Method.POST, `auth/confirmverification`));
+  useMutation(API.useMutateFn(Method.POST, `auth/confirmverification`));
 
 export const useLogout = () =>
-  useMutation(API._mutate(Method.DELETE, `auth/logout`));
+  useMutation(API.useMutateFn(Method.DELETE, `auth/logout`));

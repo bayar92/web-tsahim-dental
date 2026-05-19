@@ -4,5 +4,5 @@ import { API } from "@util/query";
 import { QueryParamType } from "@ui/hooks/query-param";
 
 export const useMyHospitalSubscription = () =>
-    useQuery([], API._query(Method.GET, `hospital/getmysubscription`),
+    useQuery([], API.useQueryFn(Method.GET, `hospital/getmysubscription`),
     );

@@ -21,4 +21,4 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
-export default nextTranslate("./i18n.cjs")(nextConfig);
+export default nextTranslate(nextConfig);

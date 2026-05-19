@@ -4,5 +4,5 @@ import { useQuery } from "react-query";
 export const useCountryBusinessHour = (country: string) =>
   useQuery(
     [],
-    API._query(Method.GET, `core/businesshour/${country}`, { country })
+    API.useQueryFn(Method.GET, `core/businesshour/${country}`, { country })
   );

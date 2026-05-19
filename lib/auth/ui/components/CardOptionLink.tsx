@@ -1,4 +1,5 @@
-import { As, Box, Icon, Text } from "@ui/index";
+import { Box, Icon, Text } from "@ui/index";
+import { ElementType } from "react";
 
 export const CardOptionLink = ({
   icon,
@@ -6,7 +7,7 @@ export const CardOptionLink = ({
   color,
   action,
 }: {
-  icon: As<any>;
+  icon: ElementType;
   title: string;
   color: string;
   action: () => void;
