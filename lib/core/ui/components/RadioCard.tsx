@@ -4,7 +4,7 @@ export const RadioCard = (props: any) => {
   const radioHook = useRadio(props);
 
   const input = radioHook.getInputProps();
-  const checkbox = radioHook.getCheckboxProps();
+  const checkbox = radioHook.getRadioProps();
 
   return (
     <Box as="label" w={props.width} h={props.height}>
