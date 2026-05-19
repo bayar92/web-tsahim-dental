@@ -9,10 +9,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
 
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
   headers: async () => [
     {
       source: "/(.*)?",
