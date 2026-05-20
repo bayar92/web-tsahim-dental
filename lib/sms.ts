@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 
 const HISTORY_DIR = path.join(process.cwd(), "sms-history");
+
 const BASE_NUMBER = 72888610;
 const LIMIT_PER_NUMBER = 500;
 
@@ -13,6 +14,7 @@ async function ensureDir() {
 
 async function loadDailyFile(date: string) {
   await ensureDir();
+
   const file = path.join(HISTORY_DIR, `${date}.json`);
 
   try {
@@ -25,11 +27,13 @@ async function loadDailyFile(date: string) {
 
 async function saveDailyFile(date: string, data: any[]) {
   const file = path.join(HISTORY_DIR, `${date}.json`);
+
   await fs.writeFile(file, JSON.stringify(data, null, 2), "utf8");
 }
 
 async function getTodaySlot() {
   const today = new Date().toISOString().slice(0, 10);
+
   const list = await loadDailyFile(today);
 
   if (list.length === 0) {
@@ -38,8 +42,11 @@ async function getTodaySlot() {
       fromNumber: String(BASE_NUMBER),
       count: 0,
     };
+
     list.push(fresh);
+
     await saveDailyFile(today, list);
+
     return fresh;
   }
 
@@ -48,13 +55,15 @@ async function getTodaySlot() {
 
 export async function incrementSlot() {
   const today = new Date().toISOString().slice(0, 10);
+
   const list = await loadDailyFile(today);
 
   let slot = await getTodaySlot();
 
   if (slot.count >= LIMIT_PER_NUMBER) {
-    const slotIndex = list.length; // 0–∞
-    const nextNumber = String(BASE_NUMBER + (slotIndex % 9)); // 0–8 давтан
+    const slotIndex = list.length;
+
+    const nextNumber = String(BASE_NUMBER + (slotIndex % 9));
 
     const newSlot = {
       date: today,
@@ -63,30 +72,39 @@ export async function incrementSlot() {
     };
 
     list.push(newSlot);
+
     await saveDailyFile(today, list);
+
     return newSlot;
   }
 
   slot.count += 1;
 
   await saveDailyFile(today, list);
+
   return slot;
 }
 
 export async function sendSMS(phone: string, message: string) {
   const apiKey = "2dd4b85fb19d0af23afaab189b7ea290";
-  const baseUrl = "https://api.messagepro.mn/send";
+
+  const baseUrl = "https://api-text.callpro.mn/v1/sms/send";
 
   const todaySlot = await getTodaySlot();
 
-  const url =
-    `${baseUrl}?key=${encodeURIComponent(apiKey)}` +
-    `&from=${encodeURIComponent(todaySlot.fromNumber)}` +
-    `&to=${encodeURIComponent(phone)}` +
-    `&text=${encodeURIComponent(message)}`;
-
   try {
-    const resp = await fetch(url, { method: "GET" });
+    const resp = await fetch(baseUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+      },
+      body: JSON.stringify({
+        from: todaySlot.fromNumber,
+        to: String(phone),
+        text: message,
+      }),
+    });
 
     const rawText = await resp.text();
 
@@ -100,25 +118,24 @@ export async function sendSMS(phone: string, message: string) {
       throw new Error(`Invalid JSON response: ${rawText}`);
     }
 
-    // validation
-    if (!Array.isArray(result) || result.length === 0) {
-      throw new Error(`Empty SMS response: ${rawText}`);
-    }
-
-    const first = result[0];
-
     if (!resp.ok) {
-      throw new Error(first?.Reason || first?.Message || `HTTP ${resp.status}`);
+      throw new Error(
+        result?.error ||
+          result?.reason ||
+          `HTTP ${resp.status}`
+      );
     }
 
-    if (first?.Result !== "SUCCESS") {
-      throw new Error(first?.Reason || first?.Message || "SMS sending failed");
+    if (!result?.message_id) {
+      throw new Error(`Invalid SMS response: ${rawText}`);
     }
 
     const updatedSlot = await incrementSlot();
 
     return {
-      ...first,
+      success: true,
+      messageId: result.message_id,
+      status: result.status,
       slot: updatedSlot,
     };
   } catch (err: any) {
