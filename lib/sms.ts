@@ -114,16 +114,13 @@ export async function sendSMS(phone: string, message: string) {
 
     try {
       result = JSON.parse(rawText);
+      console.log(result);
     } catch {
       throw new Error(`Invalid JSON response: ${rawText}`);
     }
 
     if (!resp.ok) {
-      throw new Error(
-        result?.error ||
-          result?.reason ||
-          `HTTP ${resp.status}`
-      );
+      throw new Error(result?.error || result?.reason || `HTTP ${resp.status}`);
     }
 
     if (!result?.message_id) {
