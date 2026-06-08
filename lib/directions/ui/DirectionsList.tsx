@@ -11,7 +11,7 @@ const menuGroups = [
     title: "Ресепшн, бүртгэл",
     icon: MdPersonAdd,
     items: [
-      { id: "r1", title: "Шинэ үйлчлүүлэгч бүртгэх", videoUrl: "/videos/шинэ үйлчлүүлэгч бүртгүүлэх 251219.mp4" },
+      { id: "r1", title: "Шинэ хүн бүртгэх , засах, гэр бүл хамаатан нэмэх", videoUrl: "/videos/шинэ хүн бүртгэх , засах, гэр бүл хамаатан нэмэх 260606.mp4" },
       { id: "r2", title: "QR уншуулаж шинэ үйлчлүүлэгч бүртгэх", videoUrl: "/videos/утсаар хүн шинээр бүртгэх 251216.mp4" },
       { id: "r3", title: "Үйлчлүүлэгчийн мэдээлэл засах, устгах", videoUrl: "/videos/үйлчлүүлэгчийн мэдээлэл засах, устгах 251219.mp4" },
       { id: "r4", title: "Таниулах зөвшөөрөл бөглөх", videoUrl: "/videos/таниулах зөвшөөрөл бөглөх 251219.mp4" },
@@ -56,8 +56,7 @@ const menuGroups = [
     title: "Касс & Статистик",
     icon: MdAutoGraph,
     items: [
-      { id: "p4", title: "Касс, Орлого хянах", videoUrl: "/videos/касс орлого хянах.mp4" },
-      { id: "p5", title: "Статистик үзүүлэлтүүд", videoUrl: "/videos/статистик.mp4" },
+      { id: "p4", title: "Касс", videoUrl: "/videos/касс - 260607.mp4" },
     ]
   },
   {

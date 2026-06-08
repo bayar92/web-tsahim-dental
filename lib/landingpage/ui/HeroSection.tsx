@@ -23,14 +23,12 @@ import { WaitModal } from "./Waitlist/WaitModal";
 import { FreeTrialModal } from "./DownloadFreeTrial/FreeTrialModal";
 
 const TAB_NAMES = [
-  "Ресепшин",
+  "Үйлчлүүлэгч",
   "Цаг захиалга",
   "Анхан үзлэг",
   "Цахим карт",
-  "X-ray",
   "Зураг",
   "Төлбөр",
-  "Касс",
   "Статистик",
   "Тохиргоо",
 ];
@@ -76,9 +74,10 @@ export const HeroSection = () => {
     w: "full",
     h: "auto",
     borderRadius: { base: "12px", md: "24px" }, // Жижиг дэлгэц дээр бага radius
-    borderWidth: { base: "4px", md: "12px" }, // Жижиг дэлгэц дээр нарийн хүрээ
+    borderWidth: { base: "4px", md: "4px" }, // Жижиг дэлгэц дээр нарийн хүрээ
     borderStyle: "solid",
-    borderColor: "black",
+    borderColor: "#fff",
+  
     objectFit: "contain",
   };
 
@@ -235,19 +234,47 @@ export const HeroSection = () => {
                       align="center"
                     >
                       <TabList mb={4}>
-                        <Tab {...tabStyle}>Ресепшин</Tab>
+                        <Tab {...tabStyle}>Үйлчлүүлэгч</Tab>
+                        <Tab {...tabStyle}>Лаборатори захиалга</Tab>
+                        <Tab {...tabStyle}>Таниулах зөвшөөрөл</Tab>
+                        <Tab {...tabStyle}>Эмийн жор</Tab>
                       </TabList>
-                      <TabPanel p={0}>
-                        <Image
-                          src="/images/screenshot/reception.png"
-                          alt="Ресепшин"
-                          {...responsiveImageProps}
-                        />
-                        <Text mt={4} color="blackAlpha.900">
-                          Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л
-                          мэдээллийг харах боломжтой.
-                        </Text>
-                      </TabPanel>
+
+                      <TabPanels>
+                        <TabPanel p={0}>
+                          <Image
+                            src="/images/screenshot/default.png"
+                            alt="Үйлчлүүлэгч"
+                            {...responsiveImageProps}
+                          />
+                          <Text mt={4} color="blackAlpha.900">
+                            Дэлгэрэнгүй мэдээлэл хэсгээс үйлчлүүлэгчийн бүхий л
+                            мэдээллийг харах боломжтой.
+                          </Text>
+                        </TabPanel>
+
+                        <TabPanel p={0}>
+                          <Image
+                            src="/images/screenshot/lab_order.png"
+                            alt="Үйлчлүүлэгч лаборатори захиалга"
+                            {...responsiveImageProps}
+                          />
+                        </TabPanel>
+                         <TabPanel p={0}>
+                          <Image
+                            src="/images/screenshot/tanuilah_zuw.png"
+                            alt="Таниулах зөвшөөрөл"
+                            {...responsiveImageProps}
+                          />
+                        </TabPanel>
+                        <TabPanel p={0}>
+                          <Image
+                            src="/images/screenshot/cur.png"
+                            alt="Эмийн жор"
+                            {...responsiveImageProps}
+                          />
+                        </TabPanel>
+                      </TabPanels>
                     </Tabs>
                   </TabPanel>
 
@@ -266,32 +293,22 @@ export const HeroSection = () => {
                       <TabPanels>
                         <TabPanel p={0}>
                           <Image
-                            src="/images/screenshot/oneDay.png"
+                            src="/images/screenshot/order.png"
                             alt="Касс"
                             {...responsiveImageProps}
                           />
                         </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/week.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
+                        
                       </TabPanels>
                     </Tabs>
                   </TabPanel>
 
                   <TabPanel px={0}>
                     <Image
-                      src="/images/screenshot/anhan.png"
+                      src="/images/screenshot/anhan1.png"
                       alt="Анхан үзлэг"
                       {...responsiveImageProps}
                     />
-                    <Text mt={4} color="blackAlpha.900">
-                      Цаг захиалгын хураангуйг эмч тус бүрээр нь харах
-                      боломжтой.
-                    </Text>
                   </TabPanel>
 
 
@@ -303,33 +320,36 @@ export const HeroSection = () => {
                       variant="solid"
                       align="center"
                     >
-                      <TabPanel p={0}>
+                      <TabList mb={4}>
+                        <Tab {...tabStyle}>Эмчилгээ</Tab>
+                        <Tab {...tabStyle}>Эмчилгээний хуудас</Tab>
+                      </TabList>
+
+                      <TabPanels>
+                        <TabPanel p={0}>
                           <Image
-                            src="/images/screenshot/cart.png"
+                            src="/images/screenshot/emchilgee2.png"
                             alt="Карт Эмчилгээ"
                             {...responsiveImageProps}
                           />
                         </TabPanel>
+
+                        <TabPanel p={0}>
+                          <Image
+                            src="/images/screenshot/emchilgee3.png"
+                            alt="Лаборатори захиалга"
+                            {...responsiveImageProps}
+                          />
+                        </TabPanel>
+                      </TabPanels>
                     </Tabs>
                   </TabPanel>
 
-                  {/* 5. X-ray */}
-                  <TabPanel px={0}>
-                    <Image
-                      src="/images/screenshot/xray.png"
-                      alt="X-ray"
-                      {...responsiveImageProps}
-                    />
-                    <Text mt={4} color="blackAlpha.900">
-                      Өөрийн эмнэлэгт хэргэлдэг x-ray програм руу хандан зураг
-                      харах боломжтой.
-                    </Text>
-                  </TabPanel>
 
                   {/* 6. Зураг дарах */}
                   <TabPanel px={0}>
                     <Image
-                      src="/images/screenshot/zurag.png"
+                      src="/images/screenshot/zurag1.png"
                       alt="Зураг дарах"
                       {...responsiveImageProps}
                     />
@@ -342,75 +362,13 @@ export const HeroSection = () => {
                   {/* 8. Төлбөр */}
                   <TabPanel px={0}>
                     <Image
-                      src="/images/screenshot/payment.png"
+                      src="/images/screenshot/tulbur1.png"
                       alt="Төлбөр"
                       {...responsiveImageProps}
                     />
                     <Text mt={4} color="blackAlpha.900">
                       Төлбөрийн мэдээллийг хялбараар удирдах боломжтой.
                     </Text>
-                  </TabPanel>
-
-                  <TabPanel px={0}>
-                    <Tabs
-                      index={childTabIndex}
-                      onChange={handleChildTabsChange}
-                      variant="solid"
-                      align="center"
-                    >
-                      <TabList mb={4} flexWrap="wrap" justifyContent="center">
-                        <Tab {...tabStyle}>Дэлгэрэнгүй</Tab>
-                        <Tab {...tabStyle}>Хураангуй</Tab>
-                        <Tab {...tabStyle}>Эмчээр</Tab>
-                        <Tab {...tabStyle}>Эмчилгээгээр</Tab>
-                        <Tab {...tabStyle}>Үйлчлүүлэгчээр</Tab>
-                        <Tab {...tabStyle}>Тооцоо дуусаагүй</Tab>
-                      </TabList>
-                      <TabPanels>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/delgerengui.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/huraangui.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/emch.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/emchilgee.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/uilch.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/tootsoo.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                      </TabPanels>
-                    </Tabs>
                   </TabPanel>
 
                   {/* 10. Статистик */}
@@ -422,30 +380,19 @@ export const HeroSection = () => {
                       align="center"
                     >
                       <TabList mb={4} flexWrap="wrap" justifyContent="center">
-                        <Tab {...tabStyle}>Шинэ давтан </Tab>
-                        <Tab {...tabStyle}>Нас хүйс</Tab>
+                        <Tab {...tabStyle}>Статистик</Tab>
                       </TabList>
                       <TabPanels>
                         <TabPanel p={0}>
                           <Image
-                            src="/images/screenshot/shine.png"
+                            src="/images/screenshot/stat.png"
                             alt="Касс"
                             {...responsiveImageProps}
                           />
                           <Text mt={4} color="blackAlpha.900">
-                            Кассын гүйлгээг хянах боломжтой.
                           </Text>
                         </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/nas.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                          <Text mt={4} color="blackAlpha.900">
-                            Кассын гүйлгээг хянах боломжтой.
-                          </Text>
-                        </TabPanel>
+                        
                       </TabPanels>
                     </Tabs>
                   </TabPanel>
@@ -459,32 +406,17 @@ export const HeroSection = () => {
                       align="center"
                     >
                       <TabList mb={4} flexWrap="wrap" justifyContent="center">
-                        <Tab {...tabStyle}>Эмчилгээний үнэ</Tab>
-                        <Tab {...tabStyle}>Эмнэлгийн мэдээлэл</Tab>
-                        <Tab {...tabStyle}>Ажилчид</Tab>
+                        <Tab {...tabStyle}>Тохиргоо</Tab>
                       </TabList>
                       <TabPanels>
                         <TabPanel p={0}>
                           <Image
-                            src="/images/screenshot/torhigoo.png"
+                            src="/images/screenshot/setti.png"
                             alt="Касс"
                             {...responsiveImageProps}
                           />
                         </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/emneleg.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
-                        <TabPanel p={0}>
-                          <Image
-                            src="/images/screenshot/ajilchid.png"
-                            alt="Касс"
-                            {...responsiveImageProps}
-                          />
-                        </TabPanel>
+                        
                       </TabPanels>
                     </Tabs>
                   </TabPanel>
