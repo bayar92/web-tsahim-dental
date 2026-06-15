@@ -137,8 +137,8 @@ export default async function handler(
   const databaseList = [
     // "uGiJQUeiwmJm1AHG",
     // "X8CLKeswvlaIcj5z",
-    // "VV1tS59yQZQtxjhK",
 
+    // "VV1tS59yQZQtxjhK",
     // "iUEmbWAl8RlHe2L3",
     "dental_clinic",
     // "IS8uMR5hxGYVabgo",
@@ -175,7 +175,7 @@ export default async function handler(
         let transaction: sql.Transaction | null = null;
 
         try {
-          await sendSMS(phonePatient, message);
+          await sendSMS(phonePatient, message, dbName);
 
           transaction = new sql.Transaction(pool);
           await transaction.begin();
