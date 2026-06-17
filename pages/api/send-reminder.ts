@@ -135,14 +135,14 @@ export default async function handler(
   );
 
   const databaseList = [
-    // "uGiJQUeiwmJm1AHG",
-    // "X8CLKeswvlaIcj5z",
+    "uGiJQUeiwmJm1AHG",
+    "X8CLKeswvlaIcj5z",
 
     // "VV1tS59yQZQtxjhK",
     // "iUEmbWAl8RlHe2L3",
-    "dental_clinic",
-    // "IS8uMR5hxGYVabgo",
-    // "eBlUoS3yAVX6TtqA",
+    // "dental_clinic",
+    "IS8uMR5hxGYVabgo",
+    "eBlUoS3yAVX6TtqA",
   ];
   //
   let totalSent = 0;
@@ -163,7 +163,7 @@ export default async function handler(
         const phonePatient: string | null = ap.PhoneNumber ?? null;
 
         const message =
-          `Sain bn uu? ${hospitalLatin} shudnii emneleg baina. ` +
+          `Sain bn uu?` +
           `${patientLatin} ta ${startUtcStr}-d uzuulekh tsag avsan baina. ` +
           `Utas: ${phoneHospital}`;
 
