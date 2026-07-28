@@ -143,6 +143,7 @@ export default async function handler(
     // "dental_clinic",
     "IS8uMR5hxGYVabgo",
     "eBlUoS3yAVX6TtqA",
+    "I99tL2Kj8pO515tf",
   ];
   //
   let totalSent = 0;
